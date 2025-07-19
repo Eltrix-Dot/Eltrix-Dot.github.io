@@ -5,32 +5,54 @@
     <style>
       body {
         background-color: grey;
-        margin: 0; /* Remove default body margin */
+        margin: 0; /* Belangrijk: verwijder standaard body marge */
       }
-      .top-bar {
-        background-color: #333; /* Dark background for the bar */
-        padding: 10px 20px; /* Some padding inside the bar */
-        color: white; /* White text for "Eltrix" */
-        font-size: 24px; /* Larger font size for "Eltrix" */
-        text-align: left; /* Align "Eltrix" to the left */
+      .top-nav-bar { /* De nieuwe container voor de hele bovenste balk */
+        background-color: #333; /* Donkere achtergrond voor de balk */
+        padding: 10px 20px;
+        display: flex; /* Gebruik flexbox voor uitlijning */
+        justify-content: space-between; /* Verdeel de ruimte tussen de items */
+        align-items: center; /* Centreer items verticaal */
       }
-      .top-bar span {
-        font-weight: bold; /* Make "Eltrix" bold */
+      .site-title {
+        color: white;
+        font-size: 24px;
+        font-weight: bold;
+        margin-right: 20px; /* Ruimte tussen titel en navigatie */
+      }
+      .nav-buttons {
+        display: flex; /* Gebruik flexbox voor de knoppen */
+      }
+      .nav-buttons a {
+        background-color: #555; /* Achtergrondkleur voor de "knoppen" */
+        color: white;
+        padding: 10px 15px;
+        text-decoration: none; /* Geen onderstreping */
+        border-radius: 5px; /* Licht afgeronde hoeken */
+        margin-left: 10px; /* Ruimte tussen de knoppen */
+        transition: background-color 0.3s ease; /* Soepele overgang bij hover */
+      }
+      .nav-buttons a:hover {
+        background-color: #777; /* Donkerder bij hover */
       }
       h1 {
-        margin-top: 20px; /* Add some space below the top bar */
+        margin-top: 20px; /* Ruimte onder de navigatiebalk */
       }
     </style>
   </head>
   <body>
-    <div class="top-bar">
-      <span>Eltrix-Home</span>
+    <div class="top-nav-bar">
+      <div class="site-title">Eltrix</div>
+      <div class="nav-buttons">
+        <a href="index.html">Home</a>
+        <a href="changelog.html">ChangeLog</a>
+        <a href="https://devforum.roblox.com/u/herkenrat78/summary" target="_blank">Roblox Forum</a>
+        <a href="https://discord.gg/kEj6UDdQvb" target="_blank">Discord Server</a>
+        </div>
     </div>
 
-    <p style="text-align: center;"> This is the official Eltrix Website.<br> We will Post on this website our ChangeLogs and Extras </p>
-    <p style="text-align: center;">
-      <a href="https://devforum.roblox.com/u/herkenrat78/summary">Visit our Roblox Forum</a>
-    </p>
-    
+    <h1 style="text-align: center;">Eltrix-Home</h1>
+    <p style="text-align: center;">This is the official Eltrix Website.<br> We will Post on this website our ChangeLogs and Extras </p>
+    <p style="text-align: center;">This Website is made with github! </p>
   </body>
 </html>
