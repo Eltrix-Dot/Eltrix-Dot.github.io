@@ -35,6 +35,8 @@
     .navbar-right {
       display: flex;
       gap: 12px;
+      position: relative;
+      z-index: 100;
     }
 
     .nav-btn {
@@ -48,10 +50,60 @@
       transition: transform 0.22s cubic-bezier(.7,.5,.3,1.2), background 0.18s;
       font-family: inherit;
       box-shadow: 0 1px 6px #0001;
+      position: relative;
     }
     .nav-btn:hover, .nav-btn:focus {
       transform: scale(1.17);
       background: #444444;
+    }
+
+    /* Dropdown menu styling */
+    .dropdown {
+      position: relative;
+      display: inline-block;
+    }
+
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      right: 0;
+      top: 110%; /* a little lower than the button */
+      min-width: 180px;
+      background-color: #2c2c2c;
+      border-radius: 8px;
+      box-shadow: 0 4px 18px #0003;
+      z-index: 999;
+      flex-direction: column;
+      padding: 8px 0;
+    }
+
+    .dropdown-content a {
+      color: #fff;
+      padding: 12px 22px;
+      text-decoration: none;
+      display: block;
+      font-size: 1em;
+      transition: background 0.18s, transform 0.18s;
+      font-family: inherit;
+      border: none;
+      background: none;
+      cursor: pointer;
+    }
+
+    .dropdown-content a:hover {
+      background: #444444;
+      transform: scale(1.1);
+    }
+
+    /* Show dropdown on hover */
+    .dropdown:hover .dropdown-content,
+    .dropdown:focus-within .dropdown-content {
+      display: flex;
+    }
+
+    /* Make sure dropdown stays above rest */
+    .dropdown-content {
+      z-index: 999;
     }
 
     main {
@@ -153,6 +205,8 @@
       .big-title { font-size: 2em; }
       main { padding: 14px 3px 0 3px; }
       .logo-footer h1 { font-size: 3.5em;}
+      .dropdown-content { min-width: 140px; }
+      .dropdown-content a { font-size: 0.9em; padding: 10px 14px;}
     }
   </style>
 </head>
@@ -162,7 +216,13 @@
     <div class="navbar-right">
       <a href="https://discord.gg/kEj6UDdQvb" target="_blank"><button class="nav-btn">Discord</button></a>
       <a href="https://devforum.roblox.com/u/herkenrat78/summary" target="_blank"><button class="nav-btn">Roblox-Forum</button></a>
-      <a href="#" target="_blank"><button class="nav-btn">ChangeLog</button></a>
+      <div class="dropdown">
+        <button class="nav-btn">ChangeLog</button>
+        <div class="dropdown-content">
+          <a href="https://eltrix-dot.github.io/discord-changelog.html" target="_blank">Discord Changelog</a>
+          <a href="https://eltrix-dot.github.io/game-changelog.html" target="_blank">Game Changelog</a>
+        </div>
+      </div>
     </div>
   </nav>
   <main>
