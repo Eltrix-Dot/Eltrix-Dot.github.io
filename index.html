@@ -1,261 +1,288 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>ELTRIX Online</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Oswald', Arial, sans-serif;
-      background: linear-gradient(120deg, #bdbdbd 0%, #d3d3d3 100%);
-      color: #151515;
-      min-height: 100vh;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eltrix - Home</title>
+    <style>
+        /* General body styling */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: #f0f2f5; /* A light grey background for a modern feel */
+            color: #333;
+            margin: 0;
+            line-height: 1.6;
+        }
 
-    .navbar {
-      width: 100%;
-      background: #b0b0b0cc;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 10px 18px 10px 10px;
-      position: sticky;
-      top: 0;
-      z-index: 10;
-    }
+        /* Top navigation bar */
+        .top-nav-bar {
+            background-color: #ffffff; /* A clean white background */
+            padding: 15px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
 
-    .navbar-left {
-      font-size: 2em;
-      font-weight: bold;
-      letter-spacing: 2px;
-      font-family: 'Times New Roman', serif;
-    }
+        .site-title {
+            color: #1a1a1a;
+            font-size: 28px;
+            font-weight: 700;
+            text-decoration: none;
+        }
 
-    .navbar-right {
-      display: flex;
-      gap: 12px;
-      position: relative;
-      z-index: 100;
-    }
+        /* Navigation links */
+        .nav-buttons {
+            display: flex;
+            gap: 20px;
+        }
 
-    .nav-btn {
-      background: #282828;
-      color: #eee;
-      font-size: 1em;
-      border: none;
-      border-radius: 6px;
-      padding: 8px 18px;
-      cursor: pointer;
-      transition: transform 0.22s cubic-bezier(.7,.5,.3,1.2), background 0.18s;
-      font-family: inherit;
-      box-shadow: 0 1px 6px #0001;
-      position: relative;
-    }
-    .nav-btn:hover, .nav-btn:focus {
-      transform: scale(1.17);
-      background: #444444;
-    }
+        .nav-buttons a,
+        .dropdown-button {
+            padding: 10px 20px;
+            text-decoration: none;
+            color: #555;
+            font-weight: 500;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
 
-    /* Dropdown menu styling */
-    .dropdown {
-      position: relative;
-      display: inline-block;
-    }
+        .nav-buttons a:hover,
+        .dropdown-button:hover {
+            background-color: #e9ecef;
+            color: #007bff;
+        }
+        
+        /* Dropdown specific styles */
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
 
-    .dropdown-content {
-      display: none;
-      position: absolute;
-      right: 0;
-      top: 110%; /* a little lower than the button */
-      min-width: 180px;
-      background-color: #2c2c2c;
-      border-radius: 8px;
-      box-shadow: 0 4px 18px #0003;
-      z-index: 999;
-      flex-direction: column;
-      padding: 8px 0;
-    }
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #ffffff;
+            min-width: 220px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+            z-index: 10;
+            border-radius: 8px;
+            overflow: hidden;
+            top: 120%;
+            left: 0;
+            padding: 10px 0;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            transform: translateY(-10px);
+        }
+        
+        .dropdown.active .dropdown-content {
+            display: block;
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
 
-    .dropdown-content a {
-      color: #fff;
-      padding: 12px 22px;
-      text-decoration: none;
-      display: block;
-      font-size: 1em;
-      transition: background 0.18s, transform 0.18s;
-      font-family: inherit;
-      border: none;
-      background: none;
-      cursor: pointer;
-    }
+        .dropdown-content a {
+            color: #333;
+            padding: 12px 20px;
+            text-decoration: none;
+            display: block;
+            text-align: left;
+            background-color: transparent;
+            margin: 0;
+        }
 
-    .dropdown-content a:hover {
-      background: #444444;
-      transform: scale(1.1);
-    }
+        .dropdown-content a:hover {
+            background-color: #f1f3f5;
+        }
 
-    /* Show dropdown on hover */
-    .dropdown:hover .dropdown-content,
-    .dropdown:focus-within .dropdown-content {
-      display: flex;
-    }
+        /* Main content area */
+        .main-content {
+            padding: 60px 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
 
-    /* Make sure dropdown stays above rest */
-    .dropdown-content {
-      z-index: 999;
-    }
+        /* Styling for the content of the home page */
+        .big-title {
+            font-size: 2.7em;
+            font-weight: 700;
+            margin: 0 0 20px 0;
+            line-height: 1.2;
+            color: #1a1a1a;
+            letter-spacing: -0.5px;
+        }
 
-    main {
-      max-width: 800px;
-      margin: 0 auto;
-      padding: 24px 16px 0 16px;
-    }
+        .note {
+            font-size: 1.1em;
+            font-weight: 500;
+            margin-bottom: 30px;
+            color: #666;
+        }
 
-    .big-title {
-      font-size: 2.7em;
-      font-weight: bold;
-      margin: 24px 0 0 0;
-      letter-spacing: 1px;
-      line-height: 1.1;
-    }
+        .ideas-title {
+            font-size: 2em;
+            font-weight: 700;
+            margin-top: 40px;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #e9ecef;
+            padding-bottom: 10px;
+            color: #007bff;
+        }
 
-    .note {
-      font-size: 1.08em;
-      margin: 22px 0 26px 0;
-      font-weight: 600;
-      letter-spacing: 0.5px;
-    }
+        .section-title {
+            font-size: 1.4em;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #333;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
 
-    .ideas-title {
-      font-size: 2em;
-      font-weight: bold;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-top: 36px;
-      margin-bottom: 8px;
-    }
+        .section-desc {
+            font-size: 1em;
+            line-height: 1.6;
+            color: #555;
+            padding-left: 25px;
+        }
 
-    .section {
-      margin-bottom: 18px;
-    }
+        .release-note {
+            background-color: #e9ecef;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 40px;
+            font-size: 1em;
+            font-weight: 500;
+            color: #555;
+            text-align: center;
+        }
 
-    .vaultrix {
-      font-size: 1.4em;
-      font-weight: bold;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 3px;
-    }
+        .logo-footer {
+            margin: 60px auto 20px auto;
+            display: flex;
+            justify-content: center;
+            opacity: 0.9;
+        }
+        .logo-footer h1 {
+            font-size: 4em;
+            font-weight: 900;
+            letter-spacing: 2px;
+            color: #ced4da;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.1);
+        }
 
-    .vaultrix-desc {
-      padding-left: 18px;
-      font-size: 1.15em;
-      margin-bottom: 8px;
-    }
-
-    .divider {
-      border-top: 2px solid #2222;
-      margin: 22px 0 18px 0;
-    }
-
-    .plaza-title {
-      font-size: 1.4em;
-      font-weight: bold;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 4px;
-    }
-
-    .plaza-desc {
-      padding-left: 18px;
-      font-size: 1.15em;
-      margin-bottom: 8px;
-    }
-
-    .release-note {
-      font-size: 1.2em;
-      margin: 24px 0 0 0;
-      font-weight: 600;
-    }
-
-    .logo-footer {
-      margin: 60px auto 20px auto;
-      display: flex;
-      justify-content: center;
-      opacity: 0.93;
-    }
-    .logo-footer h1 {
-      font-size: 7em;
-      font-weight: 900;
-      letter-spacing: 6px;
-      color: #f8f8f8;
-      text-shadow: 0 2px 24px #8888;
-      background: linear-gradient(120deg, #d3d3d3 65%, #bdbdbd 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      filter: blur(0.4px);
-    }
-
-    @media (max-width: 650px) {
-      .big-title { font-size: 2em; }
-      main { padding: 14px 3px 0 3px; }
-      .logo-footer h1 { font-size: 3.5em;}
-      .dropdown-content { min-width: 140px; }
-      .dropdown-content a { font-size: 0.9em; padding: 10px 14px;}
-    }
-  </style>
+        @media (max-width: 650px) {
+            .top-nav-bar {
+                padding: 15px 20px;
+            }
+            .site-title {
+                font-size: 24px;
+            }
+            .nav-buttons {
+                gap: 10px;
+            }
+            .nav-buttons a,
+            .dropdown-button {
+                padding: 8px 12px;
+                font-size: 14px;
+            }
+            .main-content {
+                padding: 30px 10px;
+            }
+            .big-title {
+                font-size: 2em;
+            }
+            .ideas-title {
+                font-size: 1.6em;
+            }
+            .section-title {
+                font-size: 1.2em;
+            }
+            .section-desc {
+                font-size: 0.95em;
+            }
+        }
+    </style>
 </head>
 <body>
-  <nav class="navbar">
-    <div class="navbar-left">ELTRIX ©</div>
-    <div class="navbar-right">
-      <a href="https://discord.gg/kEj6UDdQvb" target="_blank"><button class="nav-btn">Discord</button></a>
-      <a href="https://devforum.roblox.com/u/herkenrat78/summary" target="_blank"><button class="nav-btn">Roblox-Forum</button></a>
-      <div class="dropdown">
-        <button class="nav-btn">ChangeLog</button>
-        <div class="dropdown-content">
-          <a href="https://eltrix-dot.github.io/discord-changelog.html" target="_blank">Discord Changelog</a>
-          <a href="https://eltrix-dot.github.io/game-changelog.html" target="_blank">Game Changelog</a>
+    <header class="top-nav-bar">
+        <a href="#" class="site-title">ELTRIX ©</a>
+        <nav class="nav-buttons">
+            <a href="https://discord.gg/kEj6UDdQvb" target="_blank">Discord</a>
+            <a href="https://devforum.roblox.com/u/herkenrat78/summary" target="_blank">Roblox-Forum</a>
+            <div class="dropdown">
+                <button class="dropdown-button">ChangeLog ▼</button>
+                <div class="dropdown-content">
+                    <a href="https://eltrix-dot.github.io/discord-changelog.html" target="_blank">Discord Changelog</a>
+                    <a href="https://eltrix-dot.github.io/game-changelog.html" target="_blank">Game Changelog</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="main-content">
+        <div class="big-title">
+            WHO ARE WE 💡<br>
+            WE ARE A GROUP OF YOUNG-BOYS 👻<br>
+            WITH A BIG DREAM 🙂
         </div>
-      </div>
-    </div>
-  </nav>
-  <main>
-    <div class="big-title">
-      WHO ARE WE 💡<br>
-      WE ARE A GROUP OF YOUNG-BOYS 👻<br>
-      WITH A BIG DREAM 🙂
-    </div>
-    <div class="note">
-      NOTE WE ARE NOT A COMPANY THIS IS A PERSONAL PROJECT WICH WE<span style="font-size:1.1em;">🧑‍💻</span>ARE SHARING
+        <div class="note">
+            NOTE WE ARE NOT A COMPANY THIS IS A PERSONAL PROJECT WICH WE<span style="font-size:1.1em;">🧑‍💻</span>ARE SHARING
+        </div>
+
+        <div class="ideas-title">OUR IDEAS ☀️</div>
+        <div class="section vaultrix">
+            <div class="section-title">
+                VAULTRIX <span style="font-size:1.1em;">🔒</span>
+            </div>
+            <div class="section-desc">
+                -WHY SECURE YOUR PASSWORD ON A SERVER WHILE ON YOUR COMPUTER IT IS SAVER <span style="font-size:1.1em;">🖥️</span>
+            </div>
+        </div>
+
+        <div class="section plaza">
+            <div class="section-title">
+                THE PLAZA GAME <span style="font-size:1.1em;">🙂</span>
+            </div>
+            <div class="section-desc">
+                -WANT TO MEET NEW PEOPLE THEN THIS MIGHT BE THE RIGHT PLACE
+            </div>
+        </div>
+        
+        <div class="release-note">
+            NOTE VAULTRIX AND THE PLAZA GAME ARE IN DEVELOPEMENT AND WILL BE RELEASED MAYBE THIS YEAR AND NEXT YEAR.
+        </div>
+    </main>
+    
+    <div class="logo-footer">
+        <h1>ELTRIX</h1>
     </div>
 
-    <div class="ideas-title">OUR IDEAS ☀️</div>
-    <div class="section vaultrix">
-      VAULTRIX <span style="font-size:1.1em;">🔒</span>
-    </div>
-    <div class="vaultrix-desc">
-      -WHY SECURE YOUR PASSWORD ON A SERVER WHILE ON YOUR COMPUTER IT IS SAVER <span style="font-size:1.1em;">🖥️</span>
-    </div>
-    <div class="divider"></div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const dropdownButton = document.querySelector('.dropdown-button');
+            const dropdown = document.querySelector('.dropdown');
 
-    <div class="plaza-title">
-      THE PLAZA GAME <span style="font-size:1.1em;">🙂</span>
-    </div>
-    <div class="plaza-desc">
-      • WANT TO MEET NEW PEOPLE THEN THIS MIGHT BE THE RIGHT PLACE
-    </div>
-    <div class="release-note">
-      NOTE VAULTRIX AND THE PLAZA GAME ARE IN DEVELOPEMENT AND WILL BE RELEASED MAYBYE THIS YEAR AND NEXT YEAR.
-    </div>
-  </main>
-  <div class="logo-footer">
-    <h1>ELTRIX</h1>
-  </div>
+            dropdownButton.addEventListener('click', function() {
+                dropdown.classList.toggle('active');
+            });
+
+            window.addEventListener('click', function(e) {
+                if (!dropdown.contains(e.target)) {
+                    dropdown.classList.remove('active');
+                }
+            });
+        });
+    </script>
 </body>
 </html>
