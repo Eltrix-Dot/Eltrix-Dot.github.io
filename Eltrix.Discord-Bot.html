@@ -1,1 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eltrix Discord Bot | Server Manager</title>
+    <style>
+        /* Algemene Stijlen */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+            background-color: #0d1117; /* Donkere GitHub-achtergrond */
+            color: #c9d1d9; /* Lichte tekst */
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background-color: #161b22; /* Iets donkerder voor de inhoud */
+            padding: 30px;
+            border-radius: 6px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+        }
+        h1, h2, h3 {
+            color: #58a6ff; /* Blauwe accentkleur */
+            border-bottom: 1px solid #30363d;
+            padding-bottom: 10px;
+            margin-top: 25px;
+        }
+        h1 { font-size: 2.2em; text-align: center; }
+        h2 { font-size: 1.8em; }
+        h3 { font-size: 1.4em; }
+        p, ul, ol, table {
+            margin-bottom: 15px;
+        }
+        code {
+            background-color: #30363d;
+            padding: 3px 6px;
+            border-radius: 3px;
+            font-family: 'Consolas', 'Courier New', monospace;
+        }
+        a {
+            color: #58a6ff;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Layout & Componenten */
+        .header-section {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .header-section img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 6px;
+        }
+        .badges img {
+            margin: 0 5px;
+            height: 25px;
+        }
+        .toc ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .toc li {
+            margin: 5px 0;
+        }
+        
+        /* Tabellen */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background-color: #1f242c;
+        }
+        th, td {
+            border: 1px solid #30363d;
+            padding: 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #21262d;
+            color: #c9d1d9;
+            font-weight: 600;
+        }
+        .icon {
+            text-align: center;
+        }
 
+        /* Codeblokken */
+        pre {
+            background-color: #010409;
+            padding: 15px;
+            border-radius: 4px;
+            overflow-x: auto;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            border: 1px solid #30363d;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+
+        <div class="header-section">
+            <img src="https://cdn.discordapp.com/attachments/1393265882280493069/1406691590013059123/DiscoHook-Banner.png?ex=68f082e2&is=68ef3162&hm=1c4e5899a43aadbab5626b08e56c23a657b13e0de9ae11554abcb8289707acc2&" alt="Eltrix Discord Bot Banner" />
+            
+            <br/>
+            
+            <p class="badges">
+                <img src="https://img.shields.io/badge/Version-v3.0-blue" alt="Version 3.0" />
+                <img src="https://img.shields.io/badge/License-MIT-brightgreen" alt="License: MIT" />
+                <img src="https://img.shields.io/badge/Built_with-Python-informational?logo=python" alt="Built with Python" />
+                <img src="https://img.shields.io/badge/Commands-50+-red" alt="More than 50 commands" />
+            </p>
+            
+            <h1>✨ Eltrix Discord Bot | The All-in-One Server Manager</h1>
+            <p>Eltrix is a **powerful, modular** Discord bot crafted in Python (<code>discord.py</code>) designed to automate your server management while engaging your community with fun and unique features. From advanced moderation to a vibrant economy system, Eltrix has it all.</p>
+        </div>
+
+        <hr>
+
+        <h2>📖 Table of Contents</h2>
+        <div class="toc">
+            <ul>
+                <li><a href="#key-features">🚀 Key Features</a></li>
+                <li><a href="#installation--setup">🛠️ Installation & Setup</a>
+                    <ul>
+                        <li><a href="#prerequisites">1. Prerequisites</a></li>
+                        <li><a href="#repository-cloning">2. Repository Cloning</a></li>
+                        <li><a href="#package-installation">3. Package Installation</a></li>
+                        <li><a href="#bot-configuration">4. Bot Configuration</a></li>
+                        <li><a href="#starting-the-bot">5. Starting the Bot</a></li>
+                    </ul>
+                </li>
+                <li><a href="#command-overview">📋 Command Overview</a>
+                    <ul>
+                        <li><a href="#moderation--management-staff-only">🛡️ Moderation & Management</a></li>
+                        <li><a href="#ticket-system">🎟️ Ticket System</a></li>
+                        <li><a href="#leveling--xp">📈 Leveling & XP</a></li>
+                        <li><a href="#economy">💰 Economy</a></li>
+                        <li><a href="#fun--community">🎉 Fun & Community</a></li>
+                        <li><a href="#general--utility">⚙️ General & Utility</a></li>
+                    </ul>
+                </li>
+                <li><a href="#contributing">🤝 Contributing</a></li>
+                <li><a href="#license">📜 License</a></li>
+            </ul>
+        </div>
+        
+        <hr>
+        
+        <h2 id="key-features">🚀 Key Features</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th class="icon">Icon</th>
+                    <th>Section</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="icon">🛡️</td>
+                    <td><strong>Comprehensive Moderation</strong></td>
+                    <td>A complete suite of tools, including warnings, mutes, kicks, bans, softbans, detailed logging, and channel management.</td>
+                </tr>
+                <tr>
+                    <td class="icon">🎟️</td>
+                    <td><strong>Advanced Ticket System</strong></td>
+                    <td>A multi-category ticket system with staff roles, transcripts, and full ticket lifecycle control.</td>
+                </tr>
+                <tr>
+                    <td class="icon">📈</td>
+                    <td><strong>Engaging Leveling System</strong></td>
+                    <td>Reward active users with XP, levels, and automated role rewards.</td>
+                </tr>
+                <tr>
+                    <td class="icon">💰</td>
+                    <td><strong>Fun Economy</strong></td>
+                    <td>Earn daily coins, gamble, invest, and climb the global leaderboard.</td>
+                </tr>
+                <tr>
+                    <td class="icon">🎨</td>
+                    <td><strong>Custom Role Menus</strong></td>
+                    <td>Let users self-assign roles via interactive dropdown menus to personalize their profile.</td>
+                </tr>
+                <tr>
+                    <td class="icon">🎉</td>
+                    <td><strong>Fun & Community</strong></td>
+                    <td>Keep your community engaged with polls, memes, suggestions, and interactive games.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <hr>
+
+        <h2 id="installation--setup">🛠️ Installation & Setup</h2>
+        <p>Follow these steps to run the Eltrix bot on your own server.</p>
+
+        <h3 id="prerequisites">1. Prerequisites</h3>
+        <ul>
+            <li><strong>Python 3.11</strong> or newer. Download Python from <a href="https://www.python.org/">python.org</a>.</li>
+            <li>A **Discord Bot Token**. You can create a bot application and get a token via the <a href="https://discord.com/developers/applications">Discord Developer Portal</a>.</li>
+            <li>⚠️ **ATTENTION:** Ensure you enable the **Privileged Gateway Intents** (<code>Server Members Intent</code> and <code>Message Content Intent</code>) for your bot in the Developer Portal.</li>
+        </ul>
+
+        <h3 id="repository-cloning">2. Repository Cloning</h3>
+        <p>Download the code to your machine.</p>
+        <pre><code>git clone https://github.com/Eltrix-Dot/Eltrix-Discord.bot
+cd Eltrix-Discord.bot</code></pre>
+
+        <h3 id="package-installation">3. Package Installation</h3>
+        <p>The bot requires a few Python libraries to run. Execute the following command:</p>
+        <pre><code>pip install -r requirements.txt</code></pre>
+
+        <h3 id="bot-configuration">4. Bot Configuration</h3>
+        <p>Open the <code>ELTRIX.py</code> file and fill in the configuration section at the top:</p>
+        <pre><code># =============================================================================
+# 1. CONFIGURATION
+# =============================================================================
+# Bot Token (Keep this SECRET!)
+TOKEN = "YOUR_BOT_TOKEN_HERE"
+# Guild ID (The ID of your server)
+GUILD_ID = 123456789012345678
+# Log channel ID (The ID of the channel for logs)
+LOG_CHANNEL_ID = 123456789012345678
+# Staff IDs (Role IDs of your staff)
+STAFF_ROLE_IDS = {
+    123456789012345678, # Staff Role ID
+    123456789012345679, # Admin Role ID
+}
+# Owner ID (Your own user ID)
+OWNER_ID = "YOUR_USER_ID_HERE"
+# ... (Further configuration follows in the file)</code></pre>
+        <p><strong>🔎 How to find IDs?</strong> Enable "Developer Mode" in Discord: <code>User Settings > Advanced > Developer Mode</code>. Then, right-click on a server, channel, role, or user and select "Copy ID".</p>
+
+        <h3 id="starting-the-bot">5. Starting the Bot</h3>
+        <p>Start the bot using the following command in your terminal:</p>
+        <pre><code>python ELTRIX.py</code></pre>
+        <p>If successful, you will see a confirmation in the terminal that the bot is online and has synchronized its commands.</p>
+
+        <hr>
+
+        <h2 id="command-overview">📋 Command Overview</h2>
+        <p>All commands are available via Discord's <code>/</code> Slash Commands.</p>
+
+        <h3 id="moderation--management-staff-only">🛡️ Moderation & Management <em>(Staff Only)</em></h3>
+        <table>
+            <thead>
+                <tr><th>Command</th><th>Description</th></tr>
+            </thead>
+            <tbody>
+                <tr><td><code>/warn &lt;user&gt; &lt;reason&gt;</code></td><td>Warns a user, logs it, and sends a DM.</td></tr>
+                <tr><td><code>/warnings &lt;user&gt;</code></td><td>Views all warnings for a user.</td></tr>
+                <tr><td><code>/mute &lt;user&gt; &lt;minutes&gt; &lt;reason&gt;</code></td><td>Places a user in a timeout.</td></tr>
+                <tr><td><code>/ban &lt;user&gt; &lt;reason&gt;</code></td><td>Bans a user from the server.</td></tr>
+                <tr><td><code>/purge &lt;amount&gt;</code></td><td>Deletes a specified number of messages (1-100).</td></tr>
+                <tr><td><code>/lock [channel]</code></td><td>Locks a text channel for the <code>@everyone</code> role.</td></tr>
+                <tr><td><code>/history &lt;user&gt;</code></td><td>Shows a combined history of warnings and notes.</td></tr>
+            </tbody>
+        </table>
+
+        <h3 id="ticket-system">🎟️ Ticket System</h3>
+        <table>
+            <thead>
+                <tr><th>Command</th><th>Description</th></tr>
+            </thead>
+            <tbody>
+                <tr><td><code>/ticketsetup</code></td><td>Creates the panel for users to create tickets.</td></tr>
+                <tr><td><code>/ticketclaim</code></td><td>Claims the current ticket.</td></tr>
+                <tr><td><code>/ticketdelete</code></td><td>Permanently deletes a closed ticket channel and saves a transcript.</td></tr>
+            </tbody>
+        </table>
+
+        <h3 id="leveling--xp">📈 Leveling & XP</h3>
+        <table>
+            <thead>
+                <tr><th>Command</th><th>Description</th></tr>
+            </thead>
+            <tbody>
+                <tr><td><code>/rank [user]</code></td><td>Displays a visual rank card with level and XP.</td></tr>
+                <tr><td><code>/levelboard</code></td><td>Shows the leaderboard for levels.</td></tr>
+                <tr><td><code>/setlevelrole &lt;level&gt; &lt;role&gt;</code></td><td>Sets a role as a reward for reaching a level. <em>(Staff)</em></td></tr>
+            </tbody>
+        </table>
+
+        <h3 id="economy">💰 Economy</h3>
+        <table>
+            <thead>
+                <tr><th>Command</th><th>Description</th></tr>
+            </thead>
+            <tbody>
+                <tr><td><code>/balance [user]</code></td><td>Checks the balance (wallet and bank).</td></tr>
+                <tr><td><code>/daily</code></td><td>Claims your daily coin reward.</td></tr>
+                <tr><td><code>/gamble &lt;amount&gt;</code></td><td>Takes a gamble with a 50% chance to double your stake.</td></tr>
+                <tr><td><code>/bank deposit/withdraw &lt;amount|all&gt;</code></td><td>Deposits or withdraws coins.</td></tr>
+            </tbody>
+        </table>
+
+        <h3 id="fun--community">🎉 Fun & Community</h3>
+        <table>
+            <thead>
+                <tr><th>Command</th><th>Description</th></tr>
+            </thead>
+            <tbody>
+                <tr><td><code>/poll &lt;question&gt; &lt;options...&gt;</code></td><td>Creates a poll with up to 5 options.</td></tr>
+                <tr><td><code>/meme [subreddit]</code></td><td>Fetches a random meme from Reddit.</td></tr>
+                <tr><td><code>/ship &lt;user1&gt; &lt;user2&gt;</code></td><td>Calculates love compatibility.</td></tr>
+                <tr><td><code>/hug, /pat, /slap &lt;user&gt;</code></td><td>Interaction commands.</td></tr>
+                <tr><td><code>/urban &lt;term&gt;</code></td><td>Searches Urban Dictionary (NSFW channels only).</td></tr>
+            </tbody>
+        </table>
+
+        <h3 id="general--utility">⚙️ General & Utility</h3>
+        <table>
+            <thead>
+                <tr><th>Command</th><th>Description</th></tr>
+            </thead>
+            <tbody>
+                <tr><td><code>/about</code></td><td>Shows information about the bot.</td></tr>
+                <tr><td><code>/ping</code></td><td>Checks the bot's reaction speed (latency).</td></tr>
+                <tr><td><code>/userinfo [user]</code></td><td>Shows detailed information about a user.</td></tr>
+                <tr><td><code>/remindme &lt;time&gt; &lt;reminder&gt;</code></td><td>Sets a personal reminder.</td></tr>
+                <tr><td><code>/botinvite</code></td><td>Generates an invite link for the bot.</td></tr>
+            </tbody>
+        </table>
+
+        <hr>
+
+        <h2 id="contributing">🤝 Contributing</h2>
+        <p>Contributions are greatly appreciated. If you have a suggestion, please fork the repo and create a pull request.</p>
+        <ol>
+            <li><strong>Fork</strong> the Project</li>
+            <li>Create your Feature Branch (<code>git checkout -b feature/AmazingFeature</code>)</li>
+            <li>Commit your Changes (<code>git commit -m 'Add some AmazingFeature'</code>)</li>
+            <li>Push to the Branch (<code>git push origin feature/AmazingFeature</code>)</li>
+            <li>Open a **Pull Request**</li>
+        </ol>
+
+        <hr>
+
+        <h2 id="license">📜 License</h2>
+        <p>This project is distributed under the **MIT License**. You are free to use, modify, and distribute the code, as long as you include the original license and copyright notice.</p>
+        <p><strong>Copyright (c) 2025 [Eltrix-Dot]</strong></p>
+
+    </div>
+</body>
+</html>
