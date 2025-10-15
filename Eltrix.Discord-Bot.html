@@ -5,43 +5,128 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Eltrix Discord Bot | Server Manager</title>
     <style>
-        /* Algemene Stijlen */
+        /* ========================================================================= */
+        /* EERSTE SECTIE: Navigatie en Algemene Body Styling (Overgenomen van index.html) */
+        /* ========================================================================= */
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-            background-color: #0d1117; /* Donkere GitHub-achtergrond */
-            color: #c9d1d9; /* Lichte tekst */
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: #f0f2f5; /* Lichte achtergrond */
+            color: #333;
             margin: 0;
-            padding: 20px;
             line-height: 1.6;
         }
+
+        /* Top navigation bar */
+        .top-nav-bar {
+            background-color: #ffffff; /* Schoon wit */
+            padding: 15px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .site-title {
+            color: #1a1a1a;
+            font-size: 28px;
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        /* Navigation links */
+        .nav-buttons {
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav-buttons a,
+        .dropdown-button {
+            padding: 10px 20px;
+            text-decoration: none;
+            color: #555;
+            font-weight: 500;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .nav-buttons a:hover,
+        .dropdown-button:hover {
+            background-color: #e9ecef;
+            color: #007bff;
+        }
+        
+        /* Dropdown specifieke stijlen (voor de ChangeLog) */
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #ffffff;
+            min-width: 220px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+            z-index: 10;
+            border-radius: 8px;
+            overflow: hidden;
+            top: 120%;
+            left: 0;
+            padding: 10px 0;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            transform: translateY(-10px);
+        }
+        .dropdown.active .dropdown-content {
+            display: block;
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        .dropdown-content a {
+            color: #333;
+            padding: 12px 20px;
+            display: block;
+            text-align: left;
+            margin: 0;
+        }
+        .dropdown-content a:hover {
+            background-color: #f1f3f5;
+            color: #007bff;
+        }
+
+
+        /* ========================================================================= */
+        /* TWEEDE SECTIE: Documentatie-specifieke Styling */
+        /* (Aangepast van de donkere stijl naar de lichte stijl) */
+        /* ========================================================================= */
+        
         .container {
             max-width: 900px;
-            margin: 0 auto;
-            background-color: #161b22; /* Iets donkerder voor de inhoud */
+            margin: 20px auto 50px auto;
+            background-color: #ffffff; /* Schoon wit voor de inhoud */
             padding: 30px;
-            border-radius: 6px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
         h1, h2, h3 {
-            color: #58a6ff; /* Blauwe accentkleur */
-            border-bottom: 1px solid #30363d;
+            color: #007bff; /* Blauwe accentkleur */
+            border-bottom: 2px solid #e9ecef;
             padding-bottom: 10px;
-            margin-top: 25px;
+            margin-top: 35px;
         }
-        h1 { font-size: 2.2em; text-align: center; }
+        h1 { font-size: 2.2em; text-align: center; color: #1a1a1a;} /* Hoofdtitel donkerder */
         h2 { font-size: 1.8em; }
         h3 { font-size: 1.4em; }
-        p, ul, ol, table {
-            margin-bottom: 15px;
-        }
-        code {
-            background-color: #30363d;
-            padding: 3px 6px;
-            border-radius: 3px;
-            font-family: 'Consolas', 'Courier New', monospace;
-        }
         a {
-            color: #58a6ff;
+            color: #007bff;
             text-decoration: none;
         }
         a:hover {
@@ -69,41 +154,85 @@
         .toc li {
             margin: 5px 0;
         }
+
+        /* Code en Codeblokken */
+        code {
+            background-color: #e9ecef; /* Lichte achtergrond voor inline code */
+            padding: 3px 6px;
+            border-radius: 3px;
+            font-family: 'Consolas', 'Courier New', monospace;
+            color: #d63384; /* Roze-achtig voor betere zichtbaarheid */
+        }
+        pre {
+            background-color: #212529; /* Donkergrijs voor codeblokken (betere leesbaarheid) */
+            color: #f8f9fa; /* Lichte code tekst */
+            padding: 15px;
+            border-radius: 4px;
+            overflow-x: auto;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            border: 1px solid #ced4da;
+        }
         
         /* Tabellen */
         table {
             width: 100%;
             border-collapse: collapse;
             margin: 20px 0;
-            background-color: #1f242c;
+            background-color: #ffffff;
         }
         th, td {
-            border: 1px solid #30363d;
+            border: 1px solid #ced4da;
             padding: 12px;
             text-align: left;
         }
         th {
-            background-color: #21262d;
-            color: #c9d1d9;
+            background-color: #f8f9fa; /* Zeer lichte koptekstachtergrond */
+            color: #333;
             font-weight: 600;
         }
         .icon {
             text-align: center;
         }
 
-        /* Codeblokken */
-        pre {
-            background-color: #010409;
-            padding: 15px;
-            border-radius: 4px;
-            overflow-x: auto;
-            white-space: pre-wrap;
-            word-wrap: break-word;
-            border: 1px solid #30363d;
+        /* Responsiviteit */
+        @media (max-width: 650px) {
+            .top-nav-bar {
+                padding: 15px 20px;
+            }
+            .nav-buttons {
+                gap: 10px;
+            }
+            .nav-buttons a, .dropdown-button {
+                padding: 8px 12px;
+                font-size: 14px;
+            }
+            .container {
+                padding: 20px;
+                margin: 10px auto;
+            }
+            h1 { font-size: 2em; }
+            h2 { font-size: 1.6em; }
         }
     </style>
 </head>
 <body>
+    <header class="top-nav-bar">
+        <a href="#" class="site-title">ELTRIX ©</a>
+        <nav class="nav-buttons">
+            <a href="https://discord.gg/kEj6UDdQvb" target="_blank">Discord</a>
+            <a href="https://github.com/Eltrix-Dot/Eltrix-Discord.bot" target="_blank">Discord-Bot Repo</a>
+            <a href="https://devforum.roblox.com/u/herkenrat78/summary" target="_blank">Roblox-Forum</a>
+            <div class="dropdown">
+                <button class="dropdown-button">ChangeLog ▼</button>
+                <div class="dropdown-content">
+                    <a href="https://eltrix-dot.github.io/discord-changelog.html" target="_blank">Discord Changelog</a>
+                    <a href="https://eltrix-dot.github.io/game-changelog.html" target="_blank">Game Changelog</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
     <div class="container">
 
         <div class="header-section">
@@ -124,7 +253,7 @@
 
         <hr>
 
-        <h2>📖 Table of Contents</h2>
+        <h2 id="table-of-contents">📖 Table of Contents</h2>
         <div class="toc">
             <ul>
                 <li><a href="#key-features">🚀 Key Features</a></li>
@@ -349,5 +478,24 @@ OWNER_ID = "YOUR_USER_ID_HERE"
         <p><strong>Copyright (c) 2025 [Eltrix-Dot]</strong></p>
 
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const dropdownButton = document.querySelector('.dropdown-button');
+            const dropdown = document.querySelector('.dropdown');
+
+            // Toggle dropdown op klik
+            dropdownButton.addEventListener('click', function() {
+                dropdown.classList.toggle('active');
+            });
+
+            // Sluit dropdown als er ergens anders wordt geklikt
+            window.addEventListener('click', function(e) {
+                if (!dropdown.contains(e.target)) {
+                    dropdown.classList.remove('active');
+                }
+            });
+        });
+    </script>
 </body>
 </html>
