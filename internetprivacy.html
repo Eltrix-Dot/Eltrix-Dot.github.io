@@ -6,8 +6,8 @@
     <title>The Privacy Stack | Eltrix Digital</title>
     <style>
         :root {
-            --primary: #10b981;
-            --blue: #00f2ff;
+            --primary: #10b981; /* Trust Green */
+            --blue: #00f2ff;    /* Cyber Blue */
             --bg: #05070a;
             --card: #111827;
             --text: #f1f5f9;
@@ -16,7 +16,7 @@
         }
 
         body {
-            font-family: 'Inter', system-ui, sans-serif;
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
             background-color: var(--bg);
             color: var(--text);
             line-height: 1.6;
@@ -24,6 +24,7 @@
             padding: 0;
         }
 
+        /* Navigation */
         .navbar {
             padding: 1.2rem 2rem;
             display: flex;
@@ -42,10 +43,11 @@
             color: var(--blue);
             text-decoration: none;
             letter-spacing: 1px;
+            font-size: 1.2rem;
         }
 
         .container {
-            max-width: 900px;
+            max-width: 1000px;
             margin: 3rem auto;
             padding: 0 1.5rem;
         }
@@ -55,33 +57,36 @@
             margin-bottom: 4rem;
         }
 
-        h1 { font-size: 2.8rem; margin-bottom: 0.5rem; }
-        .hero p { color: var(--text-dim); font-size: 1.2rem; }
+        h1 { font-size: 3rem; margin-bottom: 0.5rem; letter-spacing: -1px; }
+        .hero p { color: var(--text-dim); font-size: 1.25rem; max-width: 600px; margin: 0 auto; }
 
+        /* Categories */
         .category-title {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
             color: var(--blue);
-            font-size: 1.5rem;
-            margin: 2rem 0 1rem 0;
-            border-bottom: 1px solid var(--border);
+            font-size: 1.6rem;
+            margin: 3rem 0 1.5rem 0;
             padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border);
         }
 
         .tool-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 1.5rem;
-            margin-bottom: 3rem;
+            margin-bottom: 2rem;
         }
 
         .tool-card {
             background: var(--card);
-            padding: 1.5rem;
-            border-radius: 1rem;
+            padding: 1.8rem;
+            border-radius: 1.2rem;
             border: 1px solid var(--border);
-            transition: all 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
         }
 
         .tool-card:hover {
@@ -92,55 +97,69 @@
 
         .tool-name {
             display: block;
-            font-weight: 700;
-            font-size: 1.1rem;
-            color: var(--primary);
+            font-weight: 800;
+            font-size: 1.2rem;
+            color: #fff;
             margin-bottom: 0.5rem;
         }
 
         .tag {
-            font-size: 0.7rem;
-            background: rgba(0, 242, 255, 0.1);
-            color: var(--blue);
-            padding: 2px 8px;
-            border-radius: 4px;
+            font-size: 0.65rem;
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--primary);
+            padding: 3px 10px;
+            border-radius: 20px;
             text-transform: uppercase;
-            font-weight: bold;
+            font-weight: 700;
+            border: 1px solid rgba(16, 185, 129, 0.2);
         }
 
         .description {
-            font-size: 0.9rem;
+            font-size: 0.95rem;
             color: var(--text-dim);
-            margin-top: 10px;
+            margin-top: 15px;
         }
 
+        /* Special CTA */
         .cta-section {
-            background: linear-gradient(135deg, #1e1b4b 0%, #020617 100%);
-            padding: 3rem;
+            background: linear-gradient(135deg, #0f172a 0%, #020617 100%);
+            padding: 4rem 2rem;
             border-radius: 2rem;
             text-align: center;
             border: 1px solid var(--blue);
-            margin-top: 4rem;
+            margin: 5rem 0;
+            box-shadow: 0 0 50px rgba(0, 242, 255, 0.05);
         }
 
         .btn {
             display: inline-block;
             background: var(--blue);
             color: #000;
-            padding: 0.8rem 2rem;
-            border-radius: 0.6rem;
+            padding: 0.9rem 2.2rem;
+            border-radius: 0.8rem;
             text-decoration: none;
-            font-weight: 700;
-            margin-top: 1rem;
+            font-weight: 800;
+            transition: all 0.2s;
+            border: none;
+            cursor: pointer;
         }
 
-        .btn:hover { opacity: 0.9; }
+        .btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(0, 242, 255, 0.4);
+        }
 
         footer {
             text-align: center;
             padding: 4rem 0;
             color: var(--text-dim);
-            font-size: 0.8rem;
+            font-size: 0.85rem;
+            border-top: 1px solid var(--border);
+        }
+
+        @media (max-width: 600px) {
+            h1 { font-size: 2.2rem; }
+            .navbar { padding: 1rem; }
         }
     </style>
 </head>
@@ -148,75 +167,94 @@
 
     <nav class="navbar">
         <a href="#" class="logo">ELTRIX PRIVACY</a>
-        <a href="https://eltrix-dot.github.io/Webcheck" class="btn" style="padding: 0.5rem 1rem; font-size: 0.8rem; margin: 0;">Check My IP</a>
+        <a href="https://eltrix-dot.github.io/Webcheck" class="btn" style="padding: 0.5rem 1.2rem; font-size: 0.85rem; margin: 0;">Run Webcheck</a>
     </nav>
 
     <div class="container">
         <div class="hero">
             <h1>The Privacy Stack</h1>
-            <p>Battle-tested tools to reclaim your digital sovereignty.</p>
+            <p>A curated list of tools to defend your data against mass surveillance and corporate tracking.</p>
         </div>
 
-        <div class="category-title">🛡️ Browsers</div>
+        <div class="category-title">🌐 Private Browsing</div>
         <div class="tool-grid">
             <div class="tool-card">
                 <span class="tool-name">Mullvad Browser</span>
-                <span class="tag">Maximum Anonymity</span>
-                <p class="description">Developed with the Tor Project to provide the privacy of Tor but on the regular web.</p>
+                <span class="tag">Anti-Fingerprinting</span>
+                <p class="description">Built by the Tor Project. It makes your browser look identical to thousands of others, making it impossible to track you via your hardware specs.</p>
             </div>
             <div class="tool-card">
                 <span class="tool-name">Brave Browser</span>
-                <span class="tag">Everyday Use</span>
-                <p class="description">Fast, Chromium-based browser that blocks ads and trackers by default.</p>
+                <span class="tag">Daily Driver</span>
+                <p class="description">Fast, Chromium-based, and blocks all ads/trackers out of the box. Perfect for people switching from Chrome.</p>
             </div>
             <div class="tool-card">
                 <span class="tool-name">Tor Browser</span>
-                <span class="tag">Extreme Privacy</span>
-                <p class="description">The gold standard for onion routing and hiding your actual location.</p>
+                <span class="tag">Maximum Anonymity</span>
+                <p class="description">The ultimate tool for anonymity. Routes your traffic through three layers of encryption across the world.</p>
             </div>
         </div>
 
-        <div class="category-title">🔒 Virtual Private Networks</div>
+        <div class="category-title">🔒 Secure Tunneling</div>
         <div class="tool-grid">
             <div class="tool-card">
                 <span class="tool-name">Mullvad VPN</span>
-                <span class="tag">Accountless</span>
-                <p class="description">The most private VPN. No email required, pay with cash or crypto. No logs.</p>
+                <span class="tag">No Accounts</span>
+                <p class="description">The king of privacy. No email, no name, no logs. Just a random account number. Supports cash payments.</p>
             </div>
             <div class="tool-card">
                 <span class="tool-name">Proton VPN</span>
-                <span class="tag">Swiss Based</span>
-                <p class="description">High-speed VPN with Secure Core technology. Great free and paid tiers.</p>
+                <span class="tag">Swiss Security</span>
+                <p class="description">High-speed, open-source VPN from the creators of Proton Mail. Features "Secure Core" double-hop servers.</p>
             </div>
         </div>
 
         <div class="category-title">🔑 Identity & Security</div>
         <div class="tool-grid">
             <div class="tool-card">
+                <span class="tool-name">KeePassXC</span>
+                <span class="tag">Offline Vault</span>
+                <p class="description">Complete control. Your passwords stay on your device in an encrypted file. No cloud, no company servers, no leaks.</p>
+            </div>
+            <div class="tool-card">
                 <span class="tool-name">Bitwarden</span>
-                <span class="tag">Password Manager</span>
-                <p class="description">Open-source, encrypted password vault that syncs across all devices.</p>
+                <span class="tag">Cloud Sync</span>
+                <p class="description">The best open-source cloud manager. Securely syncs your passwords across mobile, desktop, and web.</p>
             </div>
             <div class="tool-card">
                 <span class="tool-name">Proton Mail</span>
                 <span class="tag">Encrypted Email</span>
-                <p class="description">End-to-end encrypted email based in Switzerland. Private by design.</p>
+                <p class="description">Zero-access encryption for your inbox. Not even Proton can read your emails.</p>
+            </div>
+        </div>
+
+        <div class="category-title">📱 Mobile Sovereignty</div>
+        <div class="tool-grid">
+            <div class="tool-card">
+                <span class="tool-name">GrapheneOS</span>
+                <span class="tag">Hardened Android</span>
+                <p class="description">A private mobile OS for Pixel phones. It removes Google's tracking and hardens the entire system against exploits.</p>
             </div>
             <div class="tool-card">
-                <span class="tool-name">SimpleLogin</span>
-                <span class="tag">Email Masking</span>
-                <p class="description">Create aliases for every site so your real email address never leaks.</p>
+                <span class="tool-name">Signal</span>
+                <span class="tag">Messaging</span>
+                <p class="description">State-of-the-art end-to-end encryption. No metadata is collected. Recommended by security experts globally.</p>
+            </div>
+            <div class="tool-card">
+                <span class="tool-name">F-Droid</span>
+                <span class="tag">App Store</span>
+                <p class="description">The anti-Play Store. Only hosts Free and Open Source Software (FOSS) for Android devices.</p>
             </div>
         </div>
 
         <div class="cta-section">
-            <h2>Ready to test your setup?</h2>
-            <p>Go to Eltrix Webcheck to see if your VPN and Privacy settings are working correctly.</p>
+            <h2>Verify Your Shield</h2>
+            <p>Is your new setup actually working? Use Eltrix Webcheck to find out what websites can still see about you.</p>
             <a href="https://eltrix-dot.github.io/Webcheck" class="btn">Launch Eltrix Webcheck</a>
         </div>
 
         <footer>
-            &copy; 2026 Eltrix Digital Systems | Unlocking Digital Freedom.
+            &copy; 2026 Eltrix Digital Systems | Privacy is a Right, Not a Privilege.
         </footer>
     </div>
 
