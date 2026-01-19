@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Eltrix - Home</title>
 <style>
-    /* Clean Minimalist Base */
     body {
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
         background-color: #f8f9fa; 
@@ -14,7 +13,7 @@
         line-height: 1.6;
     }
 
-    /* Modern Navigation Bar */
+    /* Top Navigation */
     .top-nav-bar {
         background-color: #ffffff;
         padding: 15px 40px;
@@ -37,59 +36,49 @@
 
     .nav-buttons {
         display: flex;
-        gap: 15px;
+        gap: 12px;
         align-items: center;
     }
 
-    .nav-buttons a, .dropdown-button {
+    .nav-btn {
         padding: 10px 18px;
         text-decoration: none;
-        color: #555;
-        font-weight: 600;
-        border-radius: 8px;
-        transition: 0.3s ease;
-        font-size: 15px;
-        cursor: pointer;
-    }
-
-    .nav-buttons a:hover, .dropdown-button:hover {
-        background-color: #f1f3f5;
-        color: #007bff;
-    }
-
-    /* Eye-catching Privacy Button in Nav */
-    .nav-privacy-btn {
-        background-color: #007bff !important;
-        color: #ffffff !important;
-        box-shadow: 0 4px 10px rgba(0, 123, 255, 0.2);
-    }
-    .nav-privacy-btn:hover {
-        background-color: #0056b3 !important;
-        transform: translateY(-1px);
-    }
-
-    /* Dropdown Logic */
-    .dropdown { position: relative; }
-    .dropdown-content {
-        display: none;
-        position: absolute;
-        background-color: #ffffff;
-        min-width: 200px;
-        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        font-weight: 700;
         border-radius: 10px;
-        top: 130%;
-        right: 0;
-        padding: 8px 0;
-        border: 1px solid #eee;
-        animation: slideDown 0.3s ease;
-    }
-    .dropdown.active .dropdown-content { display: block; }
-    .dropdown-content a {
-        display: block;
-        padding: 12px 20px;
+        transition: 0.3s ease;
         font-size: 14px;
-        color: #333;
     }
+
+    /* Shield Button Style */
+    .nav-shield {
+        background-color: #007bff;
+        color: white !important;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    /* Privacy Button Style - Attention grabbing border style */
+    .nav-privacy {
+        background-color: #ffffff;
+        color: #007bff !important;
+        border: 2px solid #007bff;
+    }
+
+    .nav-privacy:hover {
+        background-color: #007bff;
+        color: #ffffff !important;
+    }
+
+    .live-dot {
+        width: 8px;
+        height: 8px;
+        background-color: #ffffff;
+        border-radius: 50%;
+        animation: blink 1.5s infinite;
+    }
+
+    @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
 
     /* Main Content */
     .main-content {
@@ -106,76 +95,29 @@
         letter-spacing: -2px;
     }
 
-    .note {
-        font-size: 1.1rem;
-        color: #666;
-        margin-bottom: 50px;
-        border-left: 4px solid #007bff;
-        padding-left: 20px;
-    }
-
-    .ideas-title {
-        font-size: 2rem;
-        font-weight: 800;
-        margin-bottom: 30px;
-        color: #1a1a1a;
-    }
-
-    /* Project Cards */
     .section {
         background: #ffffff;
         padding: 30px;
         border-radius: 15px;
         margin-bottom: 25px;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.03);
         border: 1px solid #f0f0f0;
     }
 
-    .section-title {
-        font-size: 1.5rem;
-        font-weight: 700;
-        margin-bottom: 10px;
-        display: flex;
-        align-items: center;
-        gap: 12px;
+    /* Privacy Call to Action in main content */
+    .privacy-notice {
+        background: #eef6ff;
+        border-left: 5px solid #007bff;
+        padding: 20px;
+        border-radius: 0 15px 15px 0;
+        margin: 40px 0;
     }
 
-    /* Attention Grabbing Privacy Section */
-    .privacy-box {
-        background: linear-gradient(135deg, #ffffff 0%, #f0f7ff 100%);
-        border: 2px solid #007bff;
-    }
-
-    .btn-attention {
-        display: inline-block;
-        margin-top: 15px;
-        background-color: #007bff;
-        color: white;
-        padding: 14px 28px;
+    .btn-link {
+        color: #007bff;
         text-decoration: none;
-        border-radius: 12px;
         font-weight: 700;
-        transition: 0.3s;
-        box-shadow: 0 6px 20px rgba(0, 123, 255, 0.3);
-        animation: pulse 2s infinite;
-    }
-
-    .btn-attention:hover {
-        background-color: #0056b3;
-        transform: scale(1.03);
-        box-shadow: 0 8px 25px rgba(0, 123, 255, 0.4);
-    }
-
-    /* Animations */
-    @keyframes slideDown {
-        from { opacity: 0; transform: translateY(-10px); }
-        to { opacity: 1; transform: translateY(0); }
-    }
-
-    @keyframes pulse {
-        0% { box-shadow: 0 0 0 0 rgba(0, 123, 255, 0.4); }
-        70% { box-shadow: 0 0 0 15px rgba(0, 123, 255, 0); }
-        100% { box-shadow: 0 0 0 0 rgba(0, 123, 255, 0); }
+        display: inline-block;
+        margin-top: 10px;
     }
 
     .logo-footer {
@@ -184,85 +126,55 @@
         font-size: 5rem;
         font-weight: 900;
         color: #e9ecef;
-        user-select: none;
     }
 
-    @media (max-width: 650px) {
-        .top-nav-bar { padding: 15px 20px; }
-        .nav-buttons { gap: 5px; }
-        .nav-buttons a { padding: 8px 10px; font-size: 13px; }
-        .big-title { font-size: 2rem; }
+    @media (max-width: 750px) {
+        .top-nav-bar { padding: 15px 20px; flex-direction: column; gap: 15px; }
+        .big-title { font-size: 2.2rem; }
     }
 </style>
 </head>
 <body>
 
 <header class="top-nav-bar">
-    <a href="#" class="site-title">ELTRIX ©</a>
+    <a href="index.html" class="site-title">ELTRIX ©</a>
     <nav class="nav-buttons">
-        <a href="https://eltrix-dot.github.io/privacymain" class="nav-privacy-btn">Privacy Hub</a>
-        <a href="https://github.com/Eltrix-Dot/Eltrix-Discord.bot" target="_blank">GitHub</a>
-        <div class="dropdown">
-            <button class="dropdown-button">Menu ▼</button>
-            <div class="dropdown-content">
-                <a href="https://eltrix-dot.github.io/discord-changelog.html">Discord Changelog</a>
-                <a href="https://eltrix-dot.github.io/game-changelog.html">Game Changelog</a>
-                <a href="https://eltrix-dot.github.io/Eltrix.Discord-Bot.html">Discord Bot Docs</a>
-            </div>
-        </div>
+        <a href="shield.html" class="nav-btn nav-shield">
+            <div class="live-dot"></div> PROJECT SHIELD
+        </a>
+        <a href="https://eltrix-dot.github.io/privacymain" class="nav-btn nav-privacy">PRIVACY HUB</a>
+        <a href="https://github.com/Eltrix-Dot/Eltrix-Discord.bot" style="color:#666; font-weight:600; text-decoration:none; font-size:14px; margin-left:10px;">GitHub</a>
     </nav>
 </header>
 
 <main class="main-content">
     <div class="big-title">
-        WHO ARE WE 💡<br>
-        YOUNG DEVELOPERS 👻<br>
-        WITH A BIG DREAM 🙂
-    </div>
-    
-    <div class="note">
-        <strong>PERSONAL PROJECT:</strong> We are not a company. Eltrix is a collection of passion projects shared with the world. 🧑‍💻
+        YOUNG DEVELOPERS 💡<br>
+        BUILDING TOOLS 👻<br>
+        FOR A SAFER DREAM 🙂
     </div>
 
-    <div class="ideas-title">CURRENT FOCUS ☀️</div>
+    <div class="privacy-notice">
+        <strong>Transparency Matters:</strong> We take your digital rights seriously. 
+        Learn how we handle data across all our projects in our Privacy Hub.
+        <br>
+        <a href="https://eltrix-dot.github.io/privacymain" class="btn-link">→ View Privacy Policy</a>
+    </div>
+
+    <div class="section" style="border: 2px solid #007bff;">
+        <div style="font-weight:900; color:#007bff; margin-bottom:10px;">NEW RELEASE</div>
+        <h2 style="margin:0;">Project Shield 🛡️</h2>
+        <p>A complete security guide for the modern internet user. Protect your Discord, manage your passwords, and stay one step ahead of hackers.</p>
+        <a href="shield.html" class="btn-link" style="background:#007bff; color:white; padding:10px 20px; border-radius:8px;">Open Shield Guide</a>
+    </div>
 
     <div class="section">
-        <div class="section-title">VAULTRIX 🔒</div>
-        <div class="section-desc">
-            Why trust a third-party server with your secrets? Vaultrix is being built to keep your passwords secure locally on your machine. Your data, your control. 🖥️
-        </div>
-    </div>
-
-    <div class="section privacy-box">
-        <div class="section-title">PRIVACY & SECURITY 🛡️</div>
-        <div class="section-desc">
-            We value your data as much as our own. Our new Privacy Hub provides full transparency on how our tools handle information. 
-        </div>
-        <a href="https://eltrix-dot.github.io/privacymain" class="btn-attention">VISIT PRIVACY HUB</a>
-    </div>
-
-    <div style="background: #e9ecef; padding: 20px; border-radius: 10px; text-align: center; color: #666; font-weight: 600;">
-        VAULTRIX IS CURRENTLY IN ACTIVE DEVELOPMENT 🛠️
+        <h2 style="margin:0;">Vaultrix 🔒</h2>
+        <p>Our upcoming local-first password manager. Currently in development to ensure maximum privacy without the cloud.</p>
     </div>
 </main>
 
 <div class="logo-footer">ELTRIX</div>
-
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const dropdownButton = document.querySelector('.dropdown-button');
-        const dropdown = document.querySelector('.dropdown');
-
-        dropdownButton.addEventListener('click', function(e) {
-            e.stopPropagation();
-            dropdown.classList.toggle('active');
-        });
-
-        window.addEventListener('click', function() {
-            dropdown.classList.remove('active');
-        });
-    });
-</script>
 
 </body>
 </html>
