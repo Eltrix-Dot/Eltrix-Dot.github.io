@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eltrix Honeypot | Neural Surveillance Lab</title>
+    <style>
+        :root {
+            --danger: #ff003c;
+            --bg: #000000;
+            --panel: #0a0a0a;
+            --text: #555;
+            --active: #00ff41;
+        }
+
+        body, html {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Courier New', Courier, monospace;
+            margin: 0; padding: 0;
+            overflow: hidden;
+            height: 100vh;
+        }
+
+        #canvas-bg {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 1; pointer-events: none; opacity: 0.3;
+        }
+
+        .ui-layer {
+            position: relative; z-index: 10;
+            display: grid;
+            grid-template-columns: 350px 1fr 350px;
+            height: 100vh;
+            gap: 1px;
+            background: #111;
+        }
+
+        .sidebar, .main {
+            background: var(--panel);
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .header {
+            color: var(--danger);
+            font-weight: bold;
+            text-transform: uppercase;
+            border-bottom: 1px solid var(--danger);
+            margin-bottom: 15px;
+            padding-bottom: 5px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .log-entry {
+            font-size: 0.75rem;
+            margin-bottom: 5px;
+            border-left: 2px solid #222;
+            padding-left: 10px;
+        }
+
+        .highlight { color: var(--active); }
+        .alert { color: var(--danger); animation: blink 1s infinite; }
+
+        @keyframes blink { 50% { opacity: 0; } }
+
+        .mouse-cursor {
+            position: fixed;
+            width: 10px; height: 10px;
+            background: var(--danger);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            box-shadow: 0 0 10px var(--danger);
+        }
+
+        input, textarea {
+            background: #111; border: 1px solid #333;
+            color: var(--active); padding: 10px; width: 90%;
+            font-family: inherit; margin-top: 10px;
+        }
+
+        .heatmap-dot {
+            position: fixed; width: 4px; height: 4px;
+            background: rgba(0, 255, 65, 0.5); border-radius: 50%;
+            pointer-events: none; z-index: 5;
+        }
+    </style>
+</head>
+<body>
+
+<canvas id="canvas-bg"></canvas>
+<div id="fake-cursor" class="mouse-cursor"></div>
+
+<div class="ui-layer">
+    <div class="sidebar">
+        <div class="header"><span>Sensor Feed</span><span>LIVE</span></div>
+        <div id="sensor-log"></div>
+    </div>
+
+    <div class="main">
+        <div class="header"><span>Surveillance Target Area</span></div>
+        <p>This is a data-collection honeypot. Every interaction is being recorded into a behavioral profile.</p>
+        
+        <div style="margin-top: 50px;">
+            <label>Type something (we catch it in real-time):</label><br>
+            <input type="text" id="keystroke-trap" placeholder="Enter sensitive data...">
+            
+            <div style="margin-top: 30px;">
+                <label>Psychological Speed Test:</label><br>
+                <button id="click-trap" style="background:transparent; border:1px solid #333; color:white; padding:20px; cursor:pointer; width:100%;">CLICK THIS BUTTON REPEATEDLY</button>
+            </div>
+        </div>
+
+        <div id="telemetry" style="margin-top: 50px; font-size: 0.8rem; color: #444;">
+            <div class="header" style="border-color: #333; color: #777;"><span>Uplink Telemetry</span></div>
+            <div id="mouse-coords">X: 0, Y: 0</div>
+            <div id="scroll-depth">Scroll Depth: 0%</div>
+            <div id="velocity">Pointer Velocity: 0px/s</div>
+        </div>
+    </div>
+
+    <div class="sidebar">
+        <div class="header"><span>Cognitive Profile</span></div>
+        <div id="profile-data">
+            <div class="log-entry">User intent: <span class="highlight">Undetermined</span></div>
+            <div class="log-entry">Anxiety level: <span class="highlight">Normal</span></div>
+            <div class="log-entry">Input Method: <span class="highlight">Keyboard/Mouse</span></div>
+        </div>
+        
+        <div class="header" style="margin-top: 30px;"><span>Captured Keys</span></div>
+        <div id="key-log" style="color: var(--active); word-break: break-all; font-size: 0.9rem;"></div>
+    </div>
+</div>
+
+<script>
+    const sensorLog = document.getElementById('sensor-log');
+    const keyLog = document.getElementById('key-log');
+    const fakeCursor = document.getElementById('fake-cursor');
+    
+    // 1. Mouse Tracking & Heatmap
+    let lastX = 0, lastY = 0, lastTime = Date.now();
+    document.addEventListener('mousemove', (e) => {
+        // Real-time coordinates
+        document.getElementById('mouse-coords').innerText = `X: ${e.clientX}, Y: ${e.clientY}`;
+        
+        // Velocity calculation
+        let now = Date.now();
+        let dt = now - lastTime;
+        let dist = Math.sqrt(Math.pow(e.clientX - lastX, 2) + Math.pow(e.clientY - lastY, 2));
+        let velocity = Math.round(dist / (dt / 1000));
+        document.getElementById('velocity').innerText = `Pointer Velocity: ${velocity}px/s`;
+        
+        // Update fake cursor
+        fakeCursor.style.left = e.clientX + 'px';
+        fakeCursor.style.top = e.clientY + 'px';
+
+        // Drop "heatmap" dots every 10th move
+        if (Math.random() > 0.9) {
+            const dot = document.createElement('div');
+            dot.className = 'heatmap-dot';
+            dot.style.left = e.clientX + 'px';
+            dot.style.top = e.clientY + 'px';
+            document.body.appendChild(dot);
+            setTimeout(() => dot.remove(), 5000);
+        }
+
+        lastX = e.clientX; lastY = e.clientY; lastTime = now;
+    });
+
+    // 2. Keystroke Logging (The "Trap")
+    const inputTrap = document.getElementById('keystroke-trap');
+    inputTrap.addEventListener('input', (e) => {
+        const val = inputTrap.value;
+        keyLog.innerText = val;
+        addLog(`Input detected: "${val.slice(-1)}"`, 'highlight');
+    });
+
+    // 3. Behavioral Events
+    function addLog(msg, className = '') {
+        const div = document.createElement('div');
+        div.className = 'log-entry ' + className;
+        div.innerText = `[${new Date().toLocaleTimeString()}] ${msg}`;
+        sensorLog.prepend(div);
+        if(sensorLog.children.length > 20) sensorLog.lastChild.remove();
+    }
+
+    document.addEventListener('click', () => addLog('Action: MOUSE_CLICK_LEFT', 'alert'));
+    document.addEventListener('contextmenu', (e) => {
+        e.preventDefault();
+        addLog('Action: ATTEMPTED_RIGHT_CLICK_INSPECT', 'danger');
+    });
+
+    window.addEventListener('scroll', () => {
+        let depth = Math.round((window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100);
+        document.getElementById('scroll-depth').innerText = `Scroll Depth: ${depth}%`;
+        addLog(`Scroll activity: ${depth}%`);
+    });
+
+    // 4. Fake "AI" Analysis
+    const clickBtn = document.getElementById('click-trap');
+    let clicks = 0;
+    clickBtn.addEventListener('click', () => {
+        clicks++;
+        if(clicks > 5) {
+            document.getElementById('profile-data').innerHTML += `<div class="log-entry alert">BEHAVIOR: High Urgency detected</div>`;
+        }
+    });
+
+    // 5. Visibility Tracking (Eng: "Is the user tab-switching?")
+    document.addEventListener('visibilitychange', () => {
+        if (document.hidden) {
+            addLog('STATUS: TARGET_LOST (Tab switched)', 'danger');
+        } else {
+            addLog('STATUS: TARGET_REGAINED', 'active');
+        }
+    });
+
+    // Start background effect
+    const canvas = document.getElementById('canvas-bg');
+    const ctx = canvas.getContext('2d');
+    function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+    window.onresize = resize; resize();
+
+    function draw() {
+        ctx.fillStyle = 'rgba(0,0,0,0.05)';
+        ctx.fillRect(0,0,canvas.width,canvas.height);
+        ctx.strokeStyle = '#111';
+        for(let i=0; i<20; i++) {
+            ctx.beginPath();
+            ctx.moveTo(Math.random()*canvas.width, 0);
+            ctx.lineTo(Math.random()*canvas.width, canvas.height);
+            ctx.stroke();
+        }
+        requestAnimationFrame(draw);
+    }
+    draw();
+
+</script>
+</body>
+</html>
