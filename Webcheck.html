@@ -5,22 +5,49 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Webcheck | Eltrix Digital</title>
     <style>
-        :root { --primary: #10b981; --blue: #00f2ff; --bg: #05070a; --card: #111827; --text: #f1f5f9; --border: #1f2937; }
-        body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); margin: 0; }
-        .navbar { padding: 1.2rem 2rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); background: rgba(5,7,10,0.9); backdrop-filter: blur(10px); position: sticky; top: 0; z-index: 100; }
-        .logo { font-weight: 800; color: var(--blue); text-decoration: none; }
+        :root {
+            --primary: #10b981; --blue: #00f2ff; --bg: #05070a;
+            --card: #111827; --text: #f1f5f9; --text-dim: #94a3b8; --border: #1f2937;
+        }
+        body { font-family: 'Inter', system-ui, sans-serif; background: var(--bg); color: var(--text); margin: 0; line-height: 1.5; }
+        
+        /* Navbar */
+        .navbar {
+            padding: 1.2rem 2rem; display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 1px solid var(--border); background: rgba(5, 7, 10, 0.9); backdrop-filter: blur(10px);
+            position: sticky; top: 0; z-index: 100;
+        }
+        .logo { font-weight: 800; color: var(--blue); text-decoration: none; letter-spacing: 1px; }
         .nav-links { display: flex; gap: 20px; }
-        .nav-links a { color: #94a3b8; text-decoration: none; font-size: 0.9rem; font-weight: 600; }
+        .nav-links a { color: var(--text-dim); text-decoration: none; font-size: 0.9rem; font-weight: 600; transition: 0.3s; }
         .nav-links a.active { color: var(--primary); border-bottom: 2px solid var(--primary); }
+
         .container { max-width: 1000px; margin: 3rem auto; padding: 0 1.5rem; }
+        
+        /* Status Grid */
         .status-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; }
-        .tool-card { background: var(--card); padding: 1.5rem; border-radius: 1rem; border: 1px solid var(--border); }
-        .card-label { display: block; color: var(--primary); font-size: 0.7rem; font-weight: 800; text-transform: uppercase; margin-bottom: 8px; }
-        .card-value { font-family: monospace; font-size: 1.1rem; color: #fff; }
-        .btn { background: var(--primary); color: #000; padding: 1rem; border-radius: 0.8rem; font-weight: 700; width: 100%; border: none; cursor: pointer; margin-top: 10px; }
+        .tool-card { background: var(--card); padding: 1.5rem; border-radius: 1rem; border: 1px solid var(--border); transition: 0.3s; position: relative; overflow: hidden; }
+        .tool-card:hover { border-color: var(--blue); }
+        
+        .card-label { display: block; color: var(--primary); font-size: 0.7rem; font-weight: 800; text-transform: uppercase; margin-bottom: 8px; letter-spacing: 1px; }
+        .card-value { font-family: 'JetBrains Mono', monospace; font-size: 1.1rem; color: #fff; word-break: break-all; }
+        
+        .btn { 
+            background: var(--border); color: var(--blue); padding: 1rem; border-radius: 0.8rem; 
+            text-decoration: none; font-weight: 700; text-align: center; border: 1px solid transparent; 
+            display: block; width: 100%; cursor: pointer; transition: 0.3s; margin-top: 10px;
+        }
+        .btn:hover { background: var(--primary); color: #000; }
+        
+        .badge { font-size: 0.65rem; padding: 2px 8px; border-radius: 10px; font-weight: bold; margin-left: 10px; vertical-align: middle; }
+        .badge-safe { background: rgba(16, 185, 129, 0.2); color: var(--primary); }
+        .badge-warn { background: rgba(255, 71, 87, 0.2); color: #ff4757; }
+
+        .whois-console { background: #000; padding: 15px; border-radius: 8px; font-family: monospace; font-size: 0.85rem; color: #888; margin-top: 10px; min-height: 100px; border: 1px solid #222; }
     </style>
 </head>
 <body>
+
     <nav class="navbar">
         <a href="#" class="logo">ELTRIX WEBCHECK</a>
         <div class="nav-links">
@@ -29,59 +56,160 @@
             <a href="https://eltrix-dot.github.io/Honeypot">Behavior Lab</a>
         </div>
     </nav>
+
     <div class="container">
-        <div class="status-grid">
-            <div class="tool-card"><span class="card-label">IP Address</span><span id="ip" class="card-value">Connecting...</span></div>
-            <div class="tool-card"><span class="card-label">Network / ISP</span><span id="isp" class="card-value">Connecting...</span></div>
-            <div class="tool-card"><span class="card-label">VPN / Proxy Detection</span><span id="vpn" class="card-value">Analyzing...</span></div>
-            <div class="tool-card"><span class="card-label">WebRTC Internal Leak</span><span id="webrtc" class="card-value">Testing...</span></div>
+        <div style="text-align: center; margin-bottom: 3rem;">
+            <h1>Digital Forensic Audit</h1>
+            <p style="color: var(--text-dim);">Analyzing your network footprint and hardware metadata.</p>
         </div>
-        <div class="tool-card" style="margin-top: 1.5rem;">
-            <span class="card-label">Secure Key Generator</span>
-            <div id="pw" style="background:#000; padding:1rem; border-radius:8px; margin:1rem 0; text-align:center; color:var(--primary); font-family:monospace;">********</div>
-            <button class="btn" onclick="genPass()">Generate 32-bit Key</button>
+
+        <div class="status-grid">
+            <div class="tool-card">
+                <span class="card-label">Network Entry Point (IP)</span>
+                <span id="ip" class="card-value">Initializing uplink...</span>
+                <div id="whois-summary" style="font-size: 0.8rem; margin-top: 10px; color: var(--text-dim);"></div>
+            </div>
+
+            <div class="tool-card">
+                <span class="card-label">Provider & Organization</span>
+                <span id="isp" class="card-value">Scanning ISP...</span>
+            </div>
+
+            <div class="tool-card">
+                <span class="card-label">VPN / Proxy Detection</span>
+                <span id="vpn-status" class="card-value">Analyzing...</span>
+            </div>
+
+            <div class="tool-card">
+                <span class="card-label">WebRTC Internal Leak</span>
+                <span id="webrtc" class="card-value">Testing...</span>
+            </div>
+
+            <div class="tool-card">
+                <span class="card-label">DNS Resolver</span>
+                <span id="dns" class="card-value">Identifying...</span>
+            </div>
+
+            <div class="tool-card">
+                <span class="card-label">Browser Fingerprint (Hash)</span>
+                <span id="fp" class="card-value">Generating...</span>
+            </div>
+        </div>
+
+        <div style="margin-top: 2rem; display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+            <div class="tool-card">
+                <span class="card-label">Advanced WHOIS Record</span>
+                <div id="whois-raw" class="whois-console">Connecting to WHOIS database...</div>
+                <button class="btn" onclick="runAudit()">Refresh Audit</button>
+            </div>
+            <div class="tool-card">
+                <span class="card-label">Hardware Signature</span>
+                <div id="hw-details" style="font-size: 0.9rem; margin-bottom: 10px;">
+                    Cores: <span id="cpu" class="badge badge-safe">..</span><br>
+                    Memory: <span id="ram" class="badge badge-safe">..</span><br>
+                    GPU: <span id="gpu" class="badge badge-safe">..</span>
+                </div>
+                <span class="card-label">Secure Key (256-bit)</span>
+                <div id="pw-output" style="color: var(--blue); font-family: monospace; font-size: 1.1rem;">********</div>
+                <button class="btn" onclick="genPass()">Generate Key</button>
+            </div>
         </div>
     </div>
 
     <script>
-        async function runCheck() {
-            try {
-                // Using ipwho.is - it is HTTPS and highly reliable
-                const res = await fetch('https://ipwho.is/');
-                const data = await res.json();
-                
-                document.getElementById('ip').innerText = data.ip;
-                document.getElementById('isp').innerText = data.connection.isp;
-                document.getElementById('vpn').innerText = data.security.proxy ? "⚠️ Proxy/VPN Detected" : "✅ Clear (Residential)";
-                document.getElementById('vpn').style.color = data.security.proxy ? "#ff4757" : "#10b981";
-            } catch (e) {
-                document.getElementById('ip').innerText = "API Blocked. Disable Adblock.";
+        // API Configuration - Triple Failover
+        async function fetchIPData() {
+            const apis = [
+                'https://ipwho.is/',
+                'https://api.ipify.org?format=json',
+                'https://ipapi.co/json/'
+            ];
+
+            for (let api of apis) {
+                try {
+                    const response = await fetch(api);
+                    if (!response.ok) throw new Error();
+                    const data = await response.json();
+                    
+                    // Unified Data Mapping
+                    const ip = data.ip || data.query;
+                    const isp = data.connection?.isp || data.org || data.isp || "Unknown";
+                    const country = data.country || data.country_name || "Unknown";
+                    const isProxy = data.security?.proxy || data.proxy || false;
+                    const dns = data.connection?.dns || "Standard Resolver";
+
+                    updateUI(ip, isp, country, isProxy, dns, data);
+                    return; // Stop if successful
+                } catch (err) {
+                    console.log(`API ${api} failed, trying next...`);
+                }
             }
-            startWebRTC();
+            document.getElementById('ip').innerText = "All APIs Blocked";
         }
 
-        function startWebRTC() {
+        function updateUI(ip, isp, country, isProxy, dns, raw) {
+            document.getElementById('ip').innerText = ip;
+            document.getElementById('isp').innerText = isp;
+            document.getElementById('dns').innerText = dns;
+            
+            document.getElementById('vpn-status').innerHTML = isProxy 
+                ? `Detected <span class="badge badge-warn">UNSAFE</span>` 
+                : `Residential <span class="badge badge-safe">SECURE</span>`;
+
+            document.getElementById('whois-raw').innerHTML = `
+                Organization: ${raw.connection?.org || isp}<br>
+                Location: ${raw.city || 'Unknown'}, ${country}<br>
+                Timezone: ${raw.timezone?.id || 'Unknown'}<br>
+                ASN: ${raw.connection?.asn || 'Unknown'}
+            `;
+        }
+
+        function startWebRTCTest() {
             const pc = new RTCPeerConnection({iceServers: [{urls: "stun:stun.l.google.com:19302"}]});
             pc.createDataChannel("");
             pc.createOffer().then(o => pc.setLocalDescription(o));
             pc.onicecandidate = (i) => {
                 if (i.candidate && i.candidate.candidate.includes("192.168")) {
-                    document.getElementById('webrtc').innerText = "LEAK: " + i.candidate.candidate.match(/([0-9]{1,3}(\.[0-9]{1,3}){3})/)[0];
-                    document.getElementById('webrtc').style.color = "#ff4757";
+                    document.getElementById('webrtc').innerHTML = `<span style="color:#ff4757">LEAK: Internal IP Found</span>`;
                 } else {
-                    document.getElementById('webrtc').innerText = "No Local Leak";
+                    document.getElementById('webrtc').innerHTML = `<span class="badge badge-safe">NO LEAK</span>`;
                 }
             };
-            setTimeout(() => { if(document.getElementById('webrtc').innerText === "Testing...") document.getElementById('webrtc').innerText = "Secure / Blocked"; }, 3000);
+            setTimeout(() => {
+                if(document.getElementById('webrtc').innerText === "Testing...") 
+                    document.getElementById('webrtc').innerHTML = "Secure / Blocked";
+            }, 3000);
+        }
+
+        function getHardware() {
+            document.getElementById('cpu').innerText = navigator.hardwareConcurrency + " Cores";
+            document.getElementById('ram').innerText = (navigator.deviceMemory || "4+") + " GB";
+            
+            const canvas = document.createElement('canvas');
+            const gl = canvas.getContext('webgl');
+            const debugInfo = gl.getExtension('WEBGL_debug_renderer_info');
+            const gpu = debugInfo ? gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL).split(' ').pop() : "Generic";
+            document.getElementById('gpu').innerText = gpu;
+            document.getElementById('fp').innerText = btoa(gpu + navigator.language).substring(0, 12).toUpperCase();
         }
 
         function genPass() {
             const c = "ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz0123456789!@#$%^&*";
-            let p = ""; for(let i=0; i<24; i++) p += c.charAt(Math.floor(Math.random()*c.length));
-            document.getElementById('pw').innerText = p;
+            let p = ""; const crypto = window.crypto || window.msCrypto;
+            const values = new Uint32Array(24);
+            crypto.getRandomValues(values);
+            for(let i=0; i<24; i++) p += c.charAt(values[i] % c.length);
+            document.getElementById('pw-output').innerText = p;
         }
 
-        window.onload = () => { runCheck(); genPass(); };
+        function runAudit() {
+            fetchIPData();
+            startWebRTCTest();
+            getHardware();
+            genPass();
+        }
+
+        window.onload = runAudit;
     </script>
 </body>
 </html>
