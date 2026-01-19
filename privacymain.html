@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eltrix Digital | Intelligence Suite</title>
+    <style>
+        :root {
+            --primary: #10b981; --blue: #00f2ff; --bg: #05070a;
+            --card: #111827; --text: #f1f5f9; --text-dim: #94a3b8; --border: #1f2937;
+        }
+        body { 
+            font-family: 'Inter', system-ui, sans-serif; 
+            background: radial-gradient(circle at top right, #0a1018, var(--bg)); 
+            color: var(--text); margin: 0; min-height: 100vh;
+            display: flex; flex-direction: column;
+        }
+
+        .navbar {
+            padding: 1.2rem 2rem; display: flex; justify-content: center;
+            border-bottom: 1px solid var(--border); background: rgba(5, 7, 10, 0.9); 
+            backdrop-filter: blur(10px);
+        }
+        .logo { font-weight: 800; color: var(--blue); text-decoration: none; letter-spacing: 2px; font-size: 1.2rem; }
+
+        .container { max-width: 1100px; margin: auto; padding: 4rem 1.5rem; flex-grow: 1; }
+
+        .hero { text-align: center; margin-bottom: 5rem; }
+        .hero h1 { font-size: 3.5rem; margin: 0; background: linear-gradient(to bottom, #fff, #64748b); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .hero p { color: var(--text-dim); font-size: 1.2rem; margin-top: 1rem; }
+
+        .suite-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+        }
+
+        .suite-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 1.5rem;
+            padding: 2.5rem;
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .suite-card::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(45deg, transparent, rgba(0, 242, 255, 0.05));
+            opacity: 0; transition: 0.3s;
+        }
+
+        .suite-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--blue);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        .suite-card:hover::before { opacity: 1; }
+
+        .icon {
+            width: 50px; height: 50px; background: rgba(16, 185, 129, 0.1);
+            border-radius: 12px; display: flex; align-items: center; justify-content: center;
+            color: var(--primary); font-size: 1.5rem; margin-bottom: 1.5rem;
+            border: 1px solid rgba(16, 185, 129, 0.2);
+        }
+
+        .suite-card:hover .icon { background: var(--primary); color: #000; }
+
+        .title { font-size: 1.5rem; font-weight: 800; margin-bottom: 0.5rem; color: #fff; }
+        .desc { color: var(--text-dim); font-size: 0.95rem; flex-grow: 1; margin-bottom: 2rem; }
+
+        .launch-btn {
+            font-size: 0.8rem; font-weight: 800; text-transform: uppercase;
+            letter-spacing: 1px; color: var(--blue); display: flex; align-items: center; gap: 8px;
+        }
+
+        .launch-btn::after { content: '→'; transition: 0.3s; }
+        .suite-card:hover .launch-btn::after { transform: translateX(5px); }
+
+        footer { text-align: center; padding: 3rem; color: var(--text-dim); font-size: 0.8rem; border-top: 1px solid var(--border); }
+
+        .status-badge {
+            position: absolute; top: 20px; right: 20px;
+            font-size: 0.6rem; padding: 4px 10px; border-radius: 20px;
+            background: rgba(0, 242, 255, 0.1); color: var(--blue);
+            border: 1px solid rgba(0, 242, 255, 0.2); font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <a href="#" class="logo">ELTRIX DIGITAL SYSTEMS</a>
+    </nav>
+
+    <div class="container">
+        <div class="hero">
+            <h1>Intelligence Suite</h1>
+            <p>Advanced digital forensic and privacy tools for the modern web.</p>
+        </div>
+
+        <div class="suite-grid">
+            <a href="internetprivacy.html" class="suite-card">
+                <div class="status-badge">DOCUMENTATION</div>
+                <div class="icon">📖</div>
+                <div class="title">Privacy Manifesto</div>
+                <p class="desc">A curated guide to reclaiming your digital sovereignty. Battle-tested tools and configurations to stay invisible.</p>
+                <div class="launch-btn">Explore Guide</div>
+            </a>
+
+            <a href="webcheck.html" class="suite-card">
+                <div class="status-badge">LIVE TOOL</div>
+                <div class="icon">🔍</div>
+                <div class="title">Web Audit Scan</div>
+                <p class="desc">Deep-scan your current network connection. Identify VPN leaks, ISP metadata, and hardware fingerprints in real-time.</p>
+                <div class="launch-btn">Start Audit</div>
+            </a>
+
+            <a href="honeypot.html" class="suite-card">
+                <div class="status-badge">EXPERIMENTAL</div>
+                <div class="icon">🔬</div>
+                <div class="title">Behavioral Lab</div>
+                <p class="desc">Experience how modern trackers see you. An interactive demonstration of kinetic mouse tracking and input biometrics.</p>
+                <div class="launch-btn">Enter Lab</div>
+            </a>
+        </div>
+    </div>
+
+    <footer>
+        &copy; 2026 Eltrix Digital | Secured via 256-bit Encryption | Powered by Eltrix OS
+    </footer>
+
+</body>
+</html>
