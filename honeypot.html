@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Behavioral Analysis | Eltrix Digital</title>
+    <title>Interaction Lab | Eltrix Digital</title>
     <style>
         :root {
             --primary: #10b981;
@@ -37,100 +37,123 @@
 
         .logo { font-weight: 800; color: var(--blue); text-decoration: none; letter-spacing: 1px; }
 
-        .container { max-width: 1000px; margin: 3rem auto; padding: 0 1.5rem; display: grid; grid-template-columns: 1fr 350px; gap: 2rem; }
+        .container { 
+            max-width: 1100px; 
+            margin: 3rem auto; 
+            padding: 0 1.5rem; 
+            display: grid; 
+            grid-template-columns: 1fr 380px; 
+            gap: 2rem; 
+        }
 
         .hero { grid-column: 1 / -1; text-align: center; margin-bottom: 2rem; }
         
-        .main-panel { background: var(--card); padding: 2rem; border-radius: 1rem; border: 1px solid var(--border); }
+        .main-panel { background: var(--card); padding: 2.5rem; border-radius: 1rem; border: 1px solid var(--border); }
         
         .sidebar { display: flex; flex-direction: column; gap: 1.5rem; }
 
         .monitor-box {
-            background: #0a0a0c;
+            background: #000000;
             border: 1px solid var(--border);
             border-radius: 0.8rem;
-            padding: 1rem;
-            font-family: 'Consolas', monospace;
-            font-size: 0.8rem;
+            padding: 1.2rem;
+            font-family: 'JetBrains Mono', 'Consolas', monospace;
+            font-size: 0.85rem;
         }
 
-        .label { color: var(--primary); font-weight: bold; font-size: 0.7rem; text-transform: uppercase; display: block; margin-bottom: 0.5rem; }
+        .label { color: var(--primary); font-weight: bold; font-size: 0.7rem; text-transform: uppercase; display: block; margin-bottom: 0.8rem; letter-spacing: 1px; }
 
-        .log-stream { height: 200px; overflow-y: hidden; color: var(--text-dim); }
-        .log-entry { margin-bottom: 4px; border-left: 2px solid var(--primary); padding-left: 8px; animation: fadeIn 0.3s ease; }
+        .log-stream { height: 250px; overflow-y: hidden; color: var(--text-dim); }
+        .log-entry { 
+            margin-bottom: 6px; 
+            border-left: 2px solid var(--primary); 
+            padding-left: 10px; 
+            font-size: 0.75rem;
+            animation: slideIn 0.2s ease-out; 
+        }
 
-        @keyframes fadeIn { from { opacity: 0; transform: translateX(-5px); } to { opacity: 1; transform: translateX(0); } }
+        @keyframes slideIn { from { opacity: 0; transform: translateX(-10px); } to { opacity: 1; transform: translateX(0); } }
 
         input, textarea {
-            width: 100%; background: #05070a; border: 1px solid var(--border);
-            color: var(--blue); padding: 12px; border-radius: 0.5rem; margin-top: 10px; box-sizing: border-box;
+            width: 100%; background: #0a0a0c; border: 1px solid var(--border);
+            color: var(--blue); padding: 14px; border-radius: 0.6rem; margin-top: 12px; box-sizing: border-box;
+            outline: none; transition: 0.3s;
         }
+        input:focus { border-color: var(--primary); }
 
         .btn {
-            background: var(--primary); color: #000; padding: 0.8rem 1.5rem;
-            border-radius: 0.5rem; text-decoration: none; font-weight: 700;
+            background: var(--primary); color: #000; padding: 1rem 2rem;
+            border-radius: 0.6rem; text-decoration: none; font-weight: 800;
             display: inline-block; border: none; cursor: pointer; transition: 0.3s;
+            width: 100%; text-transform: uppercase;
+        }
+        .btn:hover { background: var(--blue); transform: translateY(-2px); }
+
+        .status-tag { 
+            font-size: 0.7rem; background: rgba(16, 185, 129, 0.1); 
+            color: var(--primary); padding: 4px 10px; border-radius: 20px; 
+            border: 1px solid rgba(16, 185, 129, 0.3);
         }
 
-        .btn:hover { background: var(--blue); }
-
-        .live-dot { height: 8px; width: 8px; background: #ff4757; border-radius: 50%; display: inline-block; margin-right: 5px; animation: pulse 1s infinite; }
-        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
-
-        @media (max-width: 850px) { .container { grid-template-columns: 1fr; } }
+        @media (max-width: 900px) { .container { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
 
     <nav class="navbar">
-        <a href="#" class="logo">ELTRIX ANALYTICS</a>
-        <span style="font-size: 0.8rem; color: var(--text-dim);"><span class="live-dot"></span> System Active</span>
+        <a href="#" class="logo">ELTRIX INTELLIGENCE</a>
+        <div style="display: flex; align-items: center; gap: 15px;">
+            <span class="status-tag">Telemetry: Encrypted</span>
+            <span class="status-tag" style="color: #ff4757; border-color: rgba(255,71,87,0.3);">Live Feed</span>
+        </div>
     </nav>
 
     <div class="container">
         <div class="hero">
-            <h1>Behavioral Study Lab</h1>
-            <p>Help ons internetveiligheid te verbeteren door deel te nemen aan onze interactie-test.</p>
+            <h1>Behavioral Analytics Lab</h1>
+            <p>Help us distinguish human interaction patterns from automated bot traffic.</p>
         </div>
 
         <div class="main-panel">
-            <h2 style="color: var(--primary);">Interactiviteit Test</h2>
-            <p>Vul het onderstaande formulier in zoals je normaal zou doen. Wij meten hoe menselijke interactie verschilt van geautomatiseerde bots.</p>
+            <h2 style="color: var(--primary); margin-top: 0;">Interaction Sandbox</h2>
+            <p style="color: var(--text-dim);">Our neural engine analyzes micro-movements to create a unique behavioral biometric profile. Please interact with the elements below naturally.</p>
             
-            <div style="margin-top: 2rem;">
-                <label class="label">Test Invoerveld</label>
-                <input type="text" id="trap-input" placeholder="Type hier je gedachten...">
+            <div style="margin-top: 2.5rem;">
+                <label class="label">Pattern Input Field</label>
+                <input type="text" id="trap-input" placeholder="Type a random sentence here...">
                 
                 <div style="margin-top: 2rem;">
-                    <label class="label">Reactiesnelheid Test</label>
-                    <button class="btn" id="trap-btn" style="width: 100%;">Klik hier herhaaldelijk</button>
+                    <label class="label">Click Latency Verification</label>
+                    <button class="btn" id="trap-btn">Calibrate Response Speed</button>
                 </div>
-            </div>
 
-            <div style="margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--border);">
-                <span class="label">Privacy Status</span>
-                <p style="font-size: 0.9rem; color: var(--text-dim);">Door deze pagina te gebruiken, ga je akkoord met onze geavanceerde telemetry-metingen voor onderzoeksdoeleinden.</p>
+                <div style="margin-top: 2rem; padding: 1.5rem; background: rgba(255,255,255,0.02); border-radius: 0.8rem; border: 1px dashed var(--border);">
+                    <p style="font-size: 0.85rem; margin: 0; color: var(--text-dim);">
+                        <strong>Did you know?</strong> Modern trackers can identify you just by the <em>rhythm</em> of your typing and the <em>arc</em> of your mouse movements.
+                    </p>
+                </div>
             </div>
         </div>
 
         <div class="sidebar">
             <div class="monitor-box">
-                <span class="label">Live Telemetry</span>
+                <span class="label">Kinetic Sensors</span>
                 <div id="coords">X: 0, Y: 0</div>
                 <div id="velocity">Velocity: 0 px/s</div>
-                <div id="scroll">Scroll: 0%</div>
+                <div id="idle">Idle Time: 0s</div>
             </div>
 
             <div class="monitor-box">
-                <span class="label">Event Log</span>
+                <span class="label">Neural Event Log</span>
                 <div id="log-stream" class="log-stream">
                     <div class="log-entry">Uplink established...</div>
+                    <div class="log-entry">Waiting for target interaction...</div>
                 </div>
             </div>
 
             <div class="monitor-box">
-                <span class="label">Captured Key-Stream</span>
-                <div id="key-stream" style="color: var(--blue); min-height: 50px; word-break: break-all;"></div>
+                <span class="label">Live Data Ingest</span>
+                <div id="key-stream" style="color: var(--blue); min-height: 60px; word-break: break-all; font-family: monospace;"></div>
             </div>
         </div>
     </div>
@@ -138,18 +161,20 @@
     <script>
         const logStream = document.getElementById('log-stream');
         const keyStream = document.getElementById('key-stream');
+        let idleStart = Date.now();
 
         function addLog(msg) {
             const entry = document.createElement('div');
             entry.className = 'log-entry';
             entry.innerText = `[${new Date().toLocaleTimeString()}] ${msg}`;
             logStream.prepend(entry);
-            if(logStream.children.length > 8) logStream.lastChild.remove();
+            if(logStream.children.length > 12) logStream.lastChild.remove();
         }
 
-        // Mouse Tracking
+        // 1. Kinetic Tracking
         let lastX = 0, lastY = 0, lastTime = Date.now();
         document.addEventListener('mousemove', (e) => {
+            idleStart = Date.now(); // Reset idle
             document.getElementById('coords').innerText = `X: ${e.clientX}, Y: ${e.clientY}`;
             
             let now = Date.now();
@@ -161,27 +186,42 @@
             lastX = e.clientX; lastY = e.clientY; lastTime = now;
         });
 
-        // Keyboard Trap
+        // 2. Idle Detection
+        setInterval(() => {
+            let seconds = Math.floor((Date.now() - idleStart) / 1000);
+            document.getElementById('idle').innerText = `Idle Time: ${seconds}s`;
+            if (seconds === 5) addLog("USER_IDLE_DETECTED");
+        }, 1000);
+
+        // 3. Data Ingest (Keyboard)
         document.getElementById('trap-input').addEventListener('input', (e) => {
             keyStream.innerText = e.target.value;
-            addLog("KEY_STROKE_DETECTED");
+            addLog("BUFFER_INGEST: " + (e.data || "BACKSPACE"));
         });
 
-        // Click Trap
+        // 4. Selection Tracking (Sneaky)
+        document.addEventListener('selectionchange', () => {
+            let selection = window.getSelection().toString();
+            if (selection.length > 0) {
+                addLog(`TEXT_SELECTION: "${selection.substring(0, 10)}..."`);
+            }
+        });
+
+        // 5. Button Logic
         document.getElementById('trap-btn').addEventListener('click', () => {
-            addLog("UI_INTERACTION_EVENT");
+            addLog("UI_INTERACTION: BTN_CLICK_EVENT");
+            alert("Calibration Complete. Response speed recorded.");
         });
 
-        // Tab Visibility
-        document.addEventListener('visibilitychange', () => {
-            addLog(document.hidden ? "TARGET_HIDDEN" : "TARGET_RESUMED");
+        // 6. Focus/Blur (Tab switching)
+        window.addEventListener('blur', () => addLog("SIGNAL_LOST: TAB_SWITCH"));
+        window.addEventListener('focus', () => addLog("SIGNAL_RESTORED: TARGET_ACTIVE"));
+
+        // 7. Context Menu (Right click)
+        document.addEventListener('contextmenu', (e) => {
+            addLog("ATTEMPT: CONTEXT_MENU_OPEN");
         });
 
-        // Scroll Depth
-        window.addEventListener('scroll', () => {
-            let depth = Math.round((window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100);
-            document.getElementById('scroll').innerText = `Scroll: ${depth}%`;
-        });
     </script>
 </body>
 </html>
