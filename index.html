@@ -5,287 +5,264 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Eltrix - Home</title>
 <style>
-/* General body styling */
-body {
-font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-background-color: #f0f2f5; /* A light grey background for a modern feel */
-color: #333;
-margin: 0;
-line-height: 1.6;
-}
+    /* Clean Minimalist Base */
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+        background-color: #f8f9fa; 
+        color: #1a1a1a;
+        margin: 0;
+        line-height: 1.6;
+    }
 
-/* Top navigation bar */
-.top-nav-bar {
-background-color: #ffffff; /* A clean white background */
-padding: 15px 40px;
-display: flex;
-justify-content: space-between;
-align-items: center;
-box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
-position: sticky;
-top: 0;
-z-index: 10;
-}
+    /* Modern Navigation Bar */
+    .top-nav-bar {
+        background-color: #ffffff;
+        padding: 15px 40px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
+        position: sticky;
+        top: 0;
+        z-index: 100;
+    }
 
-.site-title {
-color: #1a1a1a;
-font-size: 28px;
-font-weight: 700;
-text-decoration: none;
-}
+    .site-title {
+        color: #1a1a1a;
+        font-size: 26px;
+        font-weight: 800;
+        text-decoration: none;
+        letter-spacing: -1px;
+    }
 
-/* Navigation links */
-.nav-buttons {
-display: flex;
-gap: 20px;
-}
+    .nav-buttons {
+        display: flex;
+        gap: 15px;
+        align-items: center;
+    }
 
-.nav-buttons a,
-.dropdown-button {
-padding: 10px 20px;
-text-decoration: none;
-color: #555;
-font-weight: 500;
-border-radius: 8px;
-transition: all 0.3s ease;
-background-color: transparent;
-border: none;
-cursor: pointer;
-font-size: 16px;
-}
+    .nav-buttons a, .dropdown-button {
+        padding: 10px 18px;
+        text-decoration: none;
+        color: #555;
+        font-weight: 600;
+        border-radius: 8px;
+        transition: 0.3s ease;
+        font-size: 15px;
+        cursor: pointer;
+    }
 
-.nav-buttons a:hover,
-.dropdown-button:hover {
-background-color: #e9ecef;
-color: #007bff;
-}
+    .nav-buttons a:hover, .dropdown-button:hover {
+        background-color: #f1f3f5;
+        color: #007bff;
+    }
 
-/* Dropdown specific styles */
-.dropdown {
-position: relative;
-display: inline-block;
-}
+    /* Eye-catching Privacy Button in Nav */
+    .nav-privacy-btn {
+        background-color: #007bff !important;
+        color: #ffffff !important;
+        box-shadow: 0 4px 10px rgba(0, 123, 255, 0.2);
+    }
+    .nav-privacy-btn:hover {
+        background-color: #0056b3 !important;
+        transform: translateY(-1px);
+    }
 
-.dropdown-content {
-display: none;
-position: absolute;
-background-color: #ffffff;
-min-width: 220px;
-box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
-z-index: 10;
-border-radius: 8px;
-overflow: hidden;
-top: 120%;
-left: 0;
-padding: 10px 0;
-opacity: 0;
-visibility: hidden;
-transition: opacity 0.3s ease, transform 0.3s ease;
-transform: translateY(-10px);
-}
+    /* Dropdown Logic */
+    .dropdown { position: relative; }
+    .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: #ffffff;
+        min-width: 200px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        border-radius: 10px;
+        top: 130%;
+        right: 0;
+        padding: 8px 0;
+        border: 1px solid #eee;
+        animation: slideDown 0.3s ease;
+    }
+    .dropdown.active .dropdown-content { display: block; }
+    .dropdown-content a {
+        display: block;
+        padding: 12px 20px;
+        font-size: 14px;
+        color: #333;
+    }
 
-.dropdown.active .dropdown-content {
-display: block;
-opacity: 1;
-visibility: visible;
-transform: translateY(0);
-}
+    /* Main Content */
+    .main-content {
+        padding: 80px 20px;
+        max-width: 850px;
+        margin: 0 auto;
+    }
 
-.dropdown-content a {
-color: #333;
-padding: 12px 20px;
-text-decoration: none;
-display: block;
-text-align: left;
-background-color: transparent;
-margin: 0;
-}
+    .big-title {
+        font-size: 3rem;
+        font-weight: 900;
+        line-height: 1.1;
+        margin-bottom: 25px;
+        letter-spacing: -2px;
+    }
 
-.dropdown-content a:hover {
-background-color: #f1f3f5;
-}
+    .note {
+        font-size: 1.1rem;
+        color: #666;
+        margin-bottom: 50px;
+        border-left: 4px solid #007bff;
+        padding-left: 20px;
+    }
 
-/* Main content area */
-.main-content {
-padding: 60px 20px;
-max-width: 800px;
-margin: 0 auto;
-}
+    .ideas-title {
+        font-size: 2rem;
+        font-weight: 800;
+        margin-bottom: 30px;
+        color: #1a1a1a;
+    }
 
-/* Styling for the content of the home page */
-.big-title {
-font-size: 2.7em;
-font-weight: 700;
-margin: 0 0 20px 0;
-line-height: 1.2;
-color: #1a1a1a;
-letter-spacing: -0.5px;
-}
+    /* Project Cards */
+    .section {
+        background: #ffffff;
+        padding: 30px;
+        border-radius: 15px;
+        margin-bottom: 25px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+        border: 1px solid #f0f0f0;
+    }
 
-.note {
-font-size: 1.1em;
-font-weight: 500;
-margin-bottom: 30px;
-color: #666;
-}
+    .section-title {
+        font-size: 1.5rem;
+        font-weight: 700;
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
 
-.ideas-title {
-font-size: 2em;
-font-weight: 700;
-margin-top: 40px;
-margin-bottom: 15px;
-border-bottom: 2px solid #e9ecef;
-padding-bottom: 10px;
-color: #007bff;
-}
+    /* Attention Grabbing Privacy Section */
+    .privacy-box {
+        background: linear-gradient(135deg, #ffffff 0%, #f0f7ff 100%);
+        border: 2px solid #007bff;
+    }
 
-.section-title {
-font-size: 1.4em;
-font-weight: 600;
-margin-bottom: 8px;
-color: #333;
-display: flex;
-align-items: center;
-gap: 10px;
-}
+    .btn-attention {
+        display: inline-block;
+        margin-top: 15px;
+        background-color: #007bff;
+        color: white;
+        padding: 14px 28px;
+        text-decoration: none;
+        border-radius: 12px;
+        font-weight: 700;
+        transition: 0.3s;
+        box-shadow: 0 6px 20px rgba(0, 123, 255, 0.3);
+        animation: pulse 2s infinite;
+    }
 
-.section-desc {
-font-size: 1em;
-line-height: 1.6;
-color: #555;
-padding-left: 25px;
-}
+    .btn-attention:hover {
+        background-color: #0056b3;
+        transform: scale(1.03);
+        box-shadow: 0 8px 25px rgba(0, 123, 255, 0.4);
+    }
 
-.release-note {
-background-color: #e9ecef;
-padding: 15px;
-border-radius: 8px;
-margin-top: 40px;
-font-size: 1em;
-font-weight: 500;
-color: #555;
-text-align: center;
-}
+    /* Animations */
+    @keyframes slideDown {
+        from { opacity: 0; transform: translateY(-10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
 
-.logo-footer {
-margin: 60px auto 20px auto;
-display: flex;
-justify-content: center;
-opacity: 0.9;
-}
-.logo-footer h1 {
-font-size: 4em;
-font-weight: 900;
-letter-spacing: 2px;
-color: #ced4da;
-text-shadow: 1px 1px 3px rgba(0,0,0,0.1);
-}
+    @keyframes pulse {
+        0% { box-shadow: 0 0 0 0 rgba(0, 123, 255, 0.4); }
+        70% { box-shadow: 0 0 0 15px rgba(0, 123, 255, 0); }
+        100% { box-shadow: 0 0 0 0 rgba(0, 123, 255, 0); }
+    }
 
-@media (max-width: 650px) {
-.top-nav-bar {
-padding: 15px 20px;
-}
-.site-title {
-font-size: 24px;
-}
-.nav-buttons {
-gap: 10px;
-}
-.nav-buttons a,
-.dropdown-button {
-padding: 8px 12px;
-font-size: 14px;
-}
-.main-content {
-padding: 30px 10px;
-}
-.big-title {
-font-size: 2em;
-}
-.ideas-title {
-font-size: 1.6em;
-}
-.section-title {
-font-size: 1.2em;
-}
-.section-desc {
-font-size: 0.95em;
-}
-}
+    .logo-footer {
+        text-align: center;
+        padding: 60px 0;
+        font-size: 5rem;
+        font-weight: 900;
+        color: #e9ecef;
+        user-select: none;
+    }
+
+    @media (max-width: 650px) {
+        .top-nav-bar { padding: 15px 20px; }
+        .nav-buttons { gap: 5px; }
+        .nav-buttons a { padding: 8px 10px; font-size: 13px; }
+        .big-title { font-size: 2rem; }
+    }
 </style>
 </head>
 <body>
+
 <header class="top-nav-bar">
-<a href="#" class="site-title">ELTRIX ©</a>
-<nav class="nav-buttons">
-<a href="https://discord.gg/kEj6UDdQvb" target="_blank">Discord</a>
-            <a href="https://github.com/Eltrix-Dot/Eltrix-Discord.bot" target="_blank">GitHub Repo</a>
-            <a href="https://github.com/Eltrix-Dot/Eltrix-Discord.bot" target="_blank">Discord-Bot Repo</a>
-<a href="https://devforum.roblox.com/u/herkenrat78/summary" target="_blank">Roblox-Forum</a>
-<div class="dropdown">
-<button class="dropdown-button">ChangeLog ▼</button>
-<div class="dropdown-content">
-<a href="https://eltrix-dot.github.io/discord-changelog.html" target="_blank">Discord Changelog</a>
-<a href="https://eltrix-dot.github.io/game-changelog.html" target="_blank">Game Changelog</a>
-<a href="https://eltrix-dot.github.io/Eltrix.Discord-Bot.html" target="_blank">Discord Bot</a>
-</div>
-</div>
-</nav>
+    <a href="#" class="site-title">ELTRIX ©</a>
+    <nav class="nav-buttons">
+        <a href="https://eltrix-dot.github.io/privacymain" class="nav-privacy-btn">Privacy Hub</a>
+        <a href="https://github.com/Eltrix-Dot/Eltrix-Discord.bot" target="_blank">GitHub</a>
+        <div class="dropdown">
+            <button class="dropdown-button">Menu ▼</button>
+            <div class="dropdown-content">
+                <a href="https://eltrix-dot.github.io/discord-changelog.html">Discord Changelog</a>
+                <a href="https://eltrix-dot.github.io/game-changelog.html">Game Changelog</a>
+                <a href="https://eltrix-dot.github.io/Eltrix.Discord-Bot.html">Discord Bot Docs</a>
+            </div>
+        </div>
+    </nav>
 </header>
 
 <main class="main-content">
-<div class="big-title">
-WHO ARE WE 💡<br>
-WE ARE A GROUP OF YOUNG-BOYS 👻<br>
-WITH A BIG DREAM 🙂
-</div>
-<div class="note">
-NOTE WE ARE NOT A COMPANY THIS IS A PERSONAL PROJECT WICH WE<span style="font-size:1.1em;">🧑‍💻</span>ARE SHARING
-</div>
+    <div class="big-title">
+        WHO ARE WE 💡<br>
+        YOUNG DEVELOPERS 👻<br>
+        WITH A BIG DREAM 🙂
+    </div>
+    
+    <div class="note">
+        <strong>PERSONAL PROJECT:</strong> We are not a company. Eltrix is a collection of passion projects shared with the world. 🧑‍💻
+    </div>
 
-<div class="ideas-title">OUR IDEAS ☀️</div>
-<div class="section vaultrix">
-<div class="section-title">
-VAULTRIX <span style="font-size:1.1em;">🔒</span>
-</div>
-<div class="section-desc">
--WHY SECURE YOUR PASSWORD ON A SERVER WHILE ON YOUR COMPUTER IT IS SAVER <span style="font-size:1.1em;">🖥️</span>
-</div>
-</div>
+    <div class="ideas-title">CURRENT FOCUS ☀️</div>
 
-<div class="section plaza">
-<div class="section-title">
-THE PLAZA GAME <span style="font-size:1.1em;">🙂</span>
-</div>
-<div class="section-desc">
--WANT TO MEET NEW PEOPLE THEN THIS MIGHT BE THE RIGHT PLACE
-</div>
-</div>
+    <div class="section">
+        <div class="section-title">VAULTRIX 🔒</div>
+        <div class="section-desc">
+            Why trust a third-party server with your secrets? Vaultrix is being built to keep your passwords secure locally on your machine. Your data, your control. 🖥️
+        </div>
+    </div>
 
-<div class="release-note">
-NOTE VAULTRIX AND THE PLAZA GAME ARE IN DEVELOPEMENT AND WILL BE RELEASED MAYBE THIS YEAR AND NEXT YEAR.
-</div>
+    <div class="section privacy-box">
+        <div class="section-title">PRIVACY & SECURITY 🛡️</div>
+        <div class="section-desc">
+            We value your data as much as our own. Our new Privacy Hub provides full transparency on how our tools handle information. 
+        </div>
+        <a href="https://eltrix-dot.github.io/privacymain" class="btn-attention">VISIT PRIVACY HUB</a>
+    </div>
+
+    <div style="background: #e9ecef; padding: 20px; border-radius: 10px; text-align: center; color: #666; font-weight: 600;">
+        VAULTRIX IS CURRENTLY IN ACTIVE DEVELOPMENT 🛠️
+    </div>
 </main>
 
-<div class="logo-footer">
-<h1>ELTRIX</h1>
-</div>
+<div class="logo-footer">ELTRIX</div>
 
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-const dropdownButton = document.querySelector('.dropdown-button');
-const dropdown = document.querySelector('.dropdown');
+    document.addEventListener('DOMContentLoaded', function() {
+        const dropdownButton = document.querySelector('.dropdown-button');
+        const dropdown = document.querySelector('.dropdown');
 
-dropdownButton.addEventListener('click', function() {
-dropdown.classList.toggle('active');
-});
+        dropdownButton.addEventListener('click', function(e) {
+            e.stopPropagation();
+            dropdown.classList.toggle('active');
+        });
 
-window.addEventListener('click', function(e) {
-if (!dropdown.contains(e.target)) {
-dropdown.classList.remove('active');
-}
-});
-});
+        window.addEventListener('click', function() {
+            dropdown.classList.remove('active');
+        });
+    });
 </script>
+
 </body>
 </html>
