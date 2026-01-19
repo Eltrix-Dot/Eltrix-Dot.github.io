@@ -2,40 +2,81 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>404 - Page not found</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 - Signal Lost | Eltrix Digital</title>
     <style>
-        body {
-            background: #f0f2f5;
-            color: #333;
-            font-family: 'Segoe UI', Arial, sans-serif;
-            text-align: center;
-            margin-top: 120px;
+        :root {
+            --primary: #10b981; --blue: #00f2ff; --bg: #05070a;
+            --card: #111827; --text: #f1f5f9; --text-dim: #94a3b8; --border: #1f2937;
         }
-        h1 {
-            font-size: 4em;
-            margin-bottom: 10px;
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: var(--bg); 
+            color: var(--text); 
+            margin: 0; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            height: 100vh; 
+            overflow: hidden;
         }
-        p {
-            font-size: 1.4em;
-            margin-bottom: 30px;
+
+        .error-container { text-align: center; padding: 2rem; position: relative; }
+
+        .glitch {
+            font-size: 8rem; font-weight: 900; color: var(--blue);
+            position: relative; text-shadow: 0.05em 0 0 rgba(255,0,0,.75), -0.025em -0.05em 0 rgba(0,255,0,.75), 0.025em 0.05em 0 rgba(0,0,255,.75);
+            animation: glitch 500ms infinite;
         }
-        a {
-            color: #007bff;
-            text-decoration: none;
-            font-size: 1.1em;
-            border-radius: 6px;
-            padding: 10px 24px;
-            background: #e9ecef;
-            transition: background 0.2s;
+
+        @keyframes glitch {
+            0% { text-shadow: 0.05em 0 0 rgba(255,0,0,.75), -0.025em -0.05em 0 rgba(0,255,0,.75), 0.025em 0.05em 0 rgba(0,0,255,.75); }
+            14% { text-shadow: 0.05em 0 0 rgba(255,0,0,.75), -0.025em -0.05em 0 rgba(0,255,0,.75), 0.025em 0.05em 0 rgba(0,0,255,.75); }
+            15% { text-shadow: -0.05em -0.025em 0 rgba(255,0,0,.75), 0.025em 0.025em 0 rgba(0,255,0,.75), -0.05em -0.05em 0 rgba(0,0,255,.75); }
+            49% { text-shadow: -0.05em -0.025em 0 rgba(255,0,0,.75), 0.025em 0.025em 0 rgba(0,255,0,.75), -0.05em -0.05em 0 rgba(0,0,255,.75); }
+            50% { text-shadow: 0.025em 0.05em 0 rgba(255,0,0,.75), 0.05em 0 0 rgba(0,255,0,.75), 0 -0.05em 0 rgba(0,0,255,.75); }
+            99% { text-shadow: 0.025em 0.05em 0 rgba(255,0,0,.75), 0.05em 0 0 rgba(0,255,0,.75), 0 -0.05em 0 rgba(0,0,255,.75); }
+            100% { text-shadow: -0.025em 0 0 rgba(255,0,0,.75), -0.025em -0.025em 0 rgba(0,255,0,.75), -0.025em -0.05em 0 rgba(0,0,255,.75); }
         }
-        a:hover {
-            background: #ced4da;
+
+        h2 { font-size: 1.5rem; color: var(--primary); text-transform: uppercase; letter-spacing: 3px; margin-top: 0; }
+        p { color: var(--text-dim); max-width: 400px; margin: 1rem auto 2rem; font-size: 0.9rem; }
+
+        .links { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+        
+        .btn {
+            padding: 0.8rem 1.5rem; border-radius: 0.5rem; text-decoration: none;
+            font-weight: 700; font-size: 0.8rem; text-transform: uppercase;
+            transition: 0.3s; border: 1px solid var(--border);
+        }
+
+        .btn-home { background: var(--primary); color: #000; border: none; }
+        .btn-main { background: transparent; color: var(--blue); border-color: var(--blue); }
+
+        .btn:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0,0,0,0.3); }
+
+        .terminal-text { 
+            font-family: monospace; font-size: 0.7rem; color: #333; 
+            position: absolute; bottom: 20px; width: 100%; left: 0;
         }
     </style>
 </head>
 <body>
-    <h1>404 😢</h1>
-    <p>WHOOPS! This page doesnt exist.<br>
-    Go to the <br> <br> <a href="/">Homepage</a> <br> <br> or try another link.</p>
+
+    <div class="error-container">
+        <div class="glitch">404</div>
+        <h2>Connection Interrupted</h2>
+        <p>The requested packet could not be routed. The directory might have been moved or wiped from the Eltrix database.</p>
+        
+        <div class="links">
+            <a href="https://eltrix-dot.github.io/" class="btn btn-home">Return Home</a>
+            <a href="https://eltrix-dot.github.io/privacymain" class="btn btn-main">Privacy Guide</a>
+        </div>
+
+        <div class="terminal-text">
+            ERROR_CODE: 0x000404 | STATUS: ROUTE_NOT_FOUND | SOURCE: ELTRIX_CORE
+        </div>
+    </div>
+
 </body>
 </html>
