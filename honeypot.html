@@ -6,40 +6,31 @@
     <title>Behavior Lab | Eltrix Digital</title>
     <style>
         :root {
-            --primary: #10b981;
-            --blue: #00f2ff;
-            --bg: #05070a;
-            --card: #111827;
-            --text: #f1f5f9;
-            --text-dim: #94a3b8;
-            --border: #1f2937;
+            --primary: #10b981; --blue: #00f2ff; --bg: #05070a;
+            --card: #111827; --text: #f1f5f9; --text-dim: #94a3b8; --border: #1f2937;
         }
-
-        body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); margin: 0; }
-
-        /* Shared Navbar */
+        body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); margin: 0; overflow-x: hidden; }
         .navbar {
-            padding: 1.2rem 2rem;
-            display: flex; justify-content: space-between; align-items: center;
-            border-bottom: 1px solid var(--border);
-            background: rgba(5, 7, 10, 0.9); backdrop-filter: blur(10px);
+            padding: 1.2rem 2rem; display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 1px solid var(--border); background: rgba(5, 7, 10, 0.9); backdrop-filter: blur(10px);
             position: sticky; top: 0; z-index: 100;
         }
         .logo { font-weight: 800; color: var(--blue); text-decoration: none; letter-spacing: 1px; }
         .nav-links { display: flex; gap: 20px; }
-        .nav-links a { color: var(--text-dim); text-decoration: none; font-size: 0.9rem; font-weight: 600; transition: 0.3s; }
-        .nav-links a:hover { color: var(--primary); }
+        .nav-links a { color: var(--text-dim); text-decoration: none; font-size: 0.9rem; font-weight: 600; }
         .nav-links a.active { color: var(--primary); border-bottom: 2px solid var(--primary); }
-
-        .container { max-width: 1100px; margin: 3rem auto; padding: 0 1.5rem; display: grid; grid-template-columns: 1fr 380px; gap: 2rem; }
-        .main-panel { background: var(--card); padding: 2.5rem; border-radius: 1rem; border: 1px solid var(--border); }
-        .monitor-box { background: #000; border: 1px solid var(--border); border-radius: 0.8rem; padding: 1.2rem; font-family: monospace; font-size: 0.85rem; margin-bottom: 1rem; }
-        .label { color: var(--primary); font-weight: bold; font-size: 0.7rem; text-transform: uppercase; display: block; margin-bottom: 0.8rem; }
-        .log-stream { height: 200px; overflow: hidden; color: var(--text-dim); font-size: 0.75rem; }
-        .log-entry { border-left: 2px solid var(--primary); padding-left: 10px; margin-bottom: 5px; }
         
-        input { width: 100%; background: #0a0a0c; border: 1px solid var(--border); color: var(--blue); padding: 14px; border-radius: 0.6rem; margin: 12px 0; }
-        .btn { background: var(--primary); color: #000; padding: 1rem; border-radius: 0.6rem; font-weight: 800; width: 100%; border: none; cursor: pointer; }
+        .container { max-width: 1100px; margin: 3rem auto; padding: 0 1.5rem; display: grid; grid-template-columns: 1fr 380px; gap: 2rem; }
+        .main-panel { background: var(--card); padding: 2.5rem; border-radius: 1.5rem; border: 1px solid var(--border); }
+        .monitor-box { background: #000; border: 1px solid var(--border); border-radius: 1rem; padding: 1.2rem; font-family: monospace; font-size: 0.8rem; margin-bottom: 1rem; }
+        .label { color: var(--primary); font-weight: 800; font-size: 0.65rem; text-transform: uppercase; margin-bottom: 10px; display: block; }
+        .log-stream { height: 220px; overflow: hidden; color: var(--text-dim); }
+        .log-entry { border-left: 2px solid var(--primary); padding-left: 10px; margin-bottom: 6px; animation: fadeIn 0.2s; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        
+        input { width: 100%; background: #0a0a0c; border: 1px solid var(--border); color: var(--blue); padding: 15px; border-radius: 0.8rem; margin: 15px 0; outline: none; }
+        input:focus { border-color: var(--primary); }
+        .btn { background: var(--primary); color: #000; padding: 1rem; border-radius: 0.8rem; font-weight: 800; width: 100%; border: none; cursor: pointer; text-transform: uppercase; }
     </style>
 </head>
 <body>
@@ -54,39 +45,69 @@
 
     <div class="container">
         <div class="main-panel">
-            <h2 style="color: var(--primary);">Behavioral Analytics Lab</h2>
-            <p>Type below to calibrate your human-input profile.</p>
-            <input type="text" id="trap-input" placeholder="Type a sentence...">
-            <button class="btn" id="trap-btn">Calibrate Response</button>
+            <h2 style="color: var(--primary);">Behavioral Calibration</h2>
+            <p>Every movement you make is being logged to build a kinetic profile. This demonstrates how "invisible" tracking works.</p>
+            <input type="text" id="trap-input" placeholder="Type a sentence to log keystroke rhythm...">
+            <button class="btn" id="trap-btn">Calibrate Kinetic Profile</button>
+            <p style="font-size: 0.8rem; color: var(--text-dim); margin-top: 2rem;">Try highlighting this text to see the selection tracker in action.</p>
         </div>
 
         <div class="sidebar">
             <div class="monitor-box">
-                <span class="label">Sensors</span>
+                <span class="label">Kinetic Sensors</span>
                 <div id="coords">X: 0, Y: 0</div>
+                <div id="vel">Velocity: 0 px/s</div>
                 <div id="idle">Idle: 0s</div>
             </div>
             <div class="monitor-box">
-                <span class="label">Event Log</span>
+                <span class="label">Live Forensic Log</span>
                 <div id="log" class="log-stream"></div>
+            </div>
+            <div class="monitor-box">
+                <span class="label">Input Ingest</span>
+                <div id="key-stream" style="color: var(--blue); word-break: break-all;"></div>
             </div>
         </div>
     </div>
 
     <script>
         const log = document.getElementById('log');
+        let idleStart = Date.now();
+        let lx = 0, ly = 0, lt = Date.now();
+
         function addLog(m) {
             const e = document.createElement('div'); e.className='log-entry';
             e.innerText = `[${new Date().toLocaleTimeString()}] ${m}`;
-            log.prepend(e); if(log.children.length > 10) log.lastChild.remove();
+            log.prepend(e); if(log.children.length > 12) log.lastChild.remove();
         }
+
         document.addEventListener('mousemove', (e) => {
+            idleStart = Date.now();
             document.getElementById('coords').innerText = `X: ${e.clientX}, Y: ${e.clientY}`;
+            let dt = Date.now() - lt;
+            let d = Math.sqrt(Math.pow(e.clientX-lx,2)+Math.pow(e.clientY-ly,2));
+            document.getElementById('vel').innerText = `Velocity: ${Math.round(d/(dt/1000))} px/s`;
+            lx=e.clientX; ly=e.clientY; lt=Date.now();
         });
-        document.getElementById('trap-input').addEventListener('input', (e) => addLog("BUFFER_INGEST: " + e.data));
-        document.getElementById('trap-btn').addEventListener('click', () => { addLog("UI_INTERACTION"); alert("Calibrated."); });
-        window.addEventListener('blur', () => addLog("SIGNAL_LOST"));
-        window.addEventListener('focus', () => addLog("SIGNAL_RESTORED"));
+
+        setInterval(() => {
+            let s = Math.floor((Date.now()-idleStart)/1000);
+            document.getElementById('idle').innerText = `Idle: ${s}s`;
+            if(s === 5) addLog("STATUS: USER_IDLE");
+        }, 1000);
+
+        document.getElementById('trap-input').addEventListener('input', (e) => {
+            document.getElementById('key-stream').innerText = e.target.value;
+            addLog("KEY_INGEST: " + (e.data || "DEL"));
+        });
+
+        document.addEventListener('selectionchange', () => {
+            let s = window.getSelection().toString();
+            if(s) addLog("TEXT_SELECT: " + s.substring(0,10));
+        });
+
+        document.getElementById('trap-btn').addEventListener('click', () => { addLog("ACTION: CALIBRATION_CLICK"); alert("Profile Updated."); });
+        window.addEventListener('blur', () => addLog("LOST_FOCUS: TAB_SWITCH"));
     </script>
 </body>
 </html>
