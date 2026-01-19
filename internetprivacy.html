@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Privacy Stack | Eltrix Digital</title>
+    <style>
+        :root {
+            --primary: #10b981;
+            --blue: #00f2ff;
+            --bg: #05070a;
+            --card: #111827;
+            --text: #f1f5f9;
+            --text-dim: #94a3b8;
+            --border: #1f2937;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+
+        .navbar {
+            padding: 1.2rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+            background: rgba(5, 7, 10, 0.9);
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            font-weight: 800;
+            color: var(--blue);
+            text-decoration: none;
+            letter-spacing: 1px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 3rem auto;
+            padding: 0 1.5rem;
+        }
+
+        .hero {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        h1 { font-size: 2.8rem; margin-bottom: 0.5rem; }
+        .hero p { color: var(--text-dim); font-size: 1.2rem; }
+
+        .category-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--blue);
+            font-size: 1.5rem;
+            margin: 2rem 0 1rem 0;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 0.5rem;
+        }
+
+        .tool-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .tool-card {
+            background: var(--card);
+            padding: 1.5rem;
+            border-radius: 1rem;
+            border: 1px solid var(--border);
+            transition: all 0.3s ease;
+        }
+
+        .tool-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(16, 185, 129, 0.1);
+        }
+
+        .tool-name {
+            display: block;
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .tag {
+            font-size: 0.7rem;
+            background: rgba(0, 242, 255, 0.1);
+            color: var(--blue);
+            padding: 2px 8px;
+            border-radius: 4px;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+
+        .description {
+            font-size: 0.9rem;
+            color: var(--text-dim);
+            margin-top: 10px;
+        }
+
+        .cta-section {
+            background: linear-gradient(135deg, #1e1b4b 0%, #020617 100%);
+            padding: 3rem;
+            border-radius: 2rem;
+            text-align: center;
+            border: 1px solid var(--blue);
+            margin-top: 4rem;
+        }
+
+        .btn {
+            display: inline-block;
+            background: var(--blue);
+            color: #000;
+            padding: 0.8rem 2rem;
+            border-radius: 0.6rem;
+            text-decoration: none;
+            font-weight: 700;
+            margin-top: 1rem;
+        }
+
+        .btn:hover { opacity: 0.9; }
+
+        footer {
+            text-align: center;
+            padding: 4rem 0;
+            color: var(--text-dim);
+            font-size: 0.8rem;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <a href="#" class="logo">ELTRIX PRIVACY</a>
+        <a href="https://eltrix-dot.github.io/Webcheck" class="btn" style="padding: 0.5rem 1rem; font-size: 0.8rem; margin: 0;">Check My IP</a>
+    </nav>
+
+    <div class="container">
+        <div class="hero">
+            <h1>The Privacy Stack</h1>
+            <p>Battle-tested tools to reclaim your digital sovereignty.</p>
+        </div>
+
+        <div class="category-title">🛡️ Browsers</div>
+        <div class="tool-grid">
+            <div class="tool-card">
+                <span class="tool-name">Mullvad Browser</span>
+                <span class="tag">Maximum Anonymity</span>
+                <p class="description">Developed with the Tor Project to provide the privacy of Tor but on the regular web.</p>
+            </div>
+            <div class="tool-card">
+                <span class="tool-name">Brave Browser</span>
+                <span class="tag">Everyday Use</span>
+                <p class="description">Fast, Chromium-based browser that blocks ads and trackers by default.</p>
+            </div>
+            <div class="tool-card">
+                <span class="tool-name">Tor Browser</span>
+                <span class="tag">Extreme Privacy</span>
+                <p class="description">The gold standard for onion routing and hiding your actual location.</p>
+            </div>
+        </div>
+
+        <div class="category-title">🔒 Virtual Private Networks</div>
+        <div class="tool-grid">
+            <div class="tool-card">
+                <span class="tool-name">Mullvad VPN</span>
+                <span class="tag">Accountless</span>
+                <p class="description">The most private VPN. No email required, pay with cash or crypto. No logs.</p>
+            </div>
+            <div class="tool-card">
+                <span class="tool-name">Proton VPN</span>
+                <span class="tag">Swiss Based</span>
+                <p class="description">High-speed VPN with Secure Core technology. Great free and paid tiers.</p>
+            </div>
+        </div>
+
+        <div class="category-title">🔑 Identity & Security</div>
+        <div class="tool-grid">
+            <div class="tool-card">
+                <span class="tool-name">Bitwarden</span>
+                <span class="tag">Password Manager</span>
+                <p class="description">Open-source, encrypted password vault that syncs across all devices.</p>
+            </div>
+            <div class="tool-card">
+                <span class="tool-name">Proton Mail</span>
+                <span class="tag">Encrypted Email</span>
+                <p class="description">End-to-end encrypted email based in Switzerland. Private by design.</p>
+            </div>
+            <div class="tool-card">
+                <span class="tool-name">SimpleLogin</span>
+                <span class="tag">Email Masking</span>
+                <p class="description">Create aliases for every site so your real email address never leaks.</p>
+            </div>
+        </div>
+
+        <div class="cta-section">
+            <h2>Ready to test your setup?</h2>
+            <p>Go to Eltrix Webcheck to see if your VPN and Privacy settings are working correctly.</p>
+            <a href="https://eltrix-dot.github.io/Webcheck" class="btn">Launch Eltrix Webcheck</a>
+        </div>
+
+        <footer>
+            &copy; 2026 Eltrix Digital Systems | Unlocking Digital Freedom.
+        </footer>
+    </div>
+
+</body>
+</html>
