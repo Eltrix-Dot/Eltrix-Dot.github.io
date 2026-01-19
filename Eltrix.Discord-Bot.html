@@ -6,494 +6,312 @@
     <title>Eltrix Discord Bot | Server Manager</title>
     <style>
         /* ========================================================================= */
-        /* EERSTE SECTIE: Navigatie en Algemene Body Styling (Overgenomen van index.html) */
+        /* CORE STYLING - CLEAN & MINIMALIST */
         /* ========================================================================= */
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-            background-color: #f0f2f5; /* Lichte achtergrond */
-            color: #333;
-            margin: 0;
-            line-height: 1.6;
+        :root {
+            --primary-color: #007bff;
+            --hover-color: #0056b3;
+            --bg-light: #f0f2f5;
+            --text-dark: #1a1a1a;
+            --text-muted: #555;
+            --border-color: #e9ecef;
+            --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
         }
 
-        /* Top navigation bar */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            margin: 0;
+            line-height: 1.6;
+            scroll-behavior: smooth;
+        }
+
+        /* Navigation */
         .top-nav-bar {
-            background-color: #ffffff; /* Schoon wit */
-            padding: 15px 40px;
+            background-color: #ffffff;
+            padding: 12px 40px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
             position: sticky;
             top: 0;
-            z-index: 10;
+            z-index: 100;
         }
 
         .site-title {
-            color: #1a1a1a;
-            font-size: 28px;
-            font-weight: 700;
+            color: var(--text-dark);
+            font-size: 24px;
+            font-weight: 800;
             text-decoration: none;
+            letter-spacing: -0.5px;
         }
 
-        /* Navigation links */
         .nav-buttons {
             display: flex;
-            gap: 20px;
+            align-items: center;
+            gap: 15px;
         }
 
-        .nav-buttons a,
-        .dropdown-button {
-            padding: 10px 20px;
+        .nav-link {
+            padding: 8px 15px;
             text-decoration: none;
-            color: #555;
+            color: var(--text-muted);
             font-weight: 500;
-            border-radius: 8px;
-            transition: all 0.3s ease;
-            background-color: transparent;
-            border: none;
-            cursor: pointer;
-            font-size: 16px;
+            border-radius: 6px;
+            transition: 0.2s ease;
+            font-size: 15px;
         }
 
-        .nav-buttons a:hover,
-        .dropdown-button:hover {
-            background-color: #e9ecef;
-            color: #007bff;
+        .nav-link:hover {
+            background-color: #f1f3f5;
+            color: var(--primary-color);
         }
-        
-        /* Dropdown specifieke stijlen (voor de ChangeLog) */
-        .dropdown {
-            position: relative;
-            display: inline-block;
+
+        /* Special Privacy Button */
+        .btn-privacy {
+            background-color: var(--primary-color);
+            color: white !important;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-weight: 600;
+            box-shadow: 0 4px 10px rgba(0, 123, 255, 0.3);
         }
+
+        .btn-privacy:hover {
+            background-color: var(--hover-color);
+            transform: translateY(-1px);
+        }
+
+        /* Dropdown */
+        .dropdown { position: relative; }
+        .dropdown-button {
+            padding: 8px 15px;
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-weight: 500;
+            cursor: pointer;
+            font-size: 15px;
+        }
+
         .dropdown-content {
             display: none;
             position: absolute;
             background-color: #ffffff;
-            min-width: 220px;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
-            z-index: 10;
+            min-width: 200px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
             border-radius: 8px;
-            overflow: hidden;
             top: 120%;
-            left: 0;
-            padding: 10px 0;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.3s ease, transform 0.3s ease;
-            transform: translateY(-10px);
+            right: 0;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
         }
-        .dropdown.active .dropdown-content {
-            display: block;
-            opacity: 1;
-            visibility: visible;
-            transform: translateY(0);
-        }
+
+        .dropdown.active .dropdown-content { display: block; animation: fadeIn 0.2s ease; }
         .dropdown-content a {
-            color: #333;
+            color: var(--text-dark);
             padding: 12px 20px;
+            text-decoration: none;
             display: block;
-            text-align: left;
-            margin: 0;
+            font-size: 14px;
         }
-        .dropdown-content a:hover {
-            background-color: #f1f3f5;
-            color: #007bff;
-        }
+        .dropdown-content a:hover { background-color: #f8f9fa; color: var(--primary-color); }
 
-
-        /* ========================================================================= */
-        /* TWEEDE SECTIE: Documentatie-specifieke Styling */
-        /* (Aangepast van de donkere stijl naar de lichte stijl) */
-        /* ========================================================================= */
-        
+        /* Container */
         .container {
             max-width: 900px;
-            margin: 20px auto 50px auto;
-            background-color: #ffffff; /* Schoon wit voor de inhoud */
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        }
-        h1, h2, h3 {
-            color: #007bff; /* Blauwe accentkleur */
-            border-bottom: 2px solid #e9ecef;
-            padding-bottom: 10px;
-            margin-top: 35px;
-        }
-        h1 { font-size: 2.2em; text-align: center; color: #1a1a1a;} /* Hoofdtitel donkerder */
-        h2 { font-size: 1.8em; }
-        h3 { font-size: 1.4em; }
-        a {
-            color: #007bff;
-            text-decoration: none;
-        }
-        a:hover {
-            text-decoration: underline;
-        }
-        
-        /* Layout & Componenten */
-        .header-section {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-        .header-section img {
-            max-width: 100%;
-            height: auto;
-            border-radius: 6px;
-        }
-        .badges img {
-            margin: 0 5px;
-            height: 25px;
-        }
-        .toc ul {
-            list-style-type: none;
-            padding: 0;
-        }
-        .toc li {
-            margin: 5px 0;
+            margin: 40px auto;
+            background-color: #ffffff;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: var(--card-shadow);
         }
 
-        /* Code en Codeblokken */
-        code {
-            background-color: #e9ecef; /* Lichte achtergrond voor inline code */
-            padding: 3px 6px;
-            border-radius: 3px;
-            font-family: 'Consolas', 'Courier New', monospace;
-            color: #d63384; /* Roze-achtig voor betere zichtbaarheid */
-        }
-        pre {
-            background-color: #212529; /* Donkergrijs voor codeblokken (betere leesbaarheid) */
-            color: #f8f9fa; /* Lichte code tekst */
-            padding: 15px;
-            border-radius: 4px;
-            overflow-x: auto;
-            white-space: pre-wrap;
-            word-wrap: break-word;
-            border: 1px solid #ced4da;
+        /* Hero Section */
+        .header-section { text-align: center; margin-bottom: 40px; }
+        .header-section img { 
+            width: 100%; 
+            border-radius: 12px; 
+            margin-bottom: 20px;
+            border: 1px solid var(--border-color);
         }
         
-        /* Tabellen */
+        h1 { font-size: 2.2rem; font-weight: 800; letter-spacing: -1px; margin-bottom: 10px; }
+        h2 { font-size: 1.6rem; border-bottom: 2px solid #f1f3f5; padding-bottom: 8px; margin-top: 40px; }
+
+        .badges { display: flex; justify-content: center; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
+
+        /* Table of Contents */
+        .toc {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+        }
+        .toc ul { list-style: none; padding: 0; margin: 0; }
+        .toc li { margin-bottom: 8px; }
+        .toc a { color: var(--primary-color); text-decoration: none; font-weight: 500; }
+        .toc a:hover { text-decoration: underline; }
+
+        /* Tables */
+        .table-container { overflow-x: auto; margin: 20px 0; }
         table {
             width: 100%;
             border-collapse: collapse;
-            margin: 20px 0;
-            background-color: #ffffff;
+            background-color: #fff;
         }
-        th, td {
-            border: 1px solid #ced4da;
-            padding: 12px;
-            text-align: left;
-        }
-        th {
-            background-color: #f8f9fa; /* Zeer lichte koptekstachtergrond */
-            color: #333;
-            font-weight: 600;
-        }
-        .icon {
+        th { background-color: #f8f9fa; color: var(--text-muted); font-weight: 600; padding: 15px; border-bottom: 2px solid var(--border-color); text-align: left; }
+        td { padding: 15px; border-bottom: 1px solid var(--border-color); font-size: 15px; transition: 0.2s; }
+        tr:hover td { background-color: #fcfcfc; }
+
+        /* Code Blocks */
+        code { background-color: #f1f3f5; padding: 3px 6px; border-radius: 4px; color: #d63384; font-size: 0.9em; font-family: 'JetBrains Mono', monospace; }
+        pre { background-color: #1a1b1e; color: #e9ecef; padding: 20px; border-radius: 10px; overflow-x: auto; border: 1px solid #2c2e33; position: relative; }
+
+        /* Footer Action */
+        .footer-cta {
             text-align: center;
+            margin-top: 50px;
+            padding: 30px;
+            background: #f8f9fa;
+            border-radius: 12px;
         }
 
-        /* Responsiviteit */
-        @media (max-width: 650px) {
-            .top-nav-bar {
-                padding: 15px 20px;
-            }
-            .nav-buttons {
-                gap: 10px;
-            }
-            .nav-buttons a, .dropdown-button {
-                padding: 8px 12px;
-                font-size: 14px;
-            }
-            .container {
-                padding: 20px;
-                margin: 10px auto;
-            }
-            h1 { font-size: 2em; }
-            h2 { font-size: 1.6em; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Responsiveness */
+        @media (max-width: 768px) {
+            .top-nav-bar { padding: 15px 20px; }
+            .nav-buttons { display: none; } /* Mobile users would need a hamburger menu in a full project */
+            .container { padding: 20px; margin: 15px; }
         }
     </style>
 </head>
 <body>
+
     <header class="top-nav-bar">
         <a href="https://eltrix-dot.github.io/" class="site-title">ELTRIX ©</a>
         <nav class="nav-buttons">
-            <a href="https://discord.gg/kEj6UDdQvb" target="_blank">Discord</a>
-            <a href="https://github.com/Eltrix-Dot/Eltrix-Discord.bot" target="_blank">Discord-Bot Repo</a>
-            <a href="https://devforum.roblox.com/u/herkenrat78/summary" target="_blank">Roblox-Forum</a>
+            <a href="https://discord.gg/kEj6UDdQvb" class="nav-link" target="_blank">Discord</a>
+            <a href="https://github.com/Eltrix-Dot/Eltrix-Discord.bot" class="nav-link" target="_blank">Repository</a>
+            <a href="https://eltrix-dot.github.io/privacymain" class="nav-link btn-privacy">Privacy Hub</a>
             <div class="dropdown">
                 <button class="dropdown-button">ChangeLog ▼</button>
                 <div class="dropdown-content">
-                    <a href="https://eltrix-dot.github.io/discord-changelog.html" target="_blank">Discord Changelog</a>
-                    <a href="https://eltrix-dot.github.io/game-changelog.html" target="_blank">Game Changelog</a>
+                    <a href="https://eltrix-dot.github.io/discord-changelog.html">Discord Bot</a>
+                    <a href="https://eltrix-dot.github.io/game-changelog.html">Game Updates</a>
                 </div>
             </div>
         </nav>
     </header>
 
     <div class="container">
-
         <div class="header-section">
-            <img src="https://cdn.discordapp.com/attachments/1393265882280493069/1406691590013059123/DiscoHook-Banner.png?ex=68f082e2&is=68ef3162&hm=1c4e5899a43aadbab5626b08e56c23a657b13e0de9ae11554abcb8289707acc2&" alt="Eltrix Discord Bot Banner" />
+            <img src="https://cdn.discordapp.com/attachments/1393265882280493069/1406691590013059123/DiscoHook-Banner.png" alt="Eltrix Banner" />
             
-            <br/>
+            <div class="badges">
+                <img src="https://img.shields.io/badge/Version-v3.0-blue" alt="v3.0" />
+                <img src="https://img.shields.io/badge/License-MIT-brightgreen" alt="MIT" />
+                <img src="https://img.shields.io/badge/Built_with-Python-informational?logo=python" alt="Python" />
+                <img src="https://img.shields.io/badge/Commands-50+-red" alt="50+ Commands" />
+            </div>
             
-            <p class="badges">
-                <img src="https://img.shields.io/badge/Version-v3.0-blue" alt="Version 3.0" />
-                <img src="https://img.shields.io/badge/License-MIT-brightgreen" alt="License: MIT" />
-                <img src="https://img.shields.io/badge/Built_with-Python-informational?logo=python" alt="Built with Python" />
-                <img src="https://img.shields.io/badge/Commands-50+-red" alt="More than 50 commands" />
-            </p>
-            
-            <h1>✨ Eltrix Discord Bot | The All-in-One Server Manager</h1>
-            <p>Eltrix is a **powerful, modular** Discord bot crafted in Python (<code>discord.py</code>) designed to automate your server management while engaging your community with fun and unique features. From advanced moderation to a vibrant economy system, Eltrix has it all.</p>
+            <h1>✨ Eltrix | All-in-One Server Manager</h1>
+            <p class="hero-desc">A professional Discord automation tool crafted for performance and engagement. Eltrix combines advanced moderation with a seamless economy and support system.</p>
         </div>
 
-        <hr>
-
-        <h2 id="table-of-contents">📖 Table of Contents</h2>
         <div class="toc">
+            <h2>📖 Table of Contents</h2>
             <ul>
                 <li><a href="#key-features">🚀 Key Features</a></li>
-                <li><a href="#installation--setup">🛠️ Installation & Setup</a>
-                    <ul>
-                        <li><a href="#prerequisites">1. Prerequisites</a></li>
-                        <li><a href="#repository-cloning">2. Repository Cloning</a></li>
-                        <li><a href="#package-installation">3. Package Installation</a></li>
-                        <li><a href="#bot-configuration">4. Bot Configuration</a></li>
-                        <li><a href="#starting-the-bot">5. Starting the Bot</a></li>
-                    </ul>
-                </li>
-                <li><a href="#command-overview">📋 Command Overview</a>
-                    <ul>
-                        <li><a href="#moderation--management-staff-only">🛡️ Moderation & Management</a></li>
-                        <li><a href="#ticket-system">🎟️ Ticket System</a></li>
-                        <li><a href="#leveling--xp">📈 Leveling & XP</a></li>
-                        <li><a href="#economy">💰 Economy</a></li>
-                        <li><a href="#fun--community">🎉 Fun & Community</a></li>
-                        <li><a href="#general--utility">⚙️ General & Utility</a></li>
-                    </ul>
-                </li>
-                <li><a href="#contributing">🤝 Contributing</a></li>
+                <li><a href="#installation">🛠️ Installation & Setup</a></li>
+                <li><a href="#commands">📋 Command Overview</a></li>
                 <li><a href="#license">📜 License</a></li>
             </ul>
         </div>
-        
-        <hr>
-        
+
         <h2 id="key-features">🚀 Key Features</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th class="icon">Icon</th>
-                    <th>Section</th>
-                    <th>Description</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td class="icon">🛡️</td>
-                    <td><strong>Comprehensive Moderation</strong></td>
-                    <td>A complete suite of tools, including warnings, mutes, kicks, bans, softbans, detailed logging, and channel management.</td>
-                </tr>
-                <tr>
-                    <td class="icon">🎟️</td>
-                    <td><strong>Advanced Ticket System</strong></td>
-                    <td>A multi-category ticket system with staff roles, transcripts, and full ticket lifecycle control.</td>
-                </tr>
-                <tr>
-                    <td class="icon">📈</td>
-                    <td><strong>Engaging Leveling System</strong></td>
-                    <td>Reward active users with XP, levels, and automated role rewards.</td>
-                </tr>
-                <tr>
-                    <td class="icon">💰</td>
-                    <td><strong>Fun Economy</strong></td>
-                    <td>Earn daily coins, gamble, invest, and climb the global leaderboard.</td>
-                </tr>
-                <tr>
-                    <td class="icon">🎨</td>
-                    <td><strong>Custom Role Menus</strong></td>
-                    <td>Let users self-assign roles via interactive dropdown menus to personalize their profile.</td>
-                </tr>
-                <tr>
-                    <td class="icon">🎉</td>
-                    <td><strong>Fun & Community</strong></td>
-                    <td>Keep your community engaged with polls, memes, suggestions, and interactive games.</td>
-                </tr>
-            </tbody>
-        </table>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>System</th>
+                        <th>Capability</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>🛡️ <strong>Moderation</strong></td><td>Full suite of tools: Warning, Mute, Ban, Soft-ban, and detailed logging.</td></tr>
+                    <tr><td>🎟️ <strong>Tickets</strong></td><td>Multi-category system with staff claims and HTML transcripts.</td></tr>
+                    <tr><td>📈 <strong>XP/Levels</strong></td><td>Kinetic rank cards and automated role rewards.</td></tr>
+                    <tr><td>💰 <strong>Economy</strong></td><td>Banking, daily rewards, and gambling modules.</td></tr>
+                </tbody>
+            </table>
+        </div>
 
-        <hr>
-
-        <h2 id="installation--setup">🛠️ Installation & Setup</h2>
-        <p>Follow these steps to run the Eltrix bot on your own server.</p>
-
-        <h3 id="prerequisites">1. Prerequisites</h3>
-        <ul>
-            <li><strong>Python 3.11</strong> or newer. Download Python from <a href="https://www.python.org/">python.org</a>.</li>
-            <li>A **Discord Bot Token**. You can create a bot application and get a token via the <a href="https://discord.com/developers/applications">Discord Developer Portal</a>.</li>
-            <li>⚠️ **ATTENTION:** Ensure you enable the **Privileged Gateway Intents** (<code>Server Members Intent</code> and <code>Message Content Intent</code>) for your bot in the Developer Portal.</li>
-        </ul>
-
-        <h3 id="repository-cloning">2. Repository Cloning</h3>
-        <p>Download the code to your machine.</p>
+        <h2 id="installation">🛠️ Installation & Setup</h2>
+        <h3>1. Repository Cloning</h3>
         <pre><code>git clone https://github.com/Eltrix-Dot/Eltrix-Discord.bot
 cd Eltrix-Discord.bot</code></pre>
 
-        <h3 id="package-installation">3. Package Installation</h3>
-        <p>The bot requires a few Python libraries to run. Execute the following command:</p>
+        <h3>2. Dependencies</h3>
         <pre><code>pip install -r requirements.txt</code></pre>
 
-        <h3 id="bot-configuration">4. Bot Configuration</h3>
-        <p>Open the <code>ELTRIX.py</code> file and fill in the configuration section at the top:</p>
-        <pre><code># =============================================================================
-# 1. CONFIGURATION
-# =============================================================================
-# Bot Token (Keep this SECRET!)
-TOKEN = "YOUR_BOT_TOKEN_HERE"
-# Guild ID (The ID of your server)
-GUILD_ID = 123456789012345678
-# Log channel ID (The ID of the channel for logs)
-LOG_CHANNEL_ID = 123456789012345678
-# Staff IDs (Role IDs of your staff)
-STAFF_ROLE_IDS = {
-    123456789012345678, # Staff Role ID
-    123456789012345679, # Admin Role ID
-}
-# Owner ID (Your own user ID)
-OWNER_ID = "YOUR_USER_ID_HERE"
-# ... (Further configuration follows in the file)</code></pre>
-        <p><strong>🔎 How to find IDs?</strong> Enable "Developer Mode" in Discord: <code>User Settings > Advanced > Developer Mode</code>. Then, right-click on a server, channel, role, or user and select "Copy ID".</p>
+        <h3>3. Configuration</h3>
+        <p>Edit the <code>ELTRIX.py</code> file and provide your credentials:</p>
+        <pre><code># Bot Token
+TOKEN = "YOUR_BOT_TOKEN"
+# Guild & Logs
+GUILD_ID = 1234567890
+LOG_CHANNEL_ID = 987654321</code></pre>
 
-        <h3 id="starting-the-bot">5. Starting the Bot</h3>
-        <p>Start the bot using the following command in your terminal:</p>
-        <pre><code>python ELTRIX.py</code></pre>
-        <p>If successful, you will see a confirmation in the terminal that the bot is online and has synchronized its commands.</p>
+        <h2 id="commands">📋 Command Overview</h2>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr><th>Slash Command</th><th>Description</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td><code>/warn [user] [reason]</code></td><td>Warns a user and creates a log entry.</td></tr>
+                    <tr><td><code>/purge [amount]</code></td><td>Cleans up messages instantly.</td></tr>
+                    <tr><td><code>/ticketsetup</code></td><td>Deploys the support panel.</td></tr>
+                    <tr><td><code>/rank [user]</code></td><td>Displays progress on the leveling system.</td></tr>
+                    <tr><td><code>/daily</code></td><td>Claims the daily coin bonus.</td></tr>
+                </tbody>
+            </table>
+        </div>
 
-        <hr>
-
-        <h2 id="command-overview">📋 Command Overview</h2>
-        <p>All commands are available via Discord's <code>/</code> Slash Commands.</p>
-
-        <h3 id="moderation--management-staff-only">🛡️ Moderation & Management <em>(Staff Only)</em></h3>
-        <table>
-            <thead>
-                <tr><th>Command</th><th>Description</th></tr>
-            </thead>
-            <tbody>
-                <tr><td><code>/warn &lt;user&gt; &lt;reason&gt;</code></td><td>Warns a user, logs it, and sends a DM.</td></tr>
-                <tr><td><code>/warnings &lt;user&gt;</code></td><td>Views all warnings for a user.</td></tr>
-                <tr><td><code>/mute &lt;user&gt; &lt;minutes&gt; &lt;reason&gt;</code></td><td>Places a user in a timeout.</td></tr>
-                <tr><td><code>/ban &lt;user&gt; &lt;reason&gt;</code></td><td>Bans a user from the server.</td></tr>
-                <tr><td><code>/purge &lt;amount&gt;</code></td><td>Deletes a specified number of messages (1-100).</td></tr>
-                <tr><td><code>/lock [channel]</code></td><td>Locks a text channel for the <code>@everyone</code> role.</td></tr>
-                <tr><td><code>/history &lt;user&gt;</code></td><td>Shows a combined history of warnings and notes.</td></tr>
-            </tbody>
-        </table>
-
-        <h3 id="ticket-system">🎟️ Ticket System</h3>
-        <table>
-            <thead>
-                <tr><th>Command</th><th>Description</th></tr>
-            </thead>
-            <tbody>
-                <tr><td><code>/ticketsetup</code></td><td>Creates the panel for users to create tickets.</td></tr>
-                <tr><td><code>/ticketclaim</code></td><td>Claims the current ticket.</td></tr>
-                <tr><td><code>/ticketdelete</code></td><td>Permanently deletes a closed ticket channel and saves a transcript.</td></tr>
-            </tbody>
-        </table>
-
-        <h3 id="leveling--xp">📈 Leveling & XP</h3>
-        <table>
-            <thead>
-                <tr><th>Command</th><th>Description</th></tr>
-            </thead>
-            <tbody>
-                <tr><td><code>/rank [user]</code></td><td>Displays a visual rank card with level and XP.</td></tr>
-                <tr><td><code>/levelboard</code></td><td>Shows the leaderboard for levels.</td></tr>
-                <tr><td><code>/setlevelrole &lt;level&gt; &lt;role&gt;</code></td><td>Sets a role as a reward for reaching a level. <em>(Staff)</em></td></tr>
-            </tbody>
-        </table>
-
-        <h3 id="economy">💰 Economy</h3>
-        <table>
-            <thead>
-                <tr><th>Command</th><th>Description</th></tr>
-            </thead>
-            <tbody>
-                <tr><td><code>/balance [user]</code></td><td>Checks the balance (wallet and bank).</td></tr>
-                <tr><td><code>/daily</code></td><td>Claims your daily coin reward.</td></tr>
-                <tr><td><code>/gamble &lt;amount&gt;</code></td><td>Takes a gamble with a 50% chance to double your stake.</td></tr>
-                <tr><td><code>/bank deposit/withdraw &lt;amount|all&gt;</code></td><td>Deposits or withdraws coins.</td></tr>
-            </tbody>
-        </table>
-
-        <h3 id="fun--community">🎉 Fun & Community</h3>
-        <table>
-            <thead>
-                <tr><th>Command</th><th>Description</th></tr>
-            </thead>
-            <tbody>
-                <tr><td><code>/poll &lt;question&gt; &lt;options...&gt;</code></td><td>Creates a poll with up to 5 options.</td></tr>
-                <tr><td><code>/meme [subreddit]</code></td><td>Fetches a random meme from Reddit.</td></tr>
-                <tr><td><code>/ship &lt;user1&gt; &lt;user2&gt;</code></td><td>Calculates love compatibility.</td></tr>
-                <tr><td><code>/hug, /pat, /slap &lt;user&gt;</code></td><td>Interaction commands.</td></tr>
-                <tr><td><code>/urban &lt;term&gt;</code></td><td>Searches Urban Dictionary (NSFW channels only).</td></tr>
-            </tbody>
-        </table>
-
-        <h3 id="general--utility">⚙️ General & Utility</h3>
-        <table>
-            <thead>
-                <tr><th>Command</th><th>Description</th></tr>
-            </thead>
-            <tbody>
-                <tr><td><code>/about</code></td><td>Shows information about the bot.</td></tr>
-                <tr><td><code>/ping</code></td><td>Checks the bot's reaction speed (latency).</td></tr>
-                <tr><td><code>/userinfo [user]</code></td><td>Shows detailed information about a user.</td></tr>
-                <tr><td><code>/remindme &lt;time&gt; &lt;reminder&gt;</code></td><td>Sets a personal reminder.</td></tr>
-                <tr><td><code>/botinvite</code></td><td>Generates an invite link for the bot.</td></tr>
-            </tbody>
-        </table>
-
-        <hr>
-
-        <h2 id="contributing">🤝 Contributing</h2>
-        <p>Contributions are greatly appreciated. If you have a suggestion, please fork the repo and create a pull request.</p>
-        <ol>
-            <li><strong>Fork</strong> the Project</li>
-            <li>Create your Feature Branch (<code>git checkout -b feature/AmazingFeature</code>)</li>
-            <li>Commit your Changes (<code>git commit -m 'Add some AmazingFeature'</code>)</li>
-            <li>Push to the Branch (<code>git push origin feature/AmazingFeature</code>)</li>
-            <li>Open a **Pull Request**</li>
-        </ol>
-
-        <hr>
+        <div class="footer-cta">
+            <h3>Need help with data protection?</h3>
+            <p>Visit our dedicated Privacy Portal for all legal and security information.</p>
+            <a href="https://eltrix-dot.github.io/privacymain" class="btn-privacy" style="text-decoration: none; display: inline-block;">Open Privacy Hub</a>
+        </div>
 
         <h2 id="license">📜 License</h2>
-        <p>This project is distributed under the **MIT License**. You are free to use, modify, and distribute the code, as long as you include the original license and copyright notice.</p>
-        <p><strong>Copyright (c) 2025 [Eltrix-Dot]</strong></p>
-
+        <p>Distributed under the <strong>MIT License</strong>. Copyright © 2026 Eltrix-Dot.</p>
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const dropdownButton = document.querySelector('.dropdown-button');
+        // Dropdown Toggle Logic
+        document.addEventListener('click', (e) => {
             const dropdown = document.querySelector('.dropdown');
-
-            // Toggle dropdown op klik
-            dropdownButton.addEventListener('click', function() {
+            const button = document.querySelector('.dropdown-button');
+            
+            if (button.contains(e.target)) {
                 dropdown.classList.toggle('active');
-            });
+            } else if (!dropdown.contains(e.target)) {
+                dropdown.classList.remove('active');
+            }
+        });
 
-            // Sluit dropdown als er ergens anders wordt geklikt
-            window.addEventListener('click', function(e) {
-                if (!dropdown.contains(e.target)) {
-                    dropdown.classList.remove('active');
-                }
+        // Smooth Scrolling for TOC
+        document.querySelectorAll('.toc a').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
             });
         });
     </script>
