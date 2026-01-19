@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Eltrix Webcheck | Network Intelligence</title>
+    <title>Eltrix Webcheck | Privacy & Network Suite</title>
     <style>
         :root {
             --primary: #00f2ff;
@@ -12,216 +12,238 @@
             --card-bg: #111827;
             --text: #e2e8f0;
             --border: #1f2937;
+            --success: #10b981;
         }
 
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-family: 'Inter', sans-serif;
             background-color: var(--bg);
-            background-image: radial-gradient(circle at 50% 50%, #1e1b4b 0%, #05070a 100%);
+            background-image: radial-gradient(circle at 50% 50%, #111122 0%, #05070a 100%);
             color: var(--text);
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
             margin: 0;
+            padding: 20px;
         }
 
         .container {
             background: var(--card-bg);
             padding: 2.5rem;
             border-radius: 20px;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-            width: 95%;
-            max-width: 700px;
+            box-shadow: 0 0 40px rgba(0, 242, 255, 0.1);
+            width: 100%;
+            max-width: 800px;
             border: 1px solid var(--border);
             position: relative;
-            overflow: hidden;
         }
 
-        .container::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0; height: 4px;
-            background: linear-gradient(90deg, var(--primary), var(--accent));
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
         }
 
         h1 {
-            font-size: 2rem;
+            font-size: 2.2rem;
             margin: 0;
             background: linear-gradient(90deg, #fff, var(--primary));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            text-align: center;
-        }
-
-        .subtitle {
-            text-align: center;
-            font-size: 0.85rem;
-            color: #94a3b8;
-            margin-bottom: 2rem;
-            letter-spacing: 1px;
-            text-transform: uppercase;
         }
 
         .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 15px;
         }
 
         .info-box {
-            background: rgba(255, 255, 255, 0.03);
-            padding: 16px;
+            background: rgba(255, 255, 255, 0.02);
+            padding: 15px;
             border-radius: 12px;
             border: 1px solid var(--border);
-            transition: transform 0.2s ease;
-        }
-
-        .info-box:hover {
-            border-color: var(--primary);
-            transform: translateY(-2px);
+            position: relative;
         }
 
         .label {
             font-size: 0.7rem;
             font-weight: 700;
             color: var(--primary);
-            margin-bottom: 6px;
+            margin-bottom: 5px;
             display: block;
             text-transform: uppercase;
         }
 
         .value {
-            font-family: 'Monaco', 'Consolas', monospace;
-            font-size: 1.1rem;
+            font-family: 'Consolas', monospace;
+            font-size: 1rem;
             word-break: break-all;
         }
 
+        .controls {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin: 20px 0;
+        }
+
+        button {
+            background: #1f2937;
+            color: white;
+            border: 1px solid var(--border);
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+
+        button:hover {
+            background: var(--primary);
+            color: #000;
+        }
+
         .badge {
-            padding: 4px 10px;
-            border-radius: 6px;
-            font-size: 0.75rem;
-            font-weight: bold;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
         }
 
-        .vpn-detected { background: #7f1d1d; color: #fecaca; }
-        .vpn-safe { background: #064e3b; color: #a7f3d0; }
+        .status-on { color: var(--success); border: 1px solid var(--success); }
+        .status-off { color: #ef4444; border: 1px solid #ef4444; }
 
-        .loader {
+        .privacy-link {
+            display: block;
             text-align: center;
-            padding: 40px;
-            font-style: italic;
+            margin-top: 20px;
             color: var(--primary);
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 0.9rem;
         }
+
+        .privacy-link:hover { text-decoration: underline; }
 
         .footer {
-            margin-top: 2.5rem;
-            padding-top: 1.5rem;
-            border-top: 1px solid var(--border);
-            font-size: 0.75rem;
+            margin-top: 2rem;
+            font-size: 0.7rem;
             text-align: center;
-            color: #64748b;
+            color: #4b5563;
         }
 
-        @media (max-width: 480px) {
-            .grid { grid-template-columns: 1fr; }
-        }
+        .loader { text-align: center; padding: 40px; color: var(--primary); }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h1>Eltrix Webcheck</h1>
-    <p class="subtitle">Advanced Network & Privacy Diagnostics</p>
+    <div class="header">
+        <h1>Eltrix Webcheck</h1>
+        <p style="color: #64748b;">Privacy Audit & Network Intelligence</p>
+    </div>
 
-    <div id="loader" class="loader">Scanning connection...</div>
+    <div class="controls">
+        <button onclick="copyIP()">Copy IP</button>
+        <button onclick="runCheck()">Re-scan Connection</button>
+    </div>
+
+    <div id="loader" class="loader">Analyzing packet headers...</div>
 
     <div id="results" class="grid" style="display: none;">
         <div class="info-box">
-            <span class="label">Public IP Address</span>
-            <span id="ip" class="value">Loading...</span>
+            <span class="label">Public IP</span>
+            <span id="ip" class="value">-</span>
         </div>
         <div class="info-box">
-            <span class="label">Internet Service Provider (ISP)</span>
-            <span id="isp" class="value">Loading...</span>
+            <span class="label">ISP / Organization</span>
+            <span id="isp" class="value">-</span>
         </div>
-
         <div class="info-box">
             <span class="label">Location</span>
-            <span id="location" class="value">Loading...</span>
+            <span id="location" class="value">-</span>
         </div>
         <div class="info-box">
-            <span class="label">Local Time & Region</span>
-            <span id="time" class="value">Loading...</span>
+            <span class="label">Timezone & Local Time</span>
+            <span id="time" class="value">-</span>
         </div>
-
+        <div class="info-box">
+            <span class="label">Browser Privacy (DNT)</span>
+            <span id="dnt" class="value">-</span>
+        </div>
+        <div class="info-box">
+            <span class="label">Cookies Enabled</span>
+            <span id="cookies" class="value">-</span>
+        </div>
         <div class="info-box">
             <span class="label">VPN / Proxy Detection</span>
-            <span id="vpn" class="value">Checking...</span>
-        </div>
-        
-        <div class="info-box">
-            <span class="label">Browser & Engine</span>
-            <span id="browser" class="value">Loading...</span>
+            <span id="vpn" class="value">-</span>
         </div>
         <div class="info-box">
-            <span class="label">Screen Resolution</span>
-            <span id="screen" class="value">Loading...</span>
-        </div>
-        <div class="info-box">
-            <span class="label">System Language</span>
-            <span id="lang" class="value">Loading...</span>
+            <span class="label">Device & OS</span>
+            <span id="os" class="value">-</span>
         </div>
     </div>
 
+    <a href="https://eltrix-dot.github.io/internetprivacy" target="_blank" class="privacy-link">
+        Learn how to protect your digital footprint →
+    </a>
+
     <div class="footer">
-        &copy; 2026 Eltrix Digital • Private and Encrypted Scan
+        &copy; 2026 Eltrix Digital Systems | No data is logged or stored.
     </div>
 </div>
 
 <script>
-    async function runEltrixCheck() {
+    async function runCheck() {
+        const loader = document.getElementById('loader');
+        const results = document.getElementById('results');
+        
+        loader.style.display = 'block';
+        results.style.display = 'none';
+
         try {
-            // Fetching IP and Network details
-            const response = await fetch('https://ipapi.co/json/');
-            const data = await response.json();
+            // API Call
+            const res = await fetch('https://ipapi.co/json/');
+            const data = await res.json();
 
-            if (data.error) throw new Error('API Rate Limit reached');
-
-            // Fill Network & Geo Info
+            // Fill Data
             document.getElementById('ip').innerText = data.ip;
-            document.getElementById('isp').innerText = data.org || data.asn;
-            document.getElementById('location').innerText = `${data.city}, ${data.region} (${data.country_name})`;
+            document.getElementById('isp').innerText = data.org;
+            document.getElementById('location').innerText = `${data.city}, ${data.country_name}`;
             
-            // Timezone
             const time = new Date().toLocaleTimeString('en-US', { timeZone: data.timezone });
-            document.getElementById('time').innerText = `${time} (${data.timezone})`;
+            document.getElementById('time').innerText = `${time} (${data.utc_offset})`;
 
-            // VPN Check (Basic check via Hosting/DataCenter flag)
-            const vpnElement = document.getElementById('vpn');
-            // Note: Advanced VPN detection usually requires a paid API key
-            if (data.is_hosting || data.proxy) {
-                vpnElement.innerHTML = '<span class="badge vpn-detected">VPN/Proxy Detected</span>';
-            } else {
-                vpnElement.innerHTML = '<span class="badge vpn-safe">Residential (No VPN)</span>';
-            }
+            // VPN Detect
+            document.getElementById('vpn').innerHTML = (data.asn.includes('Hosting') || data.proxy) 
+                ? '<span class="badge status-off">Active Proxy/VPN</span>' 
+                : '<span class="badge status-on">Residential Line</span>';
 
-            // Client Side Extras
-            document.getElementById('browser').innerText = navigator.userAgent.split(' ').slice(-1);
-            document.getElementById('screen').innerText = `${window.screen.width} x ${window.screen.height}`;
-            document.getElementById('lang').innerText = navigator.language.toUpperCase();
+            // Privacy Functions
+            const dnt = navigator.doNotTrack === "1" ? "Enabled" : "Disabled";
+            document.getElementById('dnt').innerHTML = `<span class="badge ${dnt === 'Enabled' ? 'status-on' : 'status-off'}">${dnt}</span>`;
+            
+            const cookies = navigator.cookieEnabled ? "Yes" : "No";
+            document.getElementById('cookies').innerText = cookies;
 
-            // Reveal Results
-            document.getElementById('loader').style.display = 'none';
-            document.getElementById('results').style.display = 'grid';
+            document.getElementById('os').innerText = `${navigator.platform} (${navigator.language})`;
 
-        } catch (error) {
-            document.getElementById('loader').innerHTML = 
-                `<span style="color: #ef4444;">Error: ${error.message}. <br>Please disable ad-blockers and refresh.</span>`;
+            loader.style.display = 'none';
+            results.style.display = 'grid';
+
+        } catch (e) {
+            loader.innerText = "Error fetching data. Try disabling your VPN/Adblocker.";
         }
     }
 
-    window.onload = runEltrixCheck;
+    function copyIP() {
+        const ip = document.getElementById('ip').innerText;
+        navigator.clipboard.writeText(ip);
+        alert("IP Address copied to clipboard!");
+    }
+
+    window.onload = runCheck;
 </script>
 
 </body>
