@@ -3,24 +3,25 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Eltrix Shield | Stay Safe Online</title>
+<title>Eltrix Shield | Security Guide</title>
 <style>
     :root {
-        --safe-green: #28a745;
-        --warn-orange: #fd7e14;
-        --danger-red: #dc3545;
         --eltrix-blue: #007bff;
+        --danger-red: #dc3545;
+        --safe-green: #28a745;
+        --bg-light: #f8f9fa;
+        --text-dark: #1a1a1a;
     }
 
     body {
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-        background-color: #f8f9fa;
-        color: #1a1a1a;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+        background-color: var(--bg-light);
+        color: var(--text-dark);
         margin: 0;
         line-height: 1.6;
     }
 
-    /* Nav bar (Zelfde als home voor eenheid) */
+    /* Navigation */
     .top-nav-bar {
         background: #fff;
         padding: 15px 40px;
@@ -28,136 +29,188 @@
         justify-content: space-between;
         align-items: center;
         box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        position: sticky;
+        top: 0;
+        z-index: 100;
+    }
+
+    .site-title {
+        font-weight: 800;
+        font-size: 22px;
+        text-decoration: none;
+        color: var(--text-dark);
+        letter-spacing: -1px;
     }
 
     .container {
         max-width: 800px;
-        margin: 40px auto;
-        padding: 20px;
+        margin: 50px auto;
+        padding: 0 20px;
     }
 
-    .hero {
-        text-align: center;
-        margin-bottom: 50px;
-    }
+    /* Hero Section */
+    .hero { text-align: center; margin-bottom: 60px; }
+    .hero h1 { font-size: 3rem; font-weight: 900; margin-bottom: 10px; letter-spacing: -2px; }
+    .hero p { font-size: 1.2rem; color: #666; }
 
-    .hero h1 { font-size: 2.5rem; font-weight: 800; margin-bottom: 10px; }
-    .hero p { color: #666; font-size: 1.2rem; }
-
-    /* Interactive Audit Cards */
-    .audit-card {
-        background: white;
-        padding: 25px;
-        border-radius: 15px;
-        margin-bottom: 20px;
+    /* Audit Cards */
+    .card {
+        background: #fff;
+        padding: 30px;
+        border-radius: 16px;
+        margin-bottom: 25px;
         border: 1px solid #eee;
-        transition: 0.3s;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.02);
     }
 
-    .audit-card:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
+    .card h2 { margin-top: 0; font-size: 1.5rem; display: flex; align-items: center; gap: 10px; }
 
     .check-item {
         display: flex;
-        align-items: center;
-        gap: 15px;
+        align-items: flex-start;
+        gap: 12px;
         margin: 15px 0;
-        cursor: pointer;
+        font-weight: 500;
+        color: #444;
     }
 
-    input[type="checkbox"] {
-        width: 20px;
-        height: 20px;
-        cursor: pointer;
-    }
+    input[type="checkbox"] { width: 18px; height: 18px; margin-top: 4px; cursor: pointer; }
 
-    .status-badge {
-        display: inline-block;
-        padding: 5px 15px;
-        border-radius: 20px;
-        font-size: 0.8rem;
-        font-weight: 700;
-        text-transform: uppercase;
-        margin-bottom: 10px;
-    }
-
-    .status-high { background: #e8f5e9; color: var(--safe-green); }
-    .status-med { background: #fff3e0; color: var(--warn-orange); }
-
-    /* Panic Button */
-    .panic-box {
+    /* Emergency Section */
+    .panic-zone {
         background: #fff5f5;
         border: 2px solid var(--danger-red);
+        border-radius: 16px;
         padding: 30px;
-        border-radius: 15px;
         text-align: center;
-        margin-top: 50px;
+        margin-top: 60px;
     }
+
+    .panic-zone h2 { color: var(--danger-red); justify-content: center; }
 
     .btn-panic {
         background: var(--danger-red);
         color: white;
-        padding: 12px 25px;
-        border-radius: 8px;
+        padding: 15px 30px;
+        border-radius: 12px;
         text-decoration: none;
-        font-weight: 700;
+        font-weight: 800;
         display: inline-block;
-        margin-top: 15px;
+        cursor: pointer;
+        border: none;
+        font-size: 1rem;
+        transition: 0.3s;
     }
 
-    .footer { text-align: center; color: #adb5bd; padding: 40px; font-size: 0.9rem; }
+    .btn-panic:hover { transform: scale(1.02); background: #b91d1d; }
+
+    /* Expandable Content */
+    .emergency-content {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.5s ease-out;
+        text-align: left;
+        background: white;
+        margin-top: 0;
+        border-radius: 0 0 12px 12px;
+    }
+
+    .emergency-content.open {
+        max-height: 1000px;
+        margin-top: 20px;
+        padding: 20px;
+        border: 1px solid #ffccd0;
+    }
+
+    .step-list { padding-left: 20px; }
+    .step-list li { margin-bottom: 12px; font-weight: 600; }
+
+    footer { text-align: center; padding: 40px; color: #ced4da; font-weight: 800; font-size: 3rem; }
+
+    @media (max-width: 600px) {
+        .hero h1 { font-size: 2rem; }
+    }
 </style>
 </head>
 <body>
 
 <header class="top-nav-bar">
-    <a href="index.html" style="text-decoration:none; color:#1a1a1a; font-weight:800; font-size:24px;">ELTRIX ©</a>
-    <div style="font-weight:600; color:var(--eltrix-blue);">SHIELD PROJECT</div>
+    <a href="index.html" class="site-title">ELTRIX ©</a>
+    <a href="index.html" style="text-decoration:none; font-weight:700; color:var(--eltrix-blue);">BACK HOME</a>
 </header>
 
 <div class="container">
     <div class="hero">
-        <h1>STAY SECURE 🛡️</h1>
-        <p>Simple steps to reclaim your digital privacy.</p>
+        <h1>PROJECT SHIELD 🛡️</h1>
+        <p>Simple checklists to protect your digital life.</p>
     </div>
 
-    <div class="audit-card">
-        <span class="status-badge status-high">Discord Safety</span>
-        <h2>The Discord Checklist</h2>
+    <div class="card">
+        <h2>Vault & Passwords 🔑</h2>
+        <p>Stop using the same password. Your security starts with a manager.</p>
         <div class="check-item">
-            <input type="checkbox"> <span>Two-Factor Authentication (2FA) is enabled.</span>
+            <input type="checkbox"> 
+            <span>I use <b>Bitwarden</b> or <b>Proton Pass</b> to store my secrets.</span>
         </div>
         <div class="check-item">
-            <input type="checkbox"> <span>"Keep me safe" (Direct Message scanning) is ON.</span>
+            <input type="checkbox"> 
+            <span>My Master Password is unique and not used anywhere else.</span>
         </div>
         <div class="check-item">
-            <input type="checkbox"> <span>Friend requests limited to "Friends of Friends".</span>
-        </div>
-    </div>
-
-    <div class="audit-card">
-        <span class="status-badge status-med">General Security</span>
-        <h2>Password Hygiene</h2>
-        <div class="check-item">
-            <input type="checkbox"> <span>I don't use the same password twice.</span>
-        </div>
-        <div class="check-item">
-            <input type="checkbox"> <span>I use a local manager (like <b>Bitwarden</b>).</span>
-        </div>
-        <div class="check-item">
-            <input type="checkbox"> <span>My email has a unique, strong password.</span>
+            <input type="checkbox"> 
+            <span>I have downloaded my recovery codes for my vault.</span>
         </div>
     </div>
 
-    <div class="panic-box">
-        <h2 style="color:var(--danger-red); margin-top:0;">HACKED? 🚨</h2>
-        <p>Don't panic. Follow our emergency guide to recover your accounts.</p>
-        <a href="#" class="btn-panic">OPEN EMERGENCY GUIDE</a>
+    <div class="card">
+        <h2>Discord Safety 👻</h2>
+        <div class="check-item">
+            <input type="checkbox"> 
+            <span>2FA (Two-Factor Authentication) is active.</span>
+        </div>
+        <div class="check-item">
+            <input type="checkbox"> 
+            <span>I never click links from strangers, even if they look like "Nitro" gifts.</span>
+        </div>
+        <div class="check-item">
+            <input type="checkbox"> 
+            <span>I disabled "Allow direct messages from server members" for large servers.</span>
+        </div>
     </div>
 
-    <div class="footer">
-        PROJECT SHIELD | PART OF THE ELTRIX ECOSYSTEM
+    <div class="panic-zone">
+        <h2>ACCOUNT COMPROMISED? 🚨</h2>
+        <p>If you think you've been hacked, follow these steps immediately.</p>
+        <button class="btn-panic" id="panicBtn">OPEN EMERGENCY STEPS</button>
+
+        <div class="emergency-content" id="panicContent">
+            <h3>Immediate Actions:</h3>
+            <ol class="step-list">
+                <li><strong>Change Email Password:</strong> This is your most important account. If they have your email, they have everything.</li>
+                <li><strong>Logout All Sessions:</strong> Go to Discord/Google settings and "Log out all other devices".</li>
+                <li><strong>Enable 2FA:</strong> If you haven't already, add an authenticator app (like Authy or Google Authenticator).</li>
+                <li><strong>Check Banking:</strong> If you have cards linked, freeze them in your banking app immediately.</li>
+                <li><strong>Notify Friends:</strong> Tell people you are hacked so they don't click links sent from your account.</li>
+            </ol>
+        </div>
     </div>
 </div>
+
+<footer>ELTRIX</footer>
+
+<script>
+    const panicBtn = document.getElementById('panicBtn');
+    const panicContent = document.getElementById('panicContent');
+
+    panicBtn.addEventListener('click', () => {
+        panicContent.classList.toggle('open');
+        if (panicContent.classList.contains('open')) {
+            panicBtn.innerText = 'CLOSE EMERGENCY STEPS';
+        } else {
+            panicBtn.innerText = 'OPEN EMERGENCY STEPS';
+        }
+    });
+</script>
 
 </body>
 </html>
