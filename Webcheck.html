@@ -6,43 +6,36 @@
     <title>Webcheck | Eltrix Digital</title>
     <style>
         :root {
-            --primary: #10b981;
-            --blue: #00f2ff;
-            --bg: #05070a;
-            --card: #111827;
-            --text: #f1f5f9;
-            --text-dim: #94a3b8;
-            --border: #1f2937;
+            --primary: #10b981; --blue: #00f2ff; --bg: #05070a;
+            --card: #111827; --text: #f1f5f9; --text-dim: #94a3b8; --border: #1f2937;
         }
-
         body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); margin: 0; }
-
-        /* Shared Navbar */
         .navbar {
-            padding: 1.2rem 2rem;
-            display: flex; justify-content: space-between; align-items: center;
-            border-bottom: 1px solid var(--border);
-            background: rgba(5, 7, 10, 0.9); backdrop-filter: blur(10px);
+            padding: 1.2rem 2rem; display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 1px solid var(--border); background: rgba(5, 7, 10, 0.9); backdrop-filter: blur(10px);
             position: sticky; top: 0; z-index: 100;
         }
         .logo { font-weight: 800; color: var(--blue); text-decoration: none; letter-spacing: 1px; }
         .nav-links { display: flex; gap: 20px; }
         .nav-links a { color: var(--text-dim); text-decoration: none; font-size: 0.9rem; font-weight: 600; transition: 0.3s; }
-        .nav-links a:hover { color: var(--primary); }
         .nav-links a.active { color: var(--primary); border-bottom: 2px solid var(--primary); }
-
-        .container { max-width: 900px; margin: 3rem auto; padding: 0 1.5rem; }
-        .status-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-top: 2rem; }
-        .tool-card { background: var(--card); padding: 1.5rem; border-radius: 1rem; border: 1px solid var(--border); }
-        .card-label { display: block; color: var(--primary); font-size: 0.75rem; font-weight: 800; text-transform: uppercase; margin-bottom: 0.5rem; }
-        .card-value { font-family: monospace; font-size: 1.1rem; color: #fff; }
         
+        .container { max-width: 1000px; margin: 3rem auto; padding: 0 1.5rem; }
+        .status-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; }
+        .tool-card { background: var(--card); padding: 1.5rem; border-radius: 1rem; border: 1px solid var(--border); transition: 0.3s; }
+        .tool-card:hover { border-color: var(--blue); }
+        .card-label { display: block; color: var(--primary); font-size: 0.7rem; font-weight: 800; text-transform: uppercase; margin-bottom: 8px; }
+        .card-value { font-family: 'Mono', monospace; font-size: 1.1rem; color: #fff; word-break: break-all; }
+        
+        .action-area { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 2rem; }
         .btn { 
-            background: var(--card); color: var(--blue); padding: 0.8rem; border-radius: 0.8rem; 
-            text-decoration: none; font-weight: 700; text-align: center; border: 1px solid var(--border); 
-            display: block; width: 100%; cursor: pointer; margin-top: 10px;
+            background: var(--border); color: var(--blue); padding: 1rem; border-radius: 0.8rem; 
+            text-decoration: none; font-weight: 700; text-align: center; border: 1px solid transparent; 
+            display: block; width: 100%; cursor: pointer; transition: 0.3s;
         }
-        .btn:hover { border-color: var(--primary); }
+        .btn:hover { background: var(--primary); color: #000; }
+        .risk { color: #ff4757; }
+        .safe { color: var(--primary); }
     </style>
 </head>
 <body>
@@ -51,51 +44,107 @@
         <div class="nav-links">
             <a href="https://eltrix-dot.github.io/internetprivacy">Guide</a>
             <a href="#" class="active">Webcheck</a>
-            <a href="https://eltrix-dot.github.io/honeypot">Behavior Lab</a>
+            <a href="https://eltrix-dot.github.io/Honeypot">Behavior Lab</a>
         </div>
     </nav>
 
     <div class="container">
-        <h1 style="text-align: center;">Connection Audit</h1>
-        <div class="status-grid">
-            <div class="tool-card"><span class="card-label">IP Address</span><span id="ip" class="card-value">Scanning...</span></div>
-            <div class="tool-card"><span class="card-label">ISP</span><span id="isp" class="card-value">Loading...</span></div>
-            <div class="tool-card"><span class="card-label">WebRTC Status</span><span id="webrtc" class="card-value">Testing...</span></div>
+        <div style="text-align:center; margin-bottom: 3rem;">
+            <h1 style="font-size: 2.5rem; margin:0;">Network Forensic Audit</h1>
+            <p style="color:var(--text-dim);">Deep-scan analysis of your current metadata broadcast.</p>
         </div>
 
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 2rem;">
+        <div class="status-grid">
+            <div class="tool-card"><span class="card-label">Public IP</span><span id="ip" class="card-value">Scanning...</span></div>
+            <div class="tool-card"><span class="card-label">Provider (ISP)</span><span id="isp" class="card-value">Loading...</span></div>
+            <div class="tool-card"><span class="card-label">Location</span><span id="loc" class="card-value">Loading...</span></div>
+            <div class="tool-card"><span class="card-label">WebRTC Leak</span><span id="webrtc" class="card-value">Testing...</span></div>
+            <div class="tool-card"><span class="card-label">VPN Detection</span><span id="vpn" class="card-value">Analyzing...</span></div>
+            <div class="tool-card"><span class="card-label">Browser Fingerprint</span><span id="fp" class="card-value">Calculating...</span></div>
+        </div>
+
+        <div class="action-area">
             <div class="tool-card">
-                <span class="card-label">Speed Test</span>
-                <div id="speed" style="font-size: 1.5rem; font-weight: bold; margin: 10px 0;">0.00 Mbps</div>
-                <button class="btn" onclick="runSpeed()">Test Speed</button>
+                <span class="card-label">Latency Diagnostic</span>
+                <div id="speed" style="font-size: 2rem; font-weight: 800; margin: 10px 0; color: var(--blue);">0.00 ms</div>
+                <button class="btn" onclick="runPing()">Ping Server</button>
             </div>
             <div class="tool-card">
-                <span class="card-label">Pass Gen</span>
-                <div id="pw" style="background:#000; padding:10px; border-radius:5px; margin-bottom:10px; text-align:center; color:var(--primary); font-family:monospace;">********</div>
-                <button class="btn" onclick="genPass()">Generate</button>
+                <span class="card-label">Hardware Signature</span>
+                <div id="hw" style="font-size: 0.9rem; color: var(--text-dim);">Cores: ... | RAM: ...</div>
+                <button class="btn" onclick="copyReport()">Export Report</button>
             </div>
+        </div>
+
+        <div class="tool-card" style="margin-top: 2rem; text-align: center;">
+            <span class="card-label">Security Generator (24-char)</span>
+            <div id="pw" style="background:#000; padding:15px; border-radius:8px; margin: 15px 0; color:var(--primary); font-family:monospace; font-size: 1.2rem;">********</div>
+            <button class="btn" onclick="genPass()">Generate Secure Key</button>
         </div>
     </div>
 
     <script>
-        async function getInfo() {
+        async function runAudit() {
             try {
-                const res = await fetch('https://ipapi.co/json/');
+                // Primary API (ip-api.com is very detailed)
+                const res = await fetch('http://ip-api.com/json/?fields=66846719');
                 const data = await res.json();
-                document.getElementById('ip').innerText = data.ip;
-                document.getElementById('isp').innerText = data.org;
-            } catch { document.getElementById('ip').innerText = "Blocked by Adblock"; }
+                
+                document.getElementById('ip').innerText = data.query;
+                document.getElementById('isp').innerText = data.isp;
+                document.getElementById('loc').innerText = `${data.city}, ${data.country}`;
+                document.getElementById('vpn').innerHTML = data.proxy ? '<span class="risk">VPN/Proxy Active</span>' : '<span class="safe">Direct Connection</span>';
+            } catch (e) {
+                // Fallback API if blocked
+                const res2 = await fetch('https://ipapi.co/json/');
+                const data2 = await res2.json();
+                document.getElementById('ip').innerText = data2.ip;
+                document.getElementById('isp').innerText = data2.org;
+                document.getElementById('loc').innerText = data2.city;
+                document.getElementById('vpn').innerText = "Manual Check Required";
+            }
+            checkWebRTC();
+            getFingerprint();
         }
+
+        function checkWebRTC() {
+            const pc = new RTCPeerConnection({iceServers: [{urls: "stun:stun.l.google.com:19302"}]});
+            pc.createDataChannel("");
+            pc.createOffer().then(o => pc.setLocalDescription(o));
+            pc.onicecandidate = (i) => {
+                if (i.candidate && i.candidate.candidate.includes("192.168")) {
+                    document.getElementById('webrtc').innerHTML = `<span class="risk">LEAK: ${i.candidate.candidate.match(/([0-9]{1,3}(\.[0-9]{1,3}){3})/)[0]}</span>`;
+                } else {
+                    document.getElementById('webrtc').innerHTML = '<span class="safe">No Leak Detected</span>';
+                }
+            };
+        }
+
+        function getFingerprint() {
+            const canvas = document.createElement('canvas');
+            const gl = canvas.getContext('webgl');
+            const debugInfo = gl.getExtension('WEBGL_debug_renderer_info');
+            const gpu = debugInfo ? gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL) : "Unknown";
+            document.getElementById('fp').innerText = btoa(gpu).substring(0, 12);
+            document.getElementById('hw').innerText = `Cores: ${navigator.hardwareConcurrency} | RAM: ~${navigator.deviceMemory || '4+'}GB | GPU: Detected`;
+        }
+
         function genPass() {
-            const c = "ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789!@#$%";
-            let p = ""; for(let i=0; i<16; i++) p += c.charAt(Math.floor(Math.random()*c.length));
+            const c = "ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789!@#$%^&*()_+";
+            let p = ""; const arr = new Uint32Array(24); window.crypto.getRandomValues(arr);
+            for(let i=0; i<24; i++) p += c.charAt(arr[i] % c.length);
             document.getElementById('pw').innerText = p;
         }
-        function runSpeed() {
-            const s = document.getElementById('speed'); s.innerText = "Testing...";
-            setTimeout(() => { s.innerText = (Math.random()*40 + 20).toFixed(2) + " Mbps"; }, 1500);
+
+        function runPing() {
+            const s = document.getElementById('speed'); s.innerText = "Pinging...";
+            const start = Date.now();
+            fetch('https://www.google.com/favicon.ico', { mode: 'no-cors', cache: 'no-cache' }).then(() => {
+                s.innerText = (Date.now() - start) + " ms";
+            });
         }
-        window.onload = () => { getInfo(); genPass(); };
+
+        window.onload = () => { runAudit(); genPass(); };
     </script>
 </body>
 </html>
