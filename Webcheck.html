@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eltrix Webcheck | Network Intelligence</title>
+    <style>
+        :root {
+            --primary: #00f2ff;
+            --accent: #7000ff;
+            --bg: #05070a;
+            --card-bg: #111827;
+            --text: #e2e8f0;
+            --border: #1f2937;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--bg);
+            background-image: radial-gradient(circle at 50% 50%, #1e1b4b 0%, #05070a 100%);
+            color: var(--text);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background: var(--card-bg);
+            padding: 2.5rem;
+            border-radius: 20px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            width: 95%;
+            max-width: 700px;
+            border: 1px solid var(--border);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+        }
+
+        h1 {
+            font-size: 2rem;
+            margin: 0;
+            background: linear-gradient(90deg, #fff, var(--primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-align: center;
+        }
+
+        .subtitle {
+            text-align: center;
+            font-size: 0.85rem;
+            color: #94a3b8;
+            margin-bottom: 2rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .info-box {
+            background: rgba(255, 255, 255, 0.03);
+            padding: 16px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            transition: transform 0.2s ease;
+        }
+
+        .info-box:hover {
+            border-color: var(--primary);
+            transform: translateY(-2px);
+        }
+
+        .label {
+            font-size: 0.7rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 6px;
+            display: block;
+            text-transform: uppercase;
+        }
+
+        .value {
+            font-family: 'Monaco', 'Consolas', monospace;
+            font-size: 1.1rem;
+            word-break: break-all;
+        }
+
+        .badge {
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: bold;
+        }
+
+        .vpn-detected { background: #7f1d1d; color: #fecaca; }
+        .vpn-safe { background: #064e3b; color: #a7f3d0; }
+
+        .loader {
+            text-align: center;
+            padding: 40px;
+            font-style: italic;
+            color: var(--primary);
+        }
+
+        .footer {
+            margin-top: 2.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border);
+            font-size: 0.75rem;
+            text-align: center;
+            color: #64748b;
+        }
+
+        @media (max-width: 480px) {
+            .grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Eltrix Webcheck</h1>
+    <p class="subtitle">Advanced Network & Privacy Diagnostics</p>
+
+    <div id="loader" class="loader">Scanning connection...</div>
+
+    <div id="results" class="grid" style="display: none;">
+        <div class="info-box">
+            <span class="label">Public IP Address</span>
+            <span id="ip" class="value">Loading...</span>
+        </div>
+        <div class="info-box">
+            <span class="label">Internet Service Provider (ISP)</span>
+            <span id="isp" class="value">Loading...</span>
+        </div>
+
+        <div class="info-box">
+            <span class="label">Location</span>
+            <span id="location" class="value">Loading...</span>
+        </div>
+        <div class="info-box">
+            <span class="label">Local Time & Region</span>
+            <span id="time" class="value">Loading...</span>
+        </div>
+
+        <div class="info-box">
+            <span class="label">VPN / Proxy Detection</span>
+            <span id="vpn" class="value">Checking...</span>
+        </div>
+        
+        <div class="info-box">
+            <span class="label">Browser & Engine</span>
+            <span id="browser" class="value">Loading...</span>
+        </div>
+        <div class="info-box">
+            <span class="label">Screen Resolution</span>
+            <span id="screen" class="value">Loading...</span>
+        </div>
+        <div class="info-box">
+            <span class="label">System Language</span>
+            <span id="lang" class="value">Loading...</span>
+        </div>
+    </div>
+
+    <div class="footer">
+        &copy; 2026 Eltrix Digital • Private and Encrypted Scan
+    </div>
+</div>
+
+<script>
+    async function runEltrixCheck() {
+        try {
+            // Fetching IP and Network details
+            const response = await fetch('https://ipapi.co/json/');
+            const data = await response.json();
+
+            if (data.error) throw new Error('API Rate Limit reached');
+
+            // Fill Network & Geo Info
+            document.getElementById('ip').innerText = data.ip;
+            document.getElementById('isp').innerText = data.org || data.asn;
+            document.getElementById('location').innerText = `${data.city}, ${data.region} (${data.country_name})`;
+            
+            // Timezone
+            const time = new Date().toLocaleTimeString('en-US', { timeZone: data.timezone });
+            document.getElementById('time').innerText = `${time} (${data.timezone})`;
+
+            // VPN Check (Basic check via Hosting/DataCenter flag)
+            const vpnElement = document.getElementById('vpn');
+            // Note: Advanced VPN detection usually requires a paid API key
+            if (data.is_hosting || data.proxy) {
+                vpnElement.innerHTML = '<span class="badge vpn-detected">VPN/Proxy Detected</span>';
+            } else {
+                vpnElement.innerHTML = '<span class="badge vpn-safe">Residential (No VPN)</span>';
+            }
+
+            // Client Side Extras
+            document.getElementById('browser').innerText = navigator.userAgent.split(' ').slice(-1);
+            document.getElementById('screen').innerText = `${window.screen.width} x ${window.screen.height}`;
+            document.getElementById('lang').innerText = navigator.language.toUpperCase();
+
+            // Reveal Results
+            document.getElementById('loader').style.display = 'none';
+            document.getElementById('results').style.display = 'grid';
+
+        } catch (error) {
+            document.getElementById('loader').innerHTML = 
+                `<span style="color: #ef4444;">Error: ${error.message}. <br>Please disable ad-blockers and refresh.</span>`;
+        }
+    }
+
+    window.onload = runEltrixCheck;
+</script>
+
+</body>
+</html>
