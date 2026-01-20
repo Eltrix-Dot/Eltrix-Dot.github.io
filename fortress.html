@@ -48,8 +48,51 @@
         align-items: center;
         gap: 15px;
         text-align: center;
+        transition: 0.3s ease;
+    }
+    
+    .webcheck-alert:hover {
+        box-shadow: 0 10px 30px rgba(255, 77, 77, 0.2);
     }
 
+    /* --- UPDATED APP CARD ANIMATION --- */
+    .app-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 20px;
+        margin: 40px 0;
+    }
+
+    .app-card {
+        background: var(--card-bg);
+        padding: 25px;
+        border-radius: 12px;
+        border: 1px solid #233554;
+        text-align: center;
+        /* Animation properties */
+        transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        cursor: default;
+    }
+
+    .app-card:hover {
+        transform: translateY(-10px); /* Moves up like Privacy Hub */
+        border-color: var(--accent-cyan);
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+        background: #172a45; /* Slightly lighter on hover */
+    }
+
+    .app-card h3 { 
+        color: var(--accent-cyan); 
+        font-size: 1.2rem; 
+        margin-bottom: 10px;
+        transition: 0.3s;
+    }
+
+    .app-card:hover h3 {
+        text-shadow: 0 0 10px rgba(100, 255, 218, 0.3);
+    }
+
+    /* Existing Buttons & Sections */
     .btn-alert {
         background: #ff4d4d;
         color: white;
@@ -61,38 +104,24 @@
     }
     .btn-alert:hover { background: #cc0000; transform: scale(1.05); }
 
-    /* App Grid */
-    .app-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        gap: 20px;
-        margin: 40px 0;
-    }
-
-    .app-card {
-        background: var(--card-bg);
-        padding: 20px;
-        border-radius: 12px;
-        border: 1px solid #233554;
-        text-align: center;
-    }
-
-    .app-card h3 { color: var(--accent-cyan); font-size: 1.1rem; }
-    .app-card p { font-size: 0.85rem; color: var(--text-grey); }
-
     .btn-small {
         display: inline-block;
-        margin-top: 10px;
-        padding: 8px 15px;
-        background: var(--eltrix-blue);
-        color: white;
+        margin-top: 15px;
+        padding: 10px 20px;
+        background: transparent;
+        color: var(--accent-cyan);
+        border: 1px solid var(--accent-cyan);
         text-decoration: none;
         border-radius: 5px;
-        font-size: 0.8rem;
+        font-size: 0.85rem;
         font-weight: bold;
+        transition: 0.3s;
     }
 
-    /* Knowledge Section */
+    .btn-small:hover {
+        background: rgba(100, 255, 218, 0.1);
+    }
+
     .info-section {
         background: #112240;
         padding: 30px;
@@ -101,9 +130,7 @@
     }
 
     .accent { color: var(--accent-cyan); }
-    
     .back-btn { text-decoration: none; color: var(--accent-cyan); font-weight: bold; }
-
     footer { text-align: center; padding: 60px 0; color: var(--text-grey); opacity: 0.5; }
 </style>
 </head>
@@ -122,34 +149,32 @@
     <div class="webcheck-alert">
         <div>
             <h2 style="margin:0; color:#ff4d4d;">⚠️ ARE YOU LEAKING DATA?</h2>
-            <p>Websites use hidden APIs to track your Battery, GPU, Location, and IP. See exactly what they see before it's too late.</p>
+            <p>Websites use hidden APIs to track your Battery, GPU, and IP. Run a scan now.</p>
         </div>
         <a href="https://eltrix-dot.github.io/Webcheck" class="btn-alert">RUN WEBCHECK SCANNER</a>
     </div>
 
     <section>
-        <h2 class="accent">The "Essential" Privacy Stack</h2>
-        <p>If you aren't using these tools, you aren't private. Period.</p>
-        
+        <h2 class="accent">The Essential Privacy Stack</h2>
         <div class="app-grid">
             <div class="app-card">
                 <h3>Mullvad VPN</h3>
-                <p>No email, no logs. The gold standard for VPNs.</p>
+                <p>No logs, no trackers. Pure anonymity.</p>
                 <a href="https://mullvad.net/" target="_blank" class="btn-small">Website</a>
             </div>
             <div class="app-card">
                 <h3>Brave Browser</h3>
-                <p>Built-in adblocker and anti-fingerprinting.</p>
+                <p>Native ad-blocker and fingerprinting protection.</p>
                 <a href="https://brave.com/" target="_blank" class="btn-small">Website</a>
             </div>
             <div class="app-card">
                 <h3>Bitwarden</h3>
-                <p>Open-source password management for all devices.</p>
+                <p>Secure, open-source password management.</p>
                 <a href="https://bitwarden.com/" target="_blank" class="btn-small">Website</a>
             </div>
             <div class="app-card">
                 <h3>Proton Mail</h3>
-                <p>Encrypted email based in Switzerland.</p>
+                <p>Private email based in Switzerland.</p>
                 <a href="https://proton.me/mail" target="_blank" class="btn-small">Website</a>
             </div>
         </div>
@@ -157,27 +182,10 @@
 
     <div class="info-section">
         <h2 class="accent">Expert Protection Tips 🧠</h2>
-        
-        <div style="margin-bottom:20px;">
-            <strong>1. Kill Your Metadata:</strong> 
-            Every photo you upload contains "EXIF data" (GPS coordinates, camera model). Use an EXIF cleaner before posting images online.
-        </div>
-
-        <div style="margin-bottom:20px;">
-            <strong>2. DNS over HTTPS (DoH):</strong> 
-            Even with a VPN, your DNS queries can leak. Enable "Secure DNS" in your browser settings to prevent your ISP from seeing which domains you visit.
-        </div>
-
-        <div style="margin-bottom:20px;">
-            <strong>3. The 2FA Trap:</strong> 
-            Never use SMS for 2FA. Hackers can "SIM-swap" you. Use 2FA apps like <em>Google Authenticator</em> or <em>Ente Auth</em> instead.
-        </div>
+        <p><strong>1. Kill Your Metadata:</strong> Clean EXIF data before uploading photos.</p>
+        <p><strong>2. Secure DNS:</strong> Enable DNS over HTTPS in your settings.</p>
+        <p><strong>3. Use Authentication Apps:</strong> Switch from SMS to Aegis or Ente Auth.</p>
     </div>
-
-    <section style="text-align:center;">
-        <h2 class="accent">Deeper Knowledge</h2>
-        <p>Read our full breakdown on <a href="internetprivacy.html" style="color:var(--white);">Internet Privacy Fundamentals</a>.</p>
-    </section>
 
     <footer>
         ELTRIX GROUP © 2026<br>
