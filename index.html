@@ -23,7 +23,7 @@
         box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
         position: sticky;
         top: 0;
-        z-index: 100;
+        z-index: 1000;
     }
 
     .site-title {
@@ -63,11 +63,62 @@
         border: 2px solid #007bff;
     }
 
-    .nav-privacy:hover {
-        background-color: #007bff;
-        color: #ffffff !important;
+    /* Hamburger Menu Button */
+    .menu-toggle {
+        background: #f1f3f5;
+        border: none;
+        width: 40px;
+        height: 40px;
+        border-radius: 10px;
+        cursor: pointer;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 5px;
+        transition: 0.3s;
     }
 
+    .menu-toggle span {
+        display: block;
+        width: 20px;
+        height: 2px;
+        background-color: #333;
+        transition: 0.3s;
+    }
+
+    .menu-toggle:hover { background: #e9ecef; }
+
+    /* Dropdown Menu */
+    .mobile-menu {
+        position: absolute;
+        top: 70px;
+        right: 40px;
+        background: white;
+        min-width: 220px;
+        border-radius: 12px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        padding: 10px 0;
+        display: none;
+        flex-direction: column;
+        border: 1px solid #eee;
+    }
+
+    .mobile-menu.active { display: flex; }
+
+    .menu-item {
+        padding: 12px 20px;
+        text-decoration: none;
+        color: #333;
+        font-weight: 600;
+        font-size: 14px;
+        transition: 0.2s;
+    }
+
+    .menu-item:hover { background: #f8f9fa; color: #007bff; }
+    .menu-divider { height: 1px; background: #eee; margin: 8px 0; }
+
+    /* UI Elements */
     .live-dot {
         width: 8px;
         height: 8px;
@@ -78,113 +129,24 @@
 
     @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
 
-    /* Main Content */
-    .main-content {
-        padding: 80px 20px;
-        max-width: 850px;
-        margin: 0 auto;
-    }
+    .main-content { padding: 80px 20px; max-width: 850px; margin: 0 auto; }
+    .big-title { font-size: 3rem; font-weight: 900; line-height: 1.1; margin-bottom: 25px; letter-spacing: -2px; }
+    .section { background: #ffffff; padding: 30px; border-radius: 15px; margin-bottom: 25px; border: 1px solid #f0f0f0; }
+    .privacy-notice { background: #eef6ff; border-left: 5px solid #007bff; padding: 20px; border-radius: 0 15px 15px 0; margin: 40px 0; }
+    .btn-link { color: #007bff; text-decoration: none; font-weight: 700; display: inline-block; margin-top: 10px; }
+    .logo-footer { text-align: center; padding: 60px 0 20px 0; font-size: 5rem; font-weight: 900; color: #e9ecef; }
 
-    .big-title {
-        font-size: 3rem;
-        font-weight: 900;
-        line-height: 1.1;
-        margin-bottom: 25px;
-        letter-spacing: -2px;
-    }
-
-    .section {
-        background: #ffffff;
-        padding: 30px;
-        border-radius: 15px;
-        margin-bottom: 25px;
-        border: 1px solid #f0f0f0;
-    }
-
-    .privacy-notice {
-        background: #eef6ff;
-        border-left: 5px solid #007bff;
-        padding: 20px;
-        border-radius: 0 15px 15px 0;
-        margin: 40px 0;
-    }
-
-    .btn-link {
-        color: #007bff;
-        text-decoration: none;
-        font-weight: 700;
-        display: inline-block;
-        margin-top: 10px;
-    }
-
-    .logo-footer {
-        text-align: center;
-        padding: 60px 0 20px 0;
-        font-size: 5rem;
-        font-weight: 900;
-        color: #e9ecef;
-    }
-
-    /* --- NEW FOOTER STYLING --- */
-    .site-footer {
-        background-color: #ffffff;
-        padding: 40px 20px;
-        border-top: 1px solid #e9ecef;
-        text-align: center;
-    }
-
-    .footer-content {
-        max-width: 850px;
-        margin: 0 auto;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 20px;
-    }
-
-    .footer-links {
-        display: flex;
-        gap: 25px;
-        flex-wrap: wrap;
-        justify-content: center;
-    }
-
-    .footer-link {
-        color: #666;
-        text-decoration: none;
-        font-weight: 600;
-        font-size: 14px;
-        transition: color 0.2s;
-    }
-
-    .footer-link:hover {
-        color: #007bff;
-    }
-
-    .footer-email {
-        background: #f1f3f5;
-        padding: 8px 15px;
-        border-radius: 8px;
-        color: #444;
-        font-size: 14px;
-        font-weight: 500;
-        text-decoration: none;
-    }
-
-    .footer-email:hover {
-        background: #e9ecef;
-    }
-
-    .copyright {
-        color: #adb5bd;
-        font-size: 12px;
-        margin-top: 10px;
-    }
+    /* Footer */
+    .site-footer { background-color: #ffffff; padding: 40px 20px; border-top: 1px solid #e9ecef; text-align: center; }
+    .footer-content { max-width: 850px; margin: 0 auto; display: flex; flex-direction: column; align-items: center; gap: 20px; }
+    .footer-links { display: flex; gap: 25px; flex-wrap: wrap; justify-content: center; }
+    .footer-link { color: #666; text-decoration: none; font-weight: 600; font-size: 14px; }
+    .footer-email { background: #f1f3f5; padding: 8px 15px; border-radius: 8px; color: #444; font-size: 14px; text-decoration: none; }
 
     @media (max-width: 750px) {
-        .top-nav-bar { padding: 15px 20px; flex-direction: column; gap: 15px; }
-        .big-title { font-size: 2.2rem; }
-        .logo-footer { font-size: 3.5rem; }
+        .top-nav-bar { padding: 15px 20px; }
+        .nav-btn span { display: none; } /* Hide text on very small screens if needed */
+        .mobile-menu { right: 20px; width: calc(100% - 40px); }
     }
 </style>
 </head>
@@ -194,10 +156,24 @@
     <a href="index.html" class="site-title">ELTRIX ©</a>
     <nav class="nav-buttons">
         <a href="shield.html" class="nav-btn nav-shield">
-            <div class="live-dot"></div> PROJECT SHIELD
+            <div class="live-dot"></div> SHIELD
         </a>
-        <a href="https://eltrix-dot.github.io/privacymain" class="nav-btn nav-privacy">PRIVACY HUB</a>
-        <a href="https://github.com/Eltrix-Dot/Eltrix-Discord.bot" style="color:#666; font-weight:600; text-decoration:none; font-size:14px; margin-left:10px;">Discord-Bot</a>
+        <a href="https://eltrix-dot.github.io/privacymain" class="nav-btn nav-privacy">PRIVACY</a>
+        
+        <button class="menu-toggle" id="menuToggle" aria-label="Menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+
+        <div class="mobile-menu" id="dropdownMenu">
+            <a href="https://eltrix-dot.github.io/Breakcheck" class="menu-item">🔍 BreachCheck</a>
+            <a href="https://eltrix-dot.github.io/Eltrix.Discord-Bot.html" class="menu-item">🤖 Discord Bot Info</a>
+            <div class="menu-divider"></div>
+            <a href="https://github.com/Eltrix-Dot/Eltrix-Discord.bot" target="_blank" class="menu-item">💻 Bot Source Code</a>
+            <a href="https://devforum.roblox.com/u/herkenrat78/summary" target="_blank" class="menu-item">🛠️ Roblox DevForum</a>
+            <a href="https://discord.gg/kEj6UDdQvb" target="_blank" class="menu-item">💬 Discord Server</a>
+        </div>
     </nav>
 </header>
 
@@ -210,7 +186,7 @@
 
     <div class="privacy-notice">
         <strong>Transparency Matters:</strong> We take your digital rights seriously. 
-        Learn how we handle data across all our projects in our Privacy Hub.
+        Learn how we handle data across all our projects.
         <br>
         <a href="https://eltrix-dot.github.io/privacymain" class="btn-link">→ View Privacy Hub</a>
     </div>
@@ -218,13 +194,13 @@
     <div class="section" style="border: 2px solid #007bff;">
         <div style="font-weight:900; color:#007bff; margin-bottom:10px;">NEW RELEASE</div>
         <h2 style="margin:0;">Project Shield 🛡️</h2>
-        <p>A complete security guide for the modern internet user. Protect your Discord, manage your passwords, and stay one step ahead of hackers.</p>
+        <p>A complete security guide for the modern internet user. Protect your Discord and manage your passwords.</p>
         <a href="shield.html" class="btn-link" style="background:#007bff; color:white; padding:10px 20px; border-radius:8px;">Open Shield Guide</a>
     </div>
 
     <div class="section">
         <h2 style="margin:0;">Vaultrix 🔒</h2>
-        <p>Our upcoming local-first password manager. Currently in development to ensure maximum privacy without the cloud.</p>
+        <p>Our upcoming local-first password manager. Currently in development to ensure maximum privacy.</p>
     </div>
 </main>
 
@@ -247,6 +223,23 @@
         </div>
     </div>
 </footer>
+
+<script>
+    const menuToggle = document.getElementById('menuToggle');
+    const dropdownMenu = document.getElementById('dropdownMenu');
+
+    menuToggle.addEventListener('click', (e) => {
+        e.stopPropagation();
+        dropdownMenu.classList.toggle('active');
+    });
+
+    // Sluit het menu als je ergens anders klikt
+    window.addEventListener('click', (e) => {
+        if (!menuToggle.contains(e.target) && !dropdownMenu.contains(e.target)) {
+            dropdownMenu.classList.remove('active');
+        }
+    });
+</script>
 
 </body>
 </html>
