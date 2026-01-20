@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Eltrix | EcoPulse 🌿</title>
+<style>
+    :root {
+        --eltrix-green: #28a745; /* Primary Eco Green */
+        --bg-light: #f0fdf4; /* Very light green background */
+        --text-dark: #212529;
+        --soft-grey: #6c757d;
+        --border-color: #e2f0e9; /* Light green border */
+        --card-bg: #ffffff;
+    }
+
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+        background-color: var(--bg-light);
+        color: var(--text-dark);
+        margin: 0;
+        line-height: 1.6;
+    }
+
+    /* Navigation Header (Consistent with other pages) */
+    .top-nav-bar {
+        background: var(--card-bg);
+        padding: 15px 40px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+    }
+
+    .site-title {
+        text-decoration: none;
+        color: var(--text-dark);
+        font-weight: 800;
+        font-size: 22px;
+    }
+
+    .back-btn {
+        text-decoration: none;
+        color: var(--eltrix-green);
+        font-weight: 700;
+    }
+
+    /* Main Container */
+    .container {
+        max-width: 800px;
+        margin: 50px auto;
+        padding: 0 20px;
+    }
+
+    .hero {
+        text-align: center;
+        margin-bottom: 60px;
+    }
+
+    .hero h1 {
+        font-size: 3rem;
+        font-weight: 900;
+        margin-bottom: 10px;
+        letter-spacing: -1.5px;
+        color: var(--eltrix-green);
+    }
+
+    .hero p {
+        font-size: 1.2rem;
+        color: var(--soft-grey);
+        max-width: 600px;
+        margin: 0 auto;
+    }
+
+    /* EcoPulse Card Styling */
+    .ecopulse-card {
+        background: var(--card-bg);
+        padding: 40px;
+        border-radius: 20px;
+        box-shadow: 0 8px 25px rgba(0,0,0,0.04);
+        border: 2px solid var(--border-color);
+        margin-bottom: 40px;
+    }
+
+    .card-title {
+        font-size: 1.8rem;
+        font-weight: 800;
+        color: var(--eltrix-green);
+        margin-bottom: 25px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .checklist-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 15px;
+        margin: 20px 0;
+        font-size: 1.05rem;
+        color: var(--text-dark);
+        font-weight: 500;
+    }
+
+    input[type="checkbox"] {
+        min-width: 22px; /* Grotere checkbox */
+        min-height: 22px;
+        cursor: pointer;
+        accent-color: var(--eltrix-green); /* Checkbox kleur */
+        margin-top: 2px;
+    }
+
+    /* Eco Impact Section */
+    .eco-impact {
+        text-align: center;
+        background: linear-gradient(145deg, #e6ffed, #d4ffdb);
+        padding: 30px;
+        border-radius: 18px;
+        border: 2px dashed var(--eltrix-green);
+        color: var(--eltrix-green);
+        margin-top: 50px;
+    }
+
+    .eco-impact h2 {
+        font-size: 2.2rem;
+        font-weight: 900;
+        margin-bottom: 15px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 15px;
+    }
+
+    .eco-impact p {
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: #388e3c; /* Donkerder groen voor tekst */
+    }
+
+    /* Footer (Consistent) */
+    .footer {
+        text-align: center;
+        padding: 40px;
+        color: #ced4da;
+        font-weight: 800;
+        font-size: 2rem;
+    }
+
+    @media (max-width: 600px) {
+        .hero h1 { font-size: 2rem; }
+        .card-title { font-size: 1.5rem; }
+        .eco-impact h2 { font-size: 1.8rem; }
+    }
+</style>
+</head>
+<body>
+
+<header class="top-nav-bar">
+    <a href="index.html" class="site-title">ELTRIX ©</a>
+    <a href="index.html" class="back-btn">← Back Home</a>
+</header>
+
+<div class="container">
+    <div class="hero">
+        <h1>EcoPulse 🌿</h1>
+        <p>Minimize your digital footprint and contribute to a greener planet. Small steps, big impact!</p>
+    </div>
+
+    <div class="ecopulse-card">
+        <div class="card-title">Digital Cleanup Checklist 🌱</div>
+        <p style="color:var(--soft-grey);">Reduce your data waste, reduce energy consumption.</p>
+
+        <div class="checklist-item">
+            <input type="checkbox" id="emailCleanup">
+            <label for="emailCleanup">Cleaned out old, unnecessary emails (especially large attachments).</label>
+        </div>
+        <div class="checklist-item">
+            <input type="checkbox" id="cloudPhotos">
+            <label for="cloudPhotos">Deleted duplicate or unwanted photos/videos from cloud storage.</label>
+        </div>
+        <div class="checklist-item">
+            <input type="checkbox" id="unusedApps">
+            <label for="unusedApps">Uninstalled unused apps and software from all devices.</label>
+        </div>
+        <div class="checklist-item">
+            <input type="checkbox" id="unsubscribe">
+            <label for="unsubscribe">Unsubscribed from unwanted newsletters to reduce incoming data.</label>
+        </div>
+        <div class="checklist-item">
+            <input type="checkbox" id="localFiles">
+            <label for="localFiles">Organized and removed old files from local computer storage.</label>
+        </div>
+    </div>
+
+    <div class="eco-impact">
+        <h2>Your Eco Impact Score: <span id="ecoScore">0%</span> 🌎</h2>
+        <p>Keep going! Every bit of digital cleanup helps.</p>
+    </div>
+</div>
+
+<div class="footer">ELTRIX</div>
+
+<script>
+    const checkboxes = document.querySelectorAll('.checklist-item input[type="checkbox"]');
+    const ecoScoreDisplay = document.getElementById('ecoScore');
+    const totalCheckboxes = checkboxes.length;
+
+    checkboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', updateEcoScore);
+    });
+
+    function updateEcoScore() {
+        let checkedCount = 0;
+        checkboxes.forEach(checkbox => {
+            if (checkbox.checked) {
+                checkedCount++;
+            }
+        });
+        const score = (checkedCount / totalCheckboxes) * 100;
+        ecoScoreDisplay.textContent = `${Math.round(score)}%`;
+    }
+</script>
+
+</body>
+</html>
