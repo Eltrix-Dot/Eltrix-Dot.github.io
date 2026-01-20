@@ -20,8 +20,10 @@
             padding: 1.2rem 2rem; display: flex; justify-content: center;
             border-bottom: 1px solid var(--border); background: rgba(5, 7, 10, 0.9); 
             backdrop-filter: blur(10px);
+            position: sticky; top: 0; z-index: 100;
         }
         .logo { font-weight: 800; color: var(--blue); text-decoration: none; letter-spacing: 2px; font-size: 1.2rem; }
+        .logo:hover { color: #fff; border-color: var(--blue) !important; }
 
         .container { max-width: 1100px; margin: auto; padding: 4rem 1.5rem; flex-grow: 1; }
 
@@ -96,7 +98,12 @@
 <body>
 
     <nav class="navbar">
-        <a href="#" class="logo">ELTRIX DIGITAL SYSTEMS</a>
+        <div style="display: flex; align-items: center; justify-content: space-between; width: 100%; max-width: 1100px;">
+            <a href="https://eltrix-dot.github.io/index.html" class="logo" style="font-size: 0.7rem; color: var(--text-dim); border: 1px solid var(--border); padding: 6px 15px; border-radius: 8px;">
+                ← BACK TO SYSTEM
+            </a>
+            <a href="#" class="logo">ELTRIX DIGITAL SYSTEMS</a>
+            <div style="width: 120px;"></div> </div>
     </nav>
 
     <div class="container">
@@ -130,11 +137,11 @@
                 <div class="launch-btn">Enter Lab</div>
             </a>
 
-              <a href="fortress.html" class="suite-card">
-                <div class="status-badge">Protection/Privacy Tips</div>
-                <div class="icon">🔬</div>
-                <div class="title">Tips for Online Protection/Privacy</div>
-                <p class="desc">Learn the fundementals on how to stay Private Online</p>
+            <a href="fortress.html" class="suite-card">
+                <div class="status-badge">SECURITY HUB</div>
+                <div class="icon">🛡️</div>
+                <div class="title">Fortress Protection</div>
+                <p class="desc">Learn the fundamentals on how to stay private and secure. From metadata to DNS protection.</p>
                 <div class="launch-btn">Enter Fortress</div>
             </a>
         </div>
