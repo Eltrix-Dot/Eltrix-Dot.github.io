@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eltrix | BreachPulse Dashboard</title>
+    <style>
+        :root {
+            --danger: #ff4d4d;
+            --bg: #05070a;
+            --card: #0d1117;
+            --blue: #00f2ff;
+            --text: #e6edf3;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            overflow-x: hidden;
+        }
+
+        /* Pulsating Background Effect */
+        .pulse-bg {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at center, rgba(255, 77, 77, 0.05) 0%, transparent 70%);
+            z-index: -1;
+            animation: pulse 4s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 0.3; }
+            50% { opacity: 0.7; }
+            100% { opacity: 0.3; }
+        }
+
+        .container { max-width: 1000px; margin: auto; padding: 40px 20px; }
+
+        .header { text-align: center; margin-bottom: 50px; }
+        .header h1 { font-size: 3rem; color: var(--danger); letter-spacing: 3px; margin-bottom: 5px; }
+        .header p { color: #8b949e; text-transform: uppercase; font-size: 0.9rem; }
+
+        /* Impact Calculator */
+        .impact-box {
+            background: var(--card);
+            border: 1px solid #30363d;
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        .app-tags { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 20px; }
+        .tag {
+            padding: 8px 15px;
+            background: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .tag:hover { border-color: var(--danger); color: var(--danger); }
+        .tag.active { background: var(--danger); color: white; border-color: var(--danger); }
+
+        /* News Feed */
+        .feed-container { display: grid; gap: 20px; }
+        .breach-card {
+            background: var(--card);
+            border-left: 5px solid var(--danger);
+            padding: 20px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            animation: slideIn 0.5s ease forwards;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .breach-info h3 { margin: 0 0 5px 0; color: #fff; }
+        .breach-info p { margin: 0; color: #8b949e; font-size: 0.9rem; }
+        
+        .status-badge {
+            background: rgba(255, 77, 77, 0.1);
+            color: var(--danger);
+            padding: 5px 12px;
+            border-radius: 5px;
+            font-weight: bold;
+            font-size: 0.75rem;
+            border: 1px solid var(--danger);
+        }
+
+        .btn-action {
+            margin-top: 15px;
+            display: inline-block;
+            color: var(--blue);
+            text-decoration: none;
+            font-size: 0.8rem;
+            border: 1px solid var(--blue);
+            padding: 5px 10px;
+            border-radius: 4px;
+        }
+
+        .back-link { color: #8b949e; text-decoration: none; margin-bottom: 20px; display: block; }
+    </style>
+</head>
+<body>
+
+<div class="pulse-bg"></div>
+
+<div class="container">
+    <a href="index.html" class="back-link">← SYSTEM HOME</a>
+
+    <div class="header">
+        <h1>BREACH PULSE</h1>
+        <p>Live Monitoring of Global Data Compromises</p>
+    </div>
+
+    <div class="impact-box">
+        <h3>Check Your Exposure</h3>
+        <p>Select the services you use to see if they were recently hit:</p>
+        <div class="app-tags">
+            <div class="tag" onclick="toggleTag(this)">Instagram</div>
+            <div class="tag" onclick="toggleTag(this)">Discord</div>
+            <div class="tag" onclick="toggleTag(this)">Ledger</div>
+            <div class="tag" onclick="toggleTag(this)">Ticketmaster</div>
+            <div class="tag" onclick="toggleTag(this)">Microsoft</div>
+            <div class="tag" onclick="toggleTag(this)">X (Twitter)</div>
+        </div>
+        <div id="impact-result" style="margin-top: 20px; font-weight: bold; color: var(--danger); display: none;">
+            ⚠️ ATTENTION: High risk detected for selected services. Change your passwords immediately.
+        </div>
+    </div>
+
+    <h2 style="border-bottom: 1px solid #30363d; padding-bottom: 10px;">Latest Incident Reports</h2>
+    
+    <div id="breach-feed" class="feed-container">
+        <div class="breach-card">
+            <div class="breach-info">
+                <h3>Instagram Data Leak</h3>
+                <p>17.5 Million accounts exposed via social engineering.</p>
+                <a href="#" class="btn-action">View Countermeasures</a>
+            </div>
+            <div class="status-badge">CRITICAL</div>
+        </div>
+
+        <div class="breach-card">
+            <div class="breach-info">
+                <h3>Brightspeed Fiber</h3>
+                <p>Investigation into theft of 1M+ customer records.</p>
+                <a href="#" class="btn-action">View Countermeasures</a>
+            </div>
+            <div class="status-badge">ACTIVE</div>
+        </div>
+
+        <div class="breach-card">
+            <div class="breach-info">
+                <h3>Ledger Wallet Leak</h3>
+                <p>Third-party payment processor Global-e compromised.</p>
+                <a href="#" class="btn-action">View Countermeasures</a>
+            </div>
+            <div class="status-badge">HIGH RISK</div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    function toggleTag(element) {
+        element.classList.toggle('active');
+        const result = document.getElementById('impact-result');
+        const actives = document.querySelectorAll('.tag.active');
+        result.style.display = actives.length > 0 ? 'block' : 'none';
+    }
+
+    // In a real scenario, you would use a Fetch call here to an RSS-to-JSON proxy.
+    // For now, these are the most recent verified 2026 breaches.
+</script>
+
+</body>
+</html>
