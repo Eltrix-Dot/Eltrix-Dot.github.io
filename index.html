@@ -49,7 +49,6 @@
         font-size: 14px;
     }
 
-    /* Shield Button Style */
     .nav-shield {
         background-color: #007bff;
         color: white !important;
@@ -58,7 +57,6 @@
         gap: 8px;
     }
 
-    /* Privacy Button Style - Attention grabbing border style */
     .nav-privacy {
         background-color: #ffffff;
         color: #007bff !important;
@@ -103,7 +101,6 @@
         border: 1px solid #f0f0f0;
     }
 
-    /* Privacy Call to Action in main content */
     .privacy-notice {
         background: #eef6ff;
         border-left: 5px solid #007bff;
@@ -122,15 +119,72 @@
 
     .logo-footer {
         text-align: center;
-        padding: 60px 0;
+        padding: 60px 0 20px 0;
         font-size: 5rem;
         font-weight: 900;
         color: #e9ecef;
     }
 
+    /* --- NEW FOOTER STYLING --- */
+    .site-footer {
+        background-color: #ffffff;
+        padding: 40px 20px;
+        border-top: 1px solid #e9ecef;
+        text-align: center;
+    }
+
+    .footer-content {
+        max-width: 850px;
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+    }
+
+    .footer-links {
+        display: flex;
+        gap: 25px;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .footer-link {
+        color: #666;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 14px;
+        transition: color 0.2s;
+    }
+
+    .footer-link:hover {
+        color: #007bff;
+    }
+
+    .footer-email {
+        background: #f1f3f5;
+        padding: 8px 15px;
+        border-radius: 8px;
+        color: #444;
+        font-size: 14px;
+        font-weight: 500;
+        text-decoration: none;
+    }
+
+    .footer-email:hover {
+        background: #e9ecef;
+    }
+
+    .copyright {
+        color: #adb5bd;
+        font-size: 12px;
+        margin-top: 10px;
+    }
+
     @media (max-width: 750px) {
         .top-nav-bar { padding: 15px 20px; flex-direction: column; gap: 15px; }
         .big-title { font-size: 2.2rem; }
+        .logo-footer { font-size: 3.5rem; }
     }
 </style>
 </head>
@@ -175,6 +229,24 @@
 </main>
 
 <div class="logo-footer">ELTRIX</div>
+
+<footer class="site-footer">
+    <div class="footer-content">
+        <div class="footer-links">
+            <a href="https://eltrix-dot.github.io/ToS" class="footer-link">Terms of Service</a>
+            <a href="https://eltrix-dot.github.io/privacymain" class="footer-link">Privacy Policy</a>
+            <a href="https://github.com/Eltrix-Dot" class="footer-link">Organization</a>
+        </div>
+        
+        <a href="mailto:eltrix.group@gmail.com" class="footer-email">
+            📩 Contact: eltrix.group@gmail.com
+        </a>
+
+        <div class="copyright">
+            © 2026 Eltrix Group. Built for a safer internet.
+        </div>
+    </div>
+</footer>
 
 </body>
 </html>
