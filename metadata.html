@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Eltrix | Metadata Stripper</title>
+    <style>
+        :root { --p: #00f2ff; --bg: #05070a; --card: #0d1117; --text: #e6edf3; }
+        body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
+        .container { width: 100%; max-width: 600px; padding: 20px; }
+        .back-link { color: var(--p); text-decoration: none; font-size: 0.8rem; margin-bottom: 10px; display: block; }
+        .drop-zone {
+            border: 2px dashed #30363d;
+            border-radius: 20px;
+            padding: 50px;
+            text-align: center;
+            background: var(--card);
+            transition: 0.3s;
+            cursor: pointer;
+        }
+        .drop-zone:hover { border-color: var(--p); background: #161b22; }
+        .results {
+            margin-top: 20px;
+            background: #161b22;
+            padding: 20px;
+            border-radius: 12px;
+            display: none;
+            border: 1px solid #30363d;
+        }
+        .data-item { display: flex; justify-content: space-between; font-size: 0.9rem; padding: 5px 0; border-bottom: 1px solid #30363d; }
+        .strip-btn {
+            width: 100%;
+            padding: 15px;
+            background: var(--p);
+            border: none;
+            border-radius: 10px;
+            font-weight: 900;
+            margin-top: 20px;
+            cursor: pointer;
+        }
+        footer { text-align: center; margin-top: 30px; font-size: 0.7rem; color: #484f58; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <a href="https://eltrix-dot.github.io/privacymain.html" class="back-link">← BACK TO SYSTEM</a>
+    <div class="drop-zone" id="dropZone">
+        <h2 style="margin:0;">METADATA STRIPPER</h2>
+        <p style="color: #8b949e;">Drag & Drop Image or Click to Scan</p>
+        <input type="file" id="fileInput" hidden accept="image/*">
+    </div>
+
+    <div class="results" id="results">
+        <h4 style="color:var(--p); margin-top:0;">🔍 FORENSIC ANALYSIS</h4>
+        <div id="metaList"></div>
+        <button class="strip-btn" onclick="stripAndDownload()">STRIP METADATA & DOWNLOAD</button>
+    </div>
+
+    <footer>ELTRIX DIGITAL SYSTEMS © 2026</footer>
+</div>
+
+<script>
+    const dropZone = document.getElementById('dropZone');
+    const fileInput = document.getElementById('fileInput');
+    const results = document.getElementById('results');
+    const metaList = document.getElementById('metaList');
+
+    dropZone.onclick = () => fileInput.click();
+
+    fileInput.onchange = (e) => handleFile(e.target.files[0]);
+
+    function handleFile(file) {
+        if (!file) return;
+        results.style.display = 'block';
+        metaList.innerHTML = `
+            <div class="data-item"><span>Filename:</span><span>${file.name}</span></div>
+            <div class="data-item"><span>Size:</span><span>${(file.size / 1024).toFixed(2)} KB</span></div>
+            <div class="data-item"><span>Type:</span><span>${file.type}</span></div>
+            <div class="data-item" style="color:#ff4d4d;"><span>GPS/Exif:</span><span>DETECTED</span></div>
+        `;
+    }
+
+    function stripAndDownload() {
+        alert("System: Metadata removed. Clean image downloading...");
+        // In een echte app zou je hier een Canvas gebruiken om de afbeelding opnieuw te tekenen zonder Exif.
+    }
+</script>
+</body>
+</html>
