@@ -13,13 +13,17 @@
       --text:#f1f5f9;
       --text-dim:#94a3b8;
       --border:#1f2937;
+      --warn:#ff4757;
+
       --shadow: 0 12px 35px rgba(0,0,0,0.45);
       --radius: 18px;
+
       --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
       --sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
     }
 
     *{ box-sizing:border-box; }
+    html{ scroll-behavior: smooth; }
 
     body{
       font-family: var(--sans);
@@ -108,8 +112,9 @@
       margin: 2.6rem auto;
       padding: 0 1.5rem;
       display: grid;
-      grid-template-columns: 1fr 380px;
+      grid-template-columns: 1fr 420px;
       gap: 2rem;
+      align-items: start;
     }
 
     .main-panel{
@@ -119,6 +124,7 @@
       border: 1px solid var(--border);
       position: relative;
       box-shadow: var(--shadow);
+      overflow:hidden;
     }
 
     .sidebar{
@@ -148,9 +154,9 @@
     }
 
     .log-stream{
-      height: 280px;
+      height: 300px;
       overflow-y: hidden;
-      color: rgba(241,245,249,0.65);
+      color: rgba(241,245,249,0.70);
     }
 
     .log-entry{
@@ -161,6 +167,8 @@
       animation: scanIn 0.2s ease-out;
       word-break: break-word;
     }
+
+    .log-entry.warn{ border-left-color: var(--warn); color: rgba(255,220,226,0.92); }
 
     @keyframes scanIn{
       from { opacity: 0; transform: translateX(-5px); }
@@ -174,7 +182,7 @@
       color: var(--blue);
       padding: 15px;
       border-radius: 0.8rem;
-      margin: 15px 0;
+      margin: 15px 0 6px 0;
       outline: none;
       font-family: inherit;
     }
@@ -184,10 +192,23 @@
       box-shadow: 0 0 10px rgba(16, 185, 129, 0.12);
     }
 
+    .hint{
+      color: var(--text-dim);
+      font-size: 0.88rem;
+      margin: 0 0 12px 0;
+    }
+
+    .btn-row{
+      display:flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 10px;
+    }
+
     .btn{
       background: var(--primary);
       color: #04120e;
-      padding: 1.1rem;
+      padding: 1.05rem;
       border-radius: 0.85rem;
       border: none;
       font-weight: 950;
@@ -200,13 +221,22 @@
       letter-spacing: 0.4px;
     }
 
+    .btn.secondary{
+      background: rgba(255,255,255,0.06);
+      color: var(--text);
+      border: 1px solid rgba(255,255,255,0.12);
+      text-transform: none;
+      font-weight: 900;
+    }
+
     .btn:hover{ background: var(--blue); transform: translateY(-2px); }
+    .btn.secondary:hover{ background: rgba(255,255,255,0.10); transform: translateY(-2px); }
     .btn:active{ transform: translateY(0); }
 
     .data-point{ color: var(--blue); font-weight: 900; }
 
     .note{
-      margin-top: 1.2rem;
+      margin-top: 1.1rem;
       padding: 1.1rem 1.2rem;
       background: rgba(0,242,255,0.05);
       border-radius: 1rem;
@@ -248,7 +278,50 @@
       letter-spacing: 0.2px;
     }
 
-    @media (max-width: 900px){
+    /* Mini heatmap canvas */
+    .heatmap-wrap{
+      position: relative;
+      border-radius: 1rem;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.10);
+      background: radial-gradient(400px 200px at 30% 30%, rgba(0,242,255,0.08), transparent 60%), rgba(0,0,0,0.35);
+      box-shadow: var(--shadow);
+    }
+
+    canvas#trail{
+      width: 100%;
+      height: 150px;
+      display: block;
+    }
+
+    /* Bot/Human confidence bars */
+    .bars{
+      display: grid;
+      gap: 10px;
+      margin-top: 10px;
+      font-family: var(--mono);
+    }
+    .bar-row{ display:grid; grid-template-columns: 115px 1fr 54px; gap: 10px; align-items:center; }
+    .bar-name{ color: rgba(241,245,249,0.78); font-size: 0.78rem; }
+    .bar{
+      height: 10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.10);
+      overflow:hidden;
+    }
+    .bar > span{
+      display:block;
+      height: 100%;
+      width: 0%;
+      transition: width 0.25s ease;
+      border-radius: 999px;
+    }
+    .bar-human > span{ background: linear-gradient(90deg, rgba(16,185,129,0.9), rgba(0,242,255,0.7)); }
+    .bar-bot > span{ background: linear-gradient(90deg, rgba(255,71,87,0.8), rgba(255,180,190,0.6)); }
+    .bar-val{ color: rgba(241,245,249,0.72); font-size: 0.78rem; text-align:right; }
+
+    @media (max-width: 980px){
       .container{ grid-template-columns: 1fr; }
       .navbar{ padding: 1.05rem 1.2rem; }
     }
@@ -280,7 +353,6 @@
         (typing rhythm, pointer movement, idle time, focus changes). It’s meant for education and testing.
       </p>
 
-      <!-- NEW: explicit privacy statement -->
       <div class="privacy-banner" role="note" aria-label="Privacy notice">
         <strong>Privacy notice:</strong> this page does <strong>not</strong> send your input to a server.
         Everything is processed <strong>locally in your browser</strong>. No analytics, no external logging endpoints.
@@ -290,20 +362,25 @@
         <span class="pill">Local logs only</span>
         <span class="pill">No network requests</span>
         <span class="pill">No storage by default</span>
+        <span class="pill">Keystroke timing (demo)</span>
       </div>
 
       <div style="margin-top: 2rem;">
-        <label class="label">Input Rhythm Analysis</label>
-        <input type="text" id="trap-input" placeholder="Type a sentence to analyze keystroke timing (local only)…">
+        <label class="label">Input Rhythm Analysis (Keystroke Dynamics)</label>
+        <input type="text" id="trap-input" placeholder="Type a sentence (we measure timing locally)…">
+        <p class="hint">
+          We estimate <strong>Flight Time</strong> (gap between keystrokes) + <strong>Dwell Time</strong> (how long a key is held).
+          This shows how typing rhythm can be identifying even with a VPN.
+        </p>
 
-        <div style="margin-top: 1.5rem;">
-          <label class="label">Click Latency Sensor</label>
-          <button class="btn" id="trap-btn" type="button">Calibrate Response Speed</button>
+        <div class="btn-row">
+          <button class="btn" id="trap-btn" type="button" style="flex: 1 1 220px;">Calibrate Response Speed</button>
+          <button class="btn secondary" id="clear-btn" type="button" style="flex: 1 1 180px;">Clear local logs</button>
         </div>
 
         <div class="note">
           <p style="margin: 0;">
-            <strong>Pro Tip:</strong> Try switching tabs or highlighting text on this page to see how the sensors react in real-time.
+            <strong>Pro Tip:</strong> Paste a long text into the input to trigger the paste detector, resize your window, or rotate a phone.
           </p>
         </div>
       </div>
@@ -315,6 +392,37 @@
         <div>Pointer: <span class="data-point" id="coords">0, 0</span></div>
         <div>Velocity: <span class="data-point" id="vel">0 px/s</span></div>
         <div>Idle State: <span class="data-point" id="idle">0s</span></div>
+        <div style="margin-top:10px;">Tilt: <span class="data-point" id="tilt">n/a</span></div>
+      </div>
+
+      <div class="monitor-box">
+        <span class="label">Keystroke Dynamics (Local)</span>
+        <div>Avg Flight Time: <span class="data-point" id="avg-flight">…</span></div>
+        <div>Avg Dwell Time: <span class="data-point" id="avg-dwell">…</span></div>
+        <div>Samples: <span class="data-point" id="samples">0</span></div>
+      </div>
+
+      <div class="monitor-box">
+        <span class="label">Human vs Bot (Demo Heuristics)</span>
+        <div class="bars">
+          <div class="bar-row">
+            <div class="bar-name">Human</div>
+            <div class="bar bar-human"><span id="bar-human"></span></div>
+            <div class="bar-val" id="val-human">0%</div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-name">Bot</div>
+            <div class="bar bar-bot"><span id="bar-bot"></span></div>
+            <div class="bar-val" id="val-bot">0%</div>
+          </div>
+        </div>
+        <div style="margin-top:10px; color: rgba(241,245,249,0.70); font-size: 0.78rem;">
+          These bars are educational only. They use simple patterns (very straight mouse movement, paste usage, extreme resize bursts, etc.).
+        </div>
+      </div>
+
+      <div class="heatmap-wrap" aria-label="Mouse trail heatmap (local)">
+        <canvas id="trail" width="700" height="220"></canvas>
       </div>
 
       <div class="monitor-box">
@@ -334,32 +442,111 @@
 
   <script>
     // NOTE: This page intentionally makes no external network requests.
-    // Logs are displayed only in-memory and in the DOM.
+    // Everything is processed locally in-memory and displayed in the DOM.
 
     const logStream = document.getElementById("log-stream");
     const keyStream = document.getElementById("key-stream");
     const trapBtn = document.getElementById("trap-btn");
+    const clearBtn = document.getElementById("clear-btn");
     const trapInput = document.getElementById("trap-input");
 
-    let idleSeconds = 0;
-    let lastX = 0, lastY = 0, lastTime = Date.now();
+    const avgFlightEl = document.getElementById("avg-flight");
+    const avgDwellEl = document.getElementById("avg-dwell");
+    const samplesEl = document.getElementById("samples");
+    const tiltEl = document.getElementById("tilt");
 
-    function addLog(msg){
+    const barHuman = document.getElementById("bar-human");
+    const barBot = document.getElementById("bar-bot");
+    const valHuman = document.getElementById("val-human");
+    const valBot = document.getElementById("val-bot");
+
+    let idleSeconds = 0;
+    let lastX = 0, lastY = 0, lastTime = performance.now();
+
+    // ---- Keystroke dynamics state ----
+    let lastKeyDownTime = 0;           // for flight time
+    const downTimes = new Map();       // key -> performance.now() on keydown
+    const flightTimes = [];            // ms
+    const dwellTimes = [];             // ms
+    let keySamples = 0;
+
+    // ---- Simple scoring (educational heuristic only) ----
+    // botScore/humanScore are not "truth", they just drive the bars.
+    let botScore = 0;
+    let humanScore = 0;
+
+    function clamp(n, a, b){ return Math.max(a, Math.min(b, n)); }
+
+    function addLog(msg, level="info"){
       const entry = document.createElement("div");
-      entry.className = "log-entry";
+      entry.className = "log-entry" + (level === "warn" ? " warn" : "");
       entry.innerText = `[${new Date().toLocaleTimeString()}] ${msg}`;
       logStream.prepend(entry);
-      if (logStream.children.length > 18) logStream.lastChild.remove();
+      if (logStream.children.length > 22) logStream.lastChild.remove();
     }
 
-    // Click detection
+    function clearLogs(){
+      logStream.innerHTML = "";
+      addLog("SYSTEM: LOG_BUFFER_CLEARED (local)");
+    }
+
+    function mean(arr){
+      if (!arr.length) return null;
+      return arr.reduce((a,b)=>a+b,0)/arr.length;
+    }
+
+    function updateKeystrokeUI(){
+      const f = mean(flightTimes);
+      const d = mean(dwellTimes);
+      avgFlightEl.innerText = f ? `${f.toFixed(1)} ms` : "…";
+      avgDwellEl.innerText = d ? `${d.toFixed(1)} ms` : "…";
+      samplesEl.innerText = String(keySamples);
+    }
+
+    function setBars(){
+      // Normalize to 0..100 and keep them adding up to 100-ish for readability
+      botScore = clamp(botScore, 0, 100);
+      humanScore = clamp(humanScore, 0, 100);
+
+      // Convert to percentage with a little smoothing so it doesn't flicker too much
+      const total = Math.max(1, botScore + humanScore);
+      const botPct = Math.round((botScore / total) * 100);
+      const humanPct = 100 - botPct;
+
+      barBot.style.width = `${botPct}%`;
+      barHuman.style.width = `${humanPct}%`;
+      valBot.innerText = `${botPct}%`;
+      valHuman.innerText = `${humanPct}%`;
+    }
+
+    // Click latency demo
     trapBtn.addEventListener("click", function(){
       addLog("UI_EVENT: CALIBRATION_BTN_CLICK");
       this.innerText = "CALIBRATING…";
       setTimeout(() => {
         this.innerText = "CALIBRATE RESPONSE SPEED";
         addLog("STATUS: LATENCY_SAMPLE_RECORDED (local)");
+        // clicking is a human-ish signal
+        humanScore += 6;
+        botScore += 1;
+        setBars();
       }, 400);
+    });
+
+    clearBtn.addEventListener("click", () => {
+      clearLogs();
+      // Reset some demo scores + stats, but keep the input (user choice)
+      botScore = 0;
+      humanScore = 0;
+      setBars();
+
+      flightTimes.length = 0;
+      dwellTimes.length = 0;
+      downTimes.clear();
+      lastKeyDownTime = 0;
+      keySamples = 0;
+      updateKeystrokeUI();
+      keyStream.innerText = trapInput.value || "";
     });
 
     // Mouse & kinetic tracking
@@ -367,23 +554,92 @@
       idleSeconds = 0;
       document.getElementById("coords").innerText = `${e.clientX}, ${e.clientY}`;
 
-      const now = Date.now();
+      const now = performance.now();
       const dt = Math.max(1, now - lastTime);
       const dist = Math.hypot(e.clientX - lastX, e.clientY - lastY);
       const velocity = Math.round(dist / (dt / 1000));
-
       document.getElementById("vel").innerText = `${velocity} px/s`;
 
+      // Mouse linearity heuristic (very simplified):
+      // - if movement is too "perfectly straight" repeatedly, slightly increase bot score
+      // - otherwise human gets a bit
+      if (dist > 12){
+        // direction vector
+        const dx = e.clientX - lastX;
+        const dy = e.clientY - lastY;
+        const angle = Math.atan2(dy, dx);
+        // compare to previous angle (stored on window)
+        const prev = window.__prevAngle;
+        if (typeof prev === "number"){
+          const delta = Math.abs(angle - prev);
+          // normalize delta into 0..pi
+          const nd = Math.min(delta, Math.PI*2 - delta);
+
+          if (nd < 0.05) botScore += 0.8;      // very straight
+          else humanScore += 0.7;              // more varied
+          setBars();
+        }
+        window.__prevAngle = angle;
+      }
+
       lastX = e.clientX; lastY = e.clientY; lastTime = now;
+      drawTrail(e.clientX, e.clientY);
     });
 
-    // Keyboard ingest (local buffer only)
+    // Keyboard ingest + keystroke dynamics
     trapInput.addEventListener("input", (e) => {
       keyStream.innerText = trapInput.value;
 
-      // Avoid logging huge content; keep it small and educational
       const k = (e.data === null || e.data === undefined) ? "BACKSPACE/EDIT" : JSON.stringify(e.data);
       addLog(`KEY_EVENT: ${k}`);
+    });
+
+    // Flight time (gap between keydowns) + record keydown time for dwell calc
+    trapInput.addEventListener("keydown", (e) => {
+      const now = performance.now();
+
+      // Flight time only for actual key presses (ignore modifiers)
+      if (!e.repeat && e.key.length === 1 || e.key === "Backspace" || e.key === "Enter" || e.key === "Spacebar" || e.key === " "){
+        if (lastKeyDownTime){
+          const gap = now - lastKeyDownTime;
+          flightTimes.push(gap);
+          if (flightTimes.length > 80) flightTimes.shift(); // keep it bounded
+          addLog(`BIOMETRIC: FlightTime ${gap.toFixed(2)}ms`);
+        }
+        lastKeyDownTime = now;
+      }
+
+      // Dwell time start
+      if (!downTimes.has(e.code)){
+        downTimes.set(e.code, now);
+      }
+    });
+
+    // Dwell time (keydown -> keyup)
+    trapInput.addEventListener("keyup", (e) => {
+      const now = performance.now();
+      const start = downTimes.get(e.code);
+      if (typeof start === "number"){
+        const dwell = now - start;
+        downTimes.delete(e.code);
+        dwellTimes.push(dwell);
+        if (dwellTimes.length > 80) dwellTimes.shift();
+
+        keySamples++;
+        addLog(`BIOMETRIC: DwellTime ${dwell.toFixed(2)}ms`);
+
+        // Human-ish signal if dwell times are not ultra-uniform
+        if (dwell < 12) botScore += 1.4; else humanScore += 0.9;
+        updateKeystrokeUI();
+        setBars();
+      }
+    });
+
+    // Copy-paste detection
+    trapInput.addEventListener("paste", () => {
+      addLog("ALERT: PASTE_EVENT_DETECTED - Possible automated entry or clipboard use.", "warn");
+      botScore += 18;
+      setBars();
     });
 
     // Selection tracking
@@ -392,6 +648,8 @@
       if (selected && selected.length > 0){
         const preview = selected.substring(0, 18).replace(/\s+/g, " ");
         addLog(`TEXT_SELECTION: "${preview}${selected.length > 18 ? "…" : ""}"`);
+        humanScore += 1.2;
+        setBars();
       }
     });
 
@@ -404,16 +662,151 @@
     }, 1000);
 
     // Focus tracking (tab switches)
-    window.addEventListener("blur", () => addLog("SIGNAL_LOST: TAB_SWITCH"));
-    window.addEventListener("focus", () => addLog("SIGNAL_REGAINED: TARGET_ACTIVE"));
+    window.addEventListener("blur", () => { addLog("SIGNAL_LOST: TAB_SWITCH"); botScore += 2; setBars(); });
+    window.addEventListener("focus", () => { addLog("SIGNAL_REGAINED: TARGET_ACTIVE"); humanScore += 2; setBars(); });
+
+    // Window resizing & zoom-ish signals
+    let lastW = window.innerWidth;
+    let lastH = window.innerHeight;
+    let resizeBurst = 0;
+    let resizeBurstTimer = null;
+
+    window.addEventListener("resize", () => {
+      const w = window.innerWidth;
+      const h = window.innerHeight;
+
+      if (w !== lastW) addLog(`WINDOW_RESIZE: Width changed to ${w}px (Visual Fingerprint Update).`, "warn");
+      if (h !== lastH) addLog(`WINDOW_RESIZE: Height changed to ${h}px (Visual Fingerprint Update).`, "warn");
+
+      // zoom-ish hint (not exact zoom): DPR changes sometimes reflect zoom, but not always
+      addLog(`VISUAL: DPR=${window.devicePixelRatio || 1} • viewport=${w}x${h}`);
+
+      lastW = w; lastH = h;
+
+      resizeBurst++;
+      clearTimeout(resizeBurstTimer);
+      resizeBurstTimer = setTimeout(() => {
+        // lots of resizes quickly could be automation / headless / testing
+        if (resizeBurst >= 4) { botScore += 12; addLog("HEURISTIC: RESIZE_BURST_DETECTED", "warn"); }
+        else humanScore += 2;
+        setBars();
+        resizeBurst = 0;
+      }, 900);
+    });
+
+    // Device orientation (mobile)
+    // iOS requires a permission prompt in many cases, so we provide a request button automatically.
+    let orientationActive = false;
+
+    function handleOrientation(e){
+      // beta: front/back tilt, gamma: left/right tilt
+      if (e.beta == null && e.gamma == null) return;
+
+      const x = (e.gamma ?? 0).toFixed(1);
+      const y = (e.beta ?? 0).toFixed(1);
+      tiltEl.innerText = `X: ${x}°, Y: ${y}°`;
+      if (!orientationActive){
+        orientationActive = true;
+        addLog("SENSOR: DEVICE_ORIENTATION_ACTIVE");
+        humanScore += 3;
+        setBars();
+      }
+    }
+
+    async function enableOrientationIfNeeded(){
+      // If it's an iOS device, we might need explicit permission
+      const needPermission = (typeof DeviceOrientationEvent !== "undefined" &&
+        typeof DeviceOrientationEvent.requestPermission === "function");
+
+      if (needPermission){
+        // Create a minimal in-page permission request (no new UI blocks needed)
+        addLog("INFO: DeviceOrientation permission required on iOS (tap request if you want).");
+        const btn = document.createElement("button");
+        btn.className = "btn secondary";
+        btn.type = "button";
+        btn.textContent = "Enable Device Orientation (iOS)";
+        btn.style.marginTop = "10px";
+
+        btn.addEventListener("click", async () => {
+          try{
+            const res = await DeviceOrientationEvent.requestPermission();
+            if (res === "granted"){
+              window.addEventListener("deviceorientation", handleOrientation);
+              addLog("SENSOR: DEVICE_ORIENTATION_PERMISSION_GRANTED");
+              btn.remove();
+            } else {
+              addLog("SENSOR: DEVICE_ORIENTATION_PERMISSION_DENIED", "warn");
+            }
+          } catch (err){
+            addLog(`SENSOR: DEVICE_ORIENTATION_ERROR ${String(err)}`, "warn");
+          }
+        });
+
+        // Insert the button under the main input area
+        document.querySelector(".main-panel .note")?.after(btn);
+      } else if (typeof DeviceOrientationEvent !== "undefined") {
+        window.addEventListener("deviceorientation", handleOrientation);
+      } else {
+        tiltEl.innerText = "unsupported";
+      }
+    }
 
     // Right-click tracking (local)
     document.addEventListener("contextmenu", () => {
       addLog("ACTION: CONTEXT_MENU_ATTEMPTED (local)");
-      // don't block it by default; just log locally
     });
 
-    window.addEventListener("load", () => addLog("SYSTEM: STANDBY_READY"));
+    // ---- Mouse trail canvas (heatmap-ish) ----
+    const canvas = document.getElementById("trail");
+    const ctx = canvas.getContext("2d");
+
+    function resizeCanvasToCss(){
+      const rect = canvas.getBoundingClientRect();
+      const dpr = window.devicePixelRatio || 1;
+      canvas.width = Math.max(1, Math.floor(rect.width * dpr));
+      canvas.height = Math.max(1, Math.floor(rect.height * dpr));
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      // start with a dark fill
+      ctx.fillStyle = "rgba(0,0,0,0.35)";
+      ctx.fillRect(0, 0, rect.width, rect.height);
+    }
+
+    function fadeTrail(){
+      const rect = canvas.getBoundingClientRect();
+      ctx.fillStyle = "rgba(0,0,0,0.06)";
+      ctx.fillRect(0, 0, rect.width, rect.height);
+      requestAnimationFrame(fadeTrail);
+    }
+
+    function drawTrail(clientX, clientY){
+      const rect = canvas.getBoundingClientRect();
+      // map mouse coords to canvas local area (sidebar canvas only)
+      // if mouse is not over the canvas area, draw a subtle dot at last known position within bounds
+      const x = clamp((clientX - rect.left), 0, rect.width);
+      const y = clamp((clientY - rect.top), 0, rect.height);
+
+      // soft glow
+      const g = ctx.createRadialGradient(x, y, 0, x, y, 22);
+      g.addColorStop(0, "rgba(0,242,255,0.20)");
+      g.addColorStop(0.35, "rgba(16,185,129,0.12)");
+      g.addColorStop(1, "rgba(0,0,0,0)");
+      ctx.fillStyle = g;
+      ctx.beginPath();
+      ctx.arc(x, y, 22, 0, Math.PI*2);
+      ctx.fill();
+    }
+
+    // Init
+    function init(){
+      addLog("SYSTEM: STANDBY_READY");
+      resizeCanvasToCss();
+      fadeTrail();
+      setBars();
+      enableOrientationIfNeeded();
+    }
+
+    window.addEventListener("load", init);
+    window.addEventListener("resize", resizeCanvasToCss);
   </script>
 </body>
 </html>
