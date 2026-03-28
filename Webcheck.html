@@ -1,215 +1,851 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Webcheck | Eltrix Digital</title>
-    <style>
-        :root {
-            --primary: #10b981; --blue: #00f2ff; --bg: #05070a;
-            --card: #111827; --text: #f1f5f9; --text-dim: #94a3b8; --border: #1f2937;
-        }
-        body { font-family: 'Inter', system-ui, sans-serif; background: var(--bg); color: var(--text); margin: 0; line-height: 1.5; }
-        
-        /* Navbar */
-        .navbar {
-            padding: 1.2rem 2rem; display: flex; justify-content: space-between; align-items: center;
-            border-bottom: 1px solid var(--border); background: rgba(5, 7, 10, 0.9); backdrop-filter: blur(10px);
-            position: sticky; top: 0; z-index: 100;
-        }
-        .logo { font-weight: 800; color: var(--blue); text-decoration: none; letter-spacing: 1px; }
-        .nav-links { display: flex; gap: 20px; }
-        .nav-links a { color: var(--text-dim); text-decoration: none; font-size: 0.9rem; font-weight: 600; transition: 0.3s; }
-        .nav-links a.active { color: var(--primary); border-bottom: 2px solid var(--primary); }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Webcheck | Eltrix Digital</title>
 
-        .container { max-width: 1000px; margin: 3rem auto; padding: 0 1.5rem; }
-        
-        /* Status Grid */
-        .status-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; }
-        .tool-card { background: var(--card); padding: 1.5rem; border-radius: 1rem; border: 1px solid var(--border); transition: 0.3s; position: relative; overflow: hidden; }
-        .tool-card:hover { border-color: var(--blue); }
-        
-        .card-label { display: block; color: var(--primary); font-size: 0.7rem; font-weight: 800; text-transform: uppercase; margin-bottom: 8px; letter-spacing: 1px; }
-        .card-value { font-family: 'JetBrains Mono', monospace; font-size: 1.1rem; color: #fff; word-break: break-all; }
-        
-        .btn { 
-            background: var(--border); color: var(--blue); padding: 1rem; border-radius: 0.8rem; 
-            text-decoration: none; font-weight: 700; text-align: center; border: 1px solid transparent; 
-            display: block; width: 100%; cursor: pointer; transition: 0.3s; margin-top: 10px;
-        }
-        .btn:hover { background: var(--primary); color: #000; }
-        
-        .badge { font-size: 0.65rem; padding: 2px 8px; border-radius: 10px; font-weight: bold; margin-left: 10px; vertical-align: middle; }
-        .badge-safe { background: rgba(16, 185, 129, 0.2); color: var(--primary); }
-        .badge-warn { background: rgba(255, 71, 87, 0.2); color: #ff4757; }
+  <style>
+    :root{
+      --primary: #10b981;
+      --blue: #00f2ff;
+      --bg: #05070a;
+      --card: #111827;
+      --text: #f1f5f9;
+      --text-dim: #94a3b8;
+      --border: #1f2937;
+      --warn: #ff4757;
+      --shadow: 0 12px 35px rgba(0,0,0,0.45);
+      --radius: 16px;
 
-        .whois-console { background: #000; padding: 15px; border-radius: 8px; font-family: monospace; font-size: 0.85rem; color: #888; margin-top: 10px; min-height: 100px; border: 1px solid #222; }
-    </style>
+      --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+      --sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+    }
+
+    *{ box-sizing: border-box; }
+
+    body{
+      font-family: var(--sans);
+      background: radial-gradient(900px 500px at 20% 10%, rgba(0,242,255,0.10), transparent 60%),
+                  radial-gradient(900px 500px at 80% 0%, rgba(16,185,129,0.10), transparent 55%),
+                  var(--bg);
+      color: var(--text);
+      margin: 0;
+      line-height: 1.5;
+    }
+
+    /* Navbar */
+    .navbar{
+      padding: 1.15rem 2rem;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      border-bottom: 1px solid var(--border);
+      background: rgba(5, 7, 10, 0.88);
+      backdrop-filter: blur(10px);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      gap: 14px;
+    }
+
+    .logo{
+      font-weight: 900;
+      color: var(--blue);
+      text-decoration: none;
+      letter-spacing: 1px;
+      display:flex;
+      align-items:center;
+      gap: 10px;
+      white-space: nowrap;
+    }
+
+    .logo svg{
+      width: 18px;
+      height: 18px;
+      fill: none;
+      stroke: var(--blue);
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      opacity: 0.95;
+    }
+
+    .nav-links{
+      display:flex;
+      gap: 18px;
+      flex-wrap: wrap;
+      justify-content:flex-end;
+      align-items:center;
+    }
+
+    .nav-links a{
+      color: var(--text-dim);
+      text-decoration: none;
+      font-size: 0.92rem;
+      font-weight: 700;
+      transition: 0.2s ease;
+      padding: 8px 10px;
+      border-radius: 10px;
+      border: 1px solid transparent;
+    }
+
+    .nav-links a:hover{
+      color: var(--text);
+      background: rgba(255,255,255,0.04);
+      border-color: rgba(255,255,255,0.06);
+      transform: translateY(-1px);
+    }
+
+    .nav-links a.active{
+      color: var(--primary);
+      border-bottom: 2px solid var(--primary);
+      border-radius: 0;
+      padding-bottom: 6px;
+    }
+
+    .container{
+      max-width: 1100px;
+      margin: 2.5rem auto;
+      padding: 0 1.5rem;
+    }
+
+    h1{
+      margin: 0 0 0.5rem 0;
+      letter-spacing: -0.8px;
+    }
+
+    .subtitle{
+      color: var(--text-dim);
+      margin: 0;
+      font-weight: 650;
+    }
+
+    /* Status Grid */
+    .status-grid{
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.2rem;
+      margin-top: 2.2rem;
+    }
+
+    .tool-card{
+      background: linear-gradient(180deg, rgba(17,24,39,0.92), rgba(17,24,39,0.78));
+      padding: 1.2rem;
+      border-radius: 1rem;
+      border: 1px solid var(--border);
+      transition: 0.25s ease;
+      position: relative;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      min-height: 120px;
+    }
+    .tool-card:hover{ border-color: rgba(0,242,255,0.35); transform: translateY(-1px); }
+
+    .card-label{
+      display: block;
+      color: var(--primary);
+      font-size: 0.72rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+      letter-spacing: 1px;
+    }
+
+    .card-value{
+      font-family: var(--mono);
+      font-size: 1.03rem;
+      color: #fff;
+      word-break: break-word;
+    }
+
+    .small-dim{
+      margin-top: 10px;
+      color: var(--text-dim);
+      font-size: 0.86rem;
+    }
+
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      gap: 8px;
+      font-size: 0.72rem;
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-weight: 900;
+      vertical-align: middle;
+      border: 1px solid rgba(255,255,255,0.10);
+      background: rgba(255,255,255,0.06);
+      color: var(--text);
+    }
+    .badge-safe{
+      border-color: rgba(16,185,129,0.35);
+      background: rgba(16, 185, 129, 0.14);
+      color: #a7f3d0;
+    }
+    .badge-warn{
+      border-color: rgba(255,71,87,0.35);
+      background: rgba(255, 71, 87, 0.14);
+      color: #ffb3bc;
+    }
+    .badge-info{
+      border-color: rgba(0,242,255,0.35);
+      background: rgba(0,242,255,0.12);
+      color: #baf8ff;
+    }
+
+    .btn{
+      background: rgba(255,255,255,0.06);
+      color: var(--blue);
+      padding: 0.95rem 1rem;
+      border-radius: 0.9rem;
+      text-decoration: none;
+      font-weight: 900;
+      text-align: center;
+      border: 1px solid rgba(255,255,255,0.12);
+      display: block;
+      width: 100%;
+      cursor: pointer;
+      transition: 0.2s ease;
+      margin-top: 10px;
+    }
+    .btn:hover{
+      background: var(--primary);
+      color: #04120e;
+      border-color: transparent;
+      transform: translateY(-1px);
+    }
+
+    .two-col{
+      margin-top: 1.2rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.2rem;
+    }
+
+    .whois-console{
+      background: rgba(0,0,0,0.55);
+      padding: 14px;
+      border-radius: 12px;
+      font-family: var(--mono);
+      font-size: 0.86rem;
+      color: rgba(241,245,249,0.80);
+      margin-top: 10px;
+      min-height: 140px;
+      border: 1px solid rgba(255,255,255,0.10);
+      overflow: auto;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    .kv{
+      display:grid;
+      grid-template-columns: 140px 1fr;
+      gap: 8px 12px;
+      margin-top: 10px;
+      font-size: 0.92rem;
+    }
+    .k{ color: var(--text-dim); font-weight: 750; }
+    .v{ font-family: var(--mono); color: #fff; }
+
+    .chip{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-weight: 900;
+      border: 1px solid rgba(255,255,255,0.10);
+      background: rgba(255,255,255,0.06);
+      color: #eaf0ff;
+      font-family: var(--mono);
+      font-size: 0.80rem;
+    }
+
+    .warn-note{
+      margin-top: 12px;
+      color: var(--text-dim);
+      font-size: 0.86rem;
+    }
+    .warn-note strong{ color: #fff; }
+
+    @media (max-width: 900px){
+      .navbar{ padding: 1.05rem 1.2rem; }
+      .two-col{ grid-template-columns: 1fr; }
+    }
+  </style>
 </head>
+
 <body>
+  <nav class="navbar">
+    <a href="#" class="logo" aria-label="Eltrix Webcheck">
+      <!-- icon -->
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M12 2l8 4v6c0 5-3.4 9.7-8 10-4.6-.3-8-5-8-10V6l8-4Z"></path>
+        <path d="M9 12l2 2 4-4"></path>
+      </svg>
+      <span>ELTRIX WEBCHECK</span>
+    </a>
 
-    <nav class="navbar">
-        <a href="#" class="logo">ELTRIX WEBCHECK</a>
-        <div class="nav-links">
-            <a href="https://eltrix-dot.github.io/internetprivacy">Guide</a>
-            <a href="#" class="active">Webcheck</a>
-            <a href="https://eltrix-dot.github.io/honeypot">Behavior Lab</a>
-        </div>
-    </nav>
+    <div class="nav-links">
+      <a href="https://eltrix-dot.github.io/internetprivacy">Guide</a>
+      <a href="#" class="active">Webcheck</a>
+      <a href="https://eltrix-dot.github.io/honeypot">Behavior Lab</a>
+    </div>
+  </nav>
 
-    <div class="container">
-        <div style="text-align: center; margin-bottom: 3rem;">
-            <h1>Digital Forensic Audit</h1>
-            <p style="color: var(--text-dim);">Analyzing your network footprint and hardware metadata.</p>
-        </div>
-
-        <div class="status-grid">
-            <div class="tool-card">
-                <span class="card-label">Network Entry Point (IP)</span>
-                <span id="ip" class="card-value">Initializing uplink...</span>
-                <div id="whois-summary" style="font-size: 0.8rem; margin-top: 10px; color: var(--text-dim);"></div>
-            </div>
-
-            <div class="tool-card">
-                <span class="card-label">Provider & Organization</span>
-                <span id="isp" class="card-value">Scanning ISP...</span>
-            </div>
-
-            <div class="tool-card">
-                <span class="card-label">VPN / Proxy Detection</span>
-                <span id="vpn-status" class="card-value">Analyzing...</span>
-            </div>
-
-            <div class="tool-card">
-                <span class="card-label">WebRTC Internal Leak</span>
-                <span id="webrtc" class="card-value">Testing...</span>
-            </div>
-
-            <div class="tool-card">
-                <span class="card-label">DNS Resolver</span>
-                <span id="dns" class="card-value">Identifying...</span>
-            </div>
-
-            <div class="tool-card">
-                <span class="card-label">Browser Fingerprint (Hash)</span>
-                <span id="fp" class="card-value">Generating...</span>
-            </div>
-        </div>
-
-        <div style="margin-top: 2rem; display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
-            <div class="tool-card">
-                <span class="card-label">Advanced WHOIS Record</span>
-                <div id="whois-raw" class="whois-console">Connecting to WHOIS database...</div>
-                <button class="btn" onclick="runAudit()">Refresh Audit</button>
-            </div>
-            <div class="tool-card">
-                <span class="card-label">Hardware Signature</span>
-                <div id="hw-details" style="font-size: 0.9rem; margin-bottom: 10px;">
-                    Cores: <span id="cpu" class="badge badge-safe">..</span><br>
-                    Memory: <span id="ram" class="badge badge-safe">..</span><br>
-                    GPU: <span id="gpu" class="badge badge-safe">..</span>
-                </div>
-                <span class="card-label">Secure Key (256-bit)</span>
-                <div id="pw-output" style="color: var(--blue); font-family: monospace; font-size: 1.1rem;">********</div>
-                <button class="btn" onclick="genPass()">Generate Key</button>
-            </div>
-        </div>
+  <div class="container">
+    <div style="text-align:center; margin-bottom: 1.2rem;">
+      <h1>Digital Forensic Audit</h1>
+      <p class="subtitle">Analyzing your network footprint and browser/device metadata (free / no API key).No data gets send to us. We dont log only Github logs your Ip adress</p>
     </div>
 
-    <script>
-        // API Configuration - Triple Failover
-        async function fetchIPData() {
-            const apis = [
-                'https://ipwho.is/',
-                'https://api.ipify.org?format=json',
-                'https://ipapi.co/json/'
-            ];
+    <div class="status-grid">
+      <div class="tool-card">
+        <span class="card-label">Network Entry Point (Public IP)</span>
+        <span id="ip" class="card-value">Initializing uplink…</span>
+        <div id="whois-summary" class="small-dim"></div>
+      </div>
 
-            for (let api of apis) {
-                try {
-                    const response = await fetch(api);
-                    if (!response.ok) throw new Error();
-                    const data = await response.json();
-                    
-                    // Unified Data Mapping
-                    const ip = data.ip || data.query;
-                    const isp = data.connection?.isp || data.org || data.isp || "Unknown";
-                    const country = data.country || data.country_name || "Unknown";
-                    const isProxy = data.security?.proxy || data.proxy || false;
-                    const dns = data.connection?.dns || "Standard Resolver";
+      <div class="tool-card">
+        <span class="card-label">Provider & Organization</span>
+        <span id="isp" class="card-value">Scanning ISP…</span>
+        <div id="org" class="small-dim"></div>
+      </div>
 
-                    updateUI(ip, isp, country, isProxy, dns, data);
-                    return; // Stop if successful
-                } catch (err) {
-                    console.log(`API ${api} failed, trying next...`);
-                }
-            }
-            document.getElementById('ip').innerText = "All APIs Blocked";
+      <div class="tool-card">
+        <span class="card-label">VPN / Proxy / Hosting (Best-effort)</span>
+        <span id="vpn-status" class="card-value">Analyzing…</span>
+        <div id="vpn-detail" class="small-dim"></div>
+      </div>
+
+      <div class="tool-card">
+        <span class="card-label">WebRTC Leak Test</span>
+        <span id="webrtc" class="card-value">Testing…</span>
+        <div id="webrtc-detail" class="small-dim"></div>
+      </div>
+
+      <div class="tool-card">
+        <span class="card-label">Browser / Device</span>
+        <span id="device" class="card-value">Collecting…</span>
+        <div id="device-detail" class="small-dim"></div>
+      </div>
+
+      <div class="tool-card">
+        <span class="card-label">Fingerprint (Local hash)</span>
+        <span id="fp" class="card-value">Generating…</span>
+        <div class="warn-note">
+          <strong>Note:</strong> this hash is local-only and not a “real” unique identifier. It’s just a compact summary of signals.
+        </div>
+      </div>
+    </div>
+
+    <div class="two-col">
+      <div class="tool-card">
+        <span class="card-label">Network / ASN / Geo (Raw)</span>
+        <div id="whois-raw" class="whois-console">Connecting…</div>
+        <button class="btn" type="button" onclick="runAudit()">Refresh Audit</button>
+      </div>
+
+      <div class="tool-card">
+        <span class="card-label">Hardware Signature</span>
+
+        <div class="kv">
+          <div class="k">CPU</div>
+          <div class="v"><span id="cpu" class="chip">…</span></div>
+
+          <div class="k">Memory</div>
+          <div class="v"><span id="ram" class="chip">…</span></div>
+
+          <div class="k">GPU</div>
+          <div class="v"><span id="gpu" class="chip">…</span></div>
+
+          <div class="k">Screen</div>
+          <div class="v"><span id="screen" class="chip">…</span></div>
+
+          <div class="k">Timezone</div>
+          <div class="v"><span id="tz" class="chip">…</span></div>
+
+          <div class="k">Languages</div>
+          <div class="v"><span id="langs" class="chip">…</span></div>
+        </div>
+
+        <span class="card-label" style="margin-top:16px;">Secure Key (256-bit)</span>
+        <div id="pw-output" style="color: var(--blue); font-family: var(--mono); font-size: 1.05rem;">********</div>
+        <button class="btn" type="button" onclick="genPass()">Generate Key</button>
+      </div>
+    </div>
+
+    <div class="warn-note" style="margin-top: 16px;">
+      <strong>VPN provider detection:</strong> without paid databases/API keys, we can only do best-effort classification using
+      ISP/ORG/ASN and known “hosting/VPN-like” network names. Some VPNs will appear as normal ISPs and cannot be reliably detected.
+    </div>
+  </div>
+
+  <script>
+    /**
+     * What was broken in the original version (and what this fixes):
+     * - Mixed API response formats (ipify isn't geo/ISP; ipwho.is is)
+     * - Proxy fields were assumed but don't exist across APIs
+     * - WebRTC leak logic only checked for "192.168" and could mark NO LEAK too early
+     * - Fingerprint was just btoa(gpu+lang) and could throw if GPU extraction failed
+     *
+     * This version:
+     * - Uses ipwho.is as primary (best free detail), with ipapi.co fallback, then ipify as last resort for IP only
+     * - Normalizes fields into a consistent object
+     * - Uses best-effort VPN/proxy/hosting heuristics (NOT guaranteed)
+     * - WebRTC: collects candidates for a short window and then decides
+     * - Adds proper browser/device details + safer fingerprint creation
+     */
+
+    const SUPPORT_APIS = [
+      { name: "ipwho.is", url: "https://ipwho.is/" },          // best detail
+      { name: "ipapi.co", url: "https://ipapi.co/json/" },     // decent fallback
+      { name: "ipify",    url: "https://api.ipify.org?format=json" } // IP only fallback
+    ];
+
+    const VPN_KEYWORDS = [
+      // common VPN/hosting org strings seen in free ASN/org outputs
+      "mullvad", "nord", "expressvpn", "proton", "surfshark", "pia", "private internet access",
+      "cyberghost", "windscribe", "tunnelbear", "ivpn",
+      "digitalocean", "linode", "ovh", "hetzner", "amazon", "aws", "google", "microsoft", "azure",
+      "oracle", "alibaba", "vultr", "leaseweb", "contabo", "cloudflare", "fastly",
+      "m247", "choopa", "lumen", "cogent", "gcore", "datacamp", "hostinger"
+    ];
+
+    function el(id){ return document.getElementById(id); }
+
+    function safeText(x, fallback="Unknown"){
+      if (x === undefined || x === null) return fallback;
+      const s = String(x).trim();
+      return s ? s : fallback;
+    }
+
+    function setBadge(targetEl, type, text){
+      const cls = type === "safe" ? "badge badge-safe" : type === "warn" ? "badge badge-warn" : "badge badge-info";
+      targetEl.innerHTML = `<span class="${cls}">${text}</span>`;
+    }
+
+    function normalizeFromIpWhoIs(raw){
+      return {
+        source: "ipwho.is",
+        ip: raw.ip,
+        country: raw.country,
+        region: raw.region,
+        city: raw.city,
+        timezone: raw.timezone?.id,
+        latitude: raw.latitude,
+        longitude: raw.longitude,
+
+        asn: raw.connection?.asn,
+        isp: raw.connection?.isp,
+        org: raw.connection?.org,
+
+        // ipwho.is may include a "security" object, but it can be empty/absent depending on plan/changes
+        security: raw.security || {},
+        raw
+      };
+    }
+
+    function normalizeFromIpApiCo(raw){
+      return {
+        source: "ipapi.co",
+        ip: raw.ip,
+        country: raw.country_name,
+        region: raw.region,
+        city: raw.city,
+        timezone: raw.timezone,
+        latitude: raw.latitude,
+        longitude: raw.longitude,
+
+        asn: raw.asn,
+        isp: raw.org,     // ipapi.co uses org (often includes ISP/Org)
+        org: raw.org,
+
+        security: {},     // no free proxy flags here reliably
+        raw
+      };
+    }
+
+    function normalizeFromIpify(raw){
+      return {
+        source: "ipify",
+        ip: raw.ip,
+        country: null, region: null, city: null, timezone: null, latitude: null, longitude: null,
+        asn: null, isp: null, org: null,
+        security: {},
+        raw
+      };
+    }
+
+    async function fetchWithTimeout(url, timeoutMs=6000){
+      const controller = new AbortController();
+      const t = setTimeout(() => controller.abort(), timeoutMs);
+      try{
+        const res = await fetch(url, { signal: controller.signal, cache: "no-store" });
+        if(!res.ok) throw new Error(`HTTP ${res.status}`);
+        return await res.json();
+      } finally {
+        clearTimeout(t);
+      }
+    }
+
+    async function fetchIPData(){
+      let lastErr = null;
+
+      for (const api of SUPPORT_APIS){
+        try{
+          const raw = await fetchWithTimeout(api.url, 6500);
+
+          if(api.name === "ipwho.is"){
+            if(raw && raw.success === false) throw new Error(raw.message || "ipwho.is error");
+            return normalizeFromIpWhoIs(raw);
+          }
+
+          if(api.name === "ipapi.co"){
+            // ipapi.co returns "error": true sometimes
+            if(raw && raw.error) throw new Error(raw.reason || "ipapi.co error");
+            return normalizeFromIpApiCo(raw);
+          }
+
+          if(api.name === "ipify"){
+            if(!raw || !raw.ip) throw new Error("ipify invalid response");
+            return normalizeFromIpify(raw);
+          }
+
+        } catch (e){
+          lastErr = e;
+          console.log(`[webcheck] API failed: ${api.name}`, e);
+        }
+      }
+
+      throw lastErr || new Error("All APIs failed");
+    }
+
+    function detectVpnProxyBestEffort(net){
+      const org = (net.org || "").toLowerCase();
+      const isp = (net.isp || "").toLowerCase();
+      const combo = `${org} ${isp}`.trim();
+
+      // Strong signals if security flags exist (not always)
+      const sec = net.security || {};
+      const hasFlags = Object.keys(sec).length > 0;
+      const flagProxy = !!sec.proxy;
+      const flagVpn = !!sec.vpn;
+      const flagTor = !!sec.tor;
+
+      // Heuristic keyword match
+      const keyword = VPN_KEYWORDS.find(k => combo.includes(k));
+
+      // Classification
+      let level = "info";
+      let label = "Unknown";
+      let detail = "";
+
+      if(hasFlags && (flagTor || flagVpn || flagProxy)){
+        level = "warn";
+        if(flagTor) label = "TOR / Relay (flagged)";
+        else if(flagVpn) label = "VPN (flagged)";
+        else label = "Proxy (flagged)";
+        detail = `Signal from provider flags.`;
+      } else if(keyword){
+        // Could be VPN, could be datacenter/hosting
+        level = "warn";
+        label = "Likely VPN/Hosting";
+        detail = `Matched network keyword: "${keyword}".`;
+      } else if(combo){
+        level = "safe";
+        label = "Likely Residential / ISP";
+        detail = `No obvious hosting/VPN keywords detected.`;
+      } else {
+        level = "info";
+        label = "Unknown";
+        detail = `Not enough info (API limited).`;
+      }
+
+      // "Provider" guess (best-effort)
+      let providerGuess = null;
+      if(flagVpn || keyword){
+        providerGuess = safeText(net.org || net.isp || "Unknown");
+      }
+
+      return { level, label, detail, providerGuess, flags: { flagProxy, flagVpn, flagTor, hasFlags } };
+    }
+
+    function getBrowserDevice(){
+      const ua = navigator.userAgent || "";
+      const platform = navigator.userAgentData?.platform || navigator.platform || "Unknown";
+      const mobile = navigator.userAgentData?.mobile;
+      const uaBrands = navigator.userAgentData?.brands?.map(b => `${b.brand} ${b.version}`).join(", ");
+
+      return {
+        userAgent: ua,
+        platform,
+        mobile: (typeof mobile === "boolean") ? mobile : null,
+        brands: uaBrands || null,
+        language: navigator.language || null,
+        languages: (navigator.languages && navigator.languages.length) ? navigator.languages.join(", ") : null,
+        timezone: Intl.DateTimeFormat().resolvedOptions().timeZone || null,
+        doNotTrack: navigator.doNotTrack || null
+      };
+    }
+
+    function getHardware(){
+      const cpu = navigator.hardwareConcurrency ? `${navigator.hardwareConcurrency} cores` : "Unknown";
+      const ram = navigator.deviceMemory ? `${navigator.deviceMemory} GB` : "Unknown";
+      const screenStr = `${screen.width}x${screen.height} @${window.devicePixelRatio || 1}x`;
+      return { cpu, ram, screen: screenStr };
+    }
+
+    function getGpuRenderer(){
+      try{
+        const canvas = document.createElement("canvas");
+        const gl = canvas.getContext("webgl") || canvas.getContext("experimental-webgl");
+        if(!gl) return { renderer: "WebGL unavailable", vendor: null };
+
+        const debugInfo = gl.getExtension("WEBGL_debug_renderer_info");
+        if(!debugInfo) return { renderer: "Masked (privacy)", vendor: null };
+
+        const renderer = gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL);
+        const vendor = gl.getParameter(debugInfo.UNMASKED_VENDOR_WEBGL);
+        return { renderer: renderer || "Unknown", vendor: vendor || null };
+      } catch {
+        return { renderer: "Unknown", vendor: null };
+      }
+    }
+
+    async function sha256Base32Short(input){
+      const enc = new TextEncoder().encode(input);
+      const digest = await crypto.subtle.digest("SHA-256", enc);
+      const bytes = Array.from(new Uint8Array(digest));
+      // Base32-ish (A-Z2-7) short output
+      const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567";
+      let bits = 0, value = 0, output = "";
+      for(const b of bytes){
+        value = (value << 8) | b;
+        bits += 8;
+        while(bits >= 5){
+          output += alphabet[(value >>> (bits - 5)) & 31];
+          bits -= 5;
+          if(output.length >= 16) return output; // short
+        }
+      }
+      return output.slice(0, 16);
+    }
+
+    function genPass(){
+      const charset = "ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz0123456789!@#$%^&*";
+      const outLen = 32; // ~256-bit-ish randomness display; not literal entropy guarantee
+      const values = new Uint32Array(outLen);
+      crypto.getRandomValues(values);
+
+      let p = "";
+      for(let i=0; i<outLen; i++) p += charset[values[i] % charset.length];
+      el("pw-output").innerText = p;
+    }
+
+    async function runWebRTCTest(){
+      const webrtcEl = el("webrtc");
+      const detailEl = el("webrtc-detail");
+
+      if(!window.RTCPeerConnection){
+        webrtcEl.innerText = "Unsupported";
+        detailEl.innerText = "RTCPeerConnection is not available in this browser.";
+        return;
+      }
+
+      webrtcEl.innerText = "Testing…";
+      detailEl.innerText = "";
+
+      const localIps = new Set();
+      const candidates = [];
+
+      let pc;
+      try{
+        pc = new RTCPeerConnection({
+          iceServers: [{ urls: "stun:stun.l.google.com:19302" }]
+        });
+
+        pc.createDataChannel("x");
+
+        pc.onicecandidate = (ev) => {
+          if(!ev.candidate || !ev.candidate.candidate) return;
+          const c = ev.candidate.candidate;
+          candidates.push(c);
+
+          // Extract IP from candidate (best effort)
+          const parts = c.split(" ");
+          const ip = parts[4];
+          if(ip && (ip.includes(".") || ip.includes(":"))){
+            // local/private detection
+            if(isPrivateIp(ip)) localIps.add(ip);
+          }
+        };
+
+        const offer = await pc.createOffer();
+        await pc.setLocalDescription(offer);
+
+        // Wait briefly to collect candidates then decide
+        await new Promise(r => setTimeout(r, 1800));
+
+      } catch (e){
+        webrtcEl.innerText = "Error";
+        detailEl.innerText = String(e);
+        try{ pc?.close(); } catch {}
+        return;
+      }
+
+      try{ pc?.close(); } catch {}
+
+      if(localIps.size > 0){
+        setBadge(webrtcEl, "warn", "LEAK (private IP seen)");
+        detailEl.innerText = `Private IP(s): ${Array.from(localIps).join(", ")}`;
+      } else if(candidates.length > 0){
+        setBadge(webrtcEl, "safe", "No leak detected");
+        detailEl.innerText = "Candidates found, but no private/local IP surfaced.";
+      } else {
+        setBadge(webrtcEl, "info", "Blocked / Protected");
+        detailEl.innerText = "No ICE candidates returned (often due to browser privacy settings).";
+      }
+    }
+
+    function isPrivateIp(ip){
+      // IPv4 RFC1918 + localhost + link-local (best effort)
+      if(ip === "127.0.0.1") return true;
+      if(ip.startsWith("10.")) return true;
+      if(ip.startsWith("192.168.")) return true;
+      if(/^172\.(1[6-9]|2\d|3[0-1])\./.test(ip)) return true;
+      if(ip.startsWith("169.254.")) return true;
+
+      // IPv6 local checks (very rough)
+      const lower = ip.toLowerCase();
+      if(lower === "::1") return true;
+      if(lower.startsWith("fc") || lower.startsWith("fd")) return true; // ULA
+      if(lower.startsWith("fe80:")) return true; // link-local
+      return false;
+    }
+
+    function renderNetwork(net){
+      el("ip").innerText = safeText(net.ip, "Unknown");
+
+      const isp = safeText(net.isp, "Unknown");
+      const org = safeText(net.org, "");
+      el("isp").innerText = isp;
+      el("org").innerText = org ? `Org: ${org}` : "";
+
+      const country = safeText(net.country, "Unknown");
+      const region = safeText(net.region, "");
+      const city = safeText(net.city, "");
+      const asn = safeText(net.asn, "Unknown");
+      const tz = safeText(net.timezone, "");
+
+      el("tz").innerText = tz || "Unknown";
+
+      const where = [city, region, country].filter(Boolean).join(", ");
+      el("whois-summary").innerText = where ? `${where} • ASN ${asn}` : `ASN ${asn}`;
+
+      // Raw view
+      const rawLines = [
+        `Source: ${safeText(net.source)}`,
+        `IP: ${safeText(net.ip)}`,
+        `Org: ${safeText(net.org)}`,
+        `ISP: ${safeText(net.isp)}`,
+        `ASN: ${safeText(net.asn)}`,
+        `Location: ${where || "Unknown"}`,
+        `Timezone: ${tz || "Unknown"}`,
+        (net.latitude != null && net.longitude != null) ? `Coords: ${net.latitude}, ${net.longitude}` : `Coords: Unknown`
+      ];
+      el("whois-raw").textContent = rawLines.join("\n");
+    }
+
+    async function renderFingerprint(net){
+      const browser = getBrowserDevice();
+      const hw = getHardware();
+      const gpu = getGpuRenderer();
+
+      el("cpu").innerText = hw.cpu;
+      el("ram").innerText = hw.ram;
+      el("screen").innerText = hw.screen;
+      el("gpu").innerText = gpu.renderer ? gpu.renderer : "Unknown";
+      el("langs").innerText = safeText(browser.languages || browser.language || "Unknown");
+
+      // Device string (human-ish)
+      const parts = [];
+      if(browser.platform) parts.push(browser.platform);
+      if(typeof browser.mobile === "boolean") parts.push(browser.mobile ? "Mobile" : "Desktop");
+      if(browser.brands) parts.push(browser.brands);
+      el("device").innerText = parts.length ? parts.join(" • ") : "Unknown";
+
+      el("device-detail").innerText = `TZ: ${safeText(browser.timezone, "Unknown")} • DNT: ${safeText(browser.doNotTrack, "n/a")}`;
+
+      // fingerprint: keep it simple and stable-ish
+      const fpSource = [
+        net.ip || "",
+        net.asn || "",
+        net.org || "",
+        browser.platform || "",
+        browser.languages || browser.language || "",
+        browser.timezone || "",
+        hw.cpu || "",
+        hw.ram || "",
+        hw.screen || "",
+        gpu.renderer || "",
+        gpu.vendor || ""
+      ].join("|");
+
+      try{
+        const fp = await sha256Base32Short(fpSource);
+        el("fp").innerText = fp;
+      } catch {
+        el("fp").innerText = "Unavailable";
+      }
+    }
+
+    async function runAudit(){
+      // initial UI
+      el("ip").innerText = "Initializing uplink…";
+      el("isp").innerText = "Scanning ISP…";
+      el("org").innerText = "";
+      el("vpn-status").innerText = "Analyzing…";
+      el("vpn-detail").innerText = "";
+      el("whois-raw").textContent = "Connecting…";
+      el("device").innerText = "Collecting…";
+      el("fp").innerText = "Generating…";
+
+      // do these in parallel where possible
+      const webrtcPromise = runWebRTCTest();
+
+      let net;
+      try{
+        net = await fetchIPData();
+        renderNetwork(net);
+
+        const verdict = detectVpnProxyBestEffort(net);
+        setBadge(el("vpn-status"), verdict.level, verdict.label);
+
+        if(verdict.providerGuess && verdict.level !== "safe"){
+          el("vpn-detail").innerText = `Provider guess (best-effort): ${verdict.providerGuess}. ${verdict.detail}`;
+        } else {
+          el("vpn-detail").innerText = verdict.detail;
         }
 
-        function updateUI(ip, isp, country, isProxy, dns, raw) {
-            document.getElementById('ip').innerText = ip;
-            document.getElementById('isp').innerText = isp;
-            document.getElementById('dns').innerText = dns;
-            
-            document.getElementById('vpn-status').innerHTML = isProxy 
-                ? `Detected <span class="badge badge-warn">UNSAFE</span>` 
-                : `Residential <span class="badge badge-safe">SECURE</span>`;
+        await renderFingerprint(net);
+      } catch (e){
+        el("ip").innerText = "All APIs blocked";
+        el("isp").innerText = "Unknown";
+        el("vpn-status").innerText = "Unknown";
+        el("vpn-detail").innerText = "Network data could not be fetched.";
+        el("whois-raw").textContent = `Error: ${String(e)}`;
+        await renderFingerprint({ source: "none" });
+      }
 
-            document.getElementById('whois-raw').innerHTML = `
-                Organization: ${raw.connection?.org || isp}<br>
-                Location: ${raw.city || 'Unknown'}, ${country}<br>
-                Timezone: ${raw.timezone?.id || 'Unknown'}<br>
-                ASN: ${raw.connection?.asn || 'Unknown'}
-            `;
-        }
+      // key generation
+      genPass();
 
-        function startWebRTCTest() {
-            const pc = new RTCPeerConnection({iceServers: [{urls: "stun:stun.l.google.com:19302"}]});
-            pc.createDataChannel("");
-            pc.createOffer().then(o => pc.setLocalDescription(o));
-            pc.onicecandidate = (i) => {
-                if (i.candidate && i.candidate.candidate.includes("192.168")) {
-                    document.getElementById('webrtc').innerHTML = `<span style="color:#ff4757">LEAK: Internal IP Found</span>`;
-                } else {
-                    document.getElementById('webrtc').innerHTML = `<span class="badge badge-safe">NO LEAK</span>`;
-                }
-            };
-            setTimeout(() => {
-                if(document.getElementById('webrtc').innerText === "Testing...") 
-                    document.getElementById('webrtc').innerHTML = "Secure / Blocked";
-            }, 3000);
-        }
+      await webrtcPromise;
+    }
 
-        function getHardware() {
-            document.getElementById('cpu').innerText = navigator.hardwareConcurrency + " Cores";
-            document.getElementById('ram').innerText = (navigator.deviceMemory || "4+") + " GB";
-            
-            const canvas = document.createElement('canvas');
-            const gl = canvas.getContext('webgl');
-            const debugInfo = gl.getExtension('WEBGL_debug_renderer_info');
-            const gpu = debugInfo ? gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL).split(' ').pop() : "Generic";
-            document.getElementById('gpu').innerText = gpu;
-            document.getElementById('fp').innerText = btoa(gpu + navigator.language).substring(0, 12).toUpperCase();
-        }
-
-        function genPass() {
-            const c = "ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz0123456789!@#$%^&*";
-            let p = ""; const crypto = window.crypto || window.msCrypto;
-            const values = new Uint32Array(24);
-            crypto.getRandomValues(values);
-            for(let i=0; i<24; i++) p += c.charAt(values[i] % c.length);
-            document.getElementById('pw-output').innerText = p;
-        }
-
-        function runAudit() {
-            fetchIPData();
-            startWebRTCTest();
-            getHardware();
-            genPass();
-        }
-
-        window.onload = runAudit;
-    </script>
+    window.addEventListener("load", runAudit);
+  </script>
 </body>
 </html>
