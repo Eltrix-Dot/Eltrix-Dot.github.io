@@ -6,372 +6,913 @@
   <title>Ticketer — Open-source Discord Ticket Bot</title>
 
   <style>
-    :root {
-      /* Monochrome Palette */
-      --bg: #000000;
-      --bg2: #0a0a0a;
-      --card: rgba(255, 255, 255, 0.03);
-      --card-hover: rgba(255, 255, 255, 0.06);
-      --border: rgba(255, 255, 255, 0.12);
-      
-      --text: #ffffff;
-      --muted: rgba(255, 255, 255, 0.6);
-      
-      --brand: #ffffff;
-      --brand-invert: #000000;
-      
-      --shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
-      --radius: 14px;
-      --mono: ui-monospace, SFMono-Regular, Menlo, monospace;
-      --sans: ui-sans-serif, system-ui, -apple-system, sans-serif;
+    :root{
+      /* Light theme (default) */
+      --bg: #ffffff;
+      --bg2:#f6f6f6;
+
+      --text: #111111;
+      --muted: rgba(0,0,0,0.62);
+
+      --card: rgba(0,0,0,0.035);
+      --card2: rgba(0,0,0,0.055);
+      --border: rgba(0,0,0,0.10);
+
+      --shadow: 0 14px 45px rgba(0,0,0,0.10);
+      --radius: 18px;
+
+      /* UI surfaces */
+      --topbar-bg: rgba(255,255,255,0.72);
+
+      /* Buttons */
+      --btn-ghost-bg: rgba(0,0,0,0.04);
+      --btn-ghost-bg-hover: rgba(0,0,0,0.06);
+      --btn-ghost-border: rgba(0,0,0,0.12);
+      --btn-ghost-text: var(--text);
+
+      --btn-solid-bg: #111111;
+      --btn-solid-text: #ffffff;
+
+      /* Small accents (still monochrome) */
+      --dot1: #111111;
+      --dot2: #666666;
+
+      --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+      --sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
     }
 
-    * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
+    @media (prefers-color-scheme: dark){
+      :root{
+        --bg: #07070a;
+        --bg2:#0b0c10;
 
-    body {
-      margin: 0;
+        --text: #f5f5f5;
+        --muted: rgba(245,245,245,0.70);
+
+        --card: rgba(255,255,255,0.04);
+        --card2: rgba(255,255,255,0.06);
+        --border: rgba(255,255,255,0.10);
+
+        --shadow: 0 14px 45px rgba(0,0,0,0.50);
+        --topbar-bg: rgba(7,7,10,0.72);
+
+        --btn-ghost-bg: rgba(255,255,255,0.04);
+        --btn-ghost-bg-hover: rgba(255,255,255,0.06);
+        --btn-ghost-border: rgba(255,255,255,0.12);
+        --btn-ghost-text: var(--text);
+
+        --btn-solid-bg: #f5f5f5;
+        --btn-solid-text: #07070a;
+
+        --dot1: #f5f5f5;
+        --dot2: #9a9a9a;
+      }
+    }
+
+    *{ box-sizing:border-box; }
+    html{ scroll-behavior: smooth; }
+
+    body{
+      margin:0;
       font-family: var(--sans);
       color: var(--text);
-      background-color: var(--bg);
-      /* Subtiele mesh-grid achtergrond voor diepte */
-      background-image: 
-        linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
-      background-size: 50px 50px;
+      background: linear-gradient(180deg, var(--bg), var(--bg2));
       line-height: 1.6;
     }
 
-    .wrap {
+    .wrap{
       max-width: 1100px;
       margin: 0 auto;
-      padding: 0 24px;
+      padding: 0 20px;
     }
 
     /* Topbar */
-    .topbar {
+    .topbar{
       position: sticky;
       top: 0;
-      z-index: 100;
-      backdrop-filter: blur(15px);
-      background: rgba(0, 0, 0, 0.8);
+      z-index: 50;
+      backdrop-filter: blur(12px);
+      background: var(--topbar-bg);
       border-bottom: 1px solid var(--border);
     }
-    .topbar-inner {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 16px 0;
-    }
-
-    .brand {
-      display: flex;
-      align-items: center;
+    .topbar-inner{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding: 14px 0;
       gap: 12px;
-      text-decoration: none;
-      color: var(--text);
-      font-weight: 800;
-      font-size: 1.2rem;
-      letter-spacing: -0.5px;
-    }
-    .brand-badge {
-      width: 32px;
-      height: 32px;
-      border-radius: 8px;
-      background: var(--text);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .brand-badge svg {
-      width: 20px;
-      fill: var(--bg);
     }
 
-    .nav {
-      display: flex;
+    .brand{
+      display:flex;
+      align-items:center;
+      gap: 10px;
+      text-decoration:none;
+      color: var(--text);
+      font-weight: 950;
+      letter-spacing: -0.6px;
+      white-space: nowrap;
+    }
+    .brand-badge{
+      width: 34px;
+      height: 34px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--dot1), var(--dot2));
+      box-shadow: 0 10px 24px rgba(0,0,0,0.22);
+      flex: 0 0 34px;
+    }
+    .brand-title{
+      display:inline-flex;
+      align-items:center;
       gap: 8px;
     }
-    .nav a {
+    .brand-icon{
+      width: 18px;
+      height: 18px;
+      display:inline-block;
+      opacity: 0.95;
+    }
+    .brand-icon svg{
+      width: 18px;
+      height: 18px;
+      fill: none;
+      stroke: var(--text);
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .nav{
+      display:flex;
+      gap: 10px;
+      align-items:center;
+      flex-wrap: wrap;
+      justify-content:flex-end;
+    }
+    .nav a{
       color: var(--muted);
-      text-decoration: none;
+      text-decoration:none;
+      font-weight: 850;
       font-size: 14px;
-      font-weight: 600;
-      padding: 8px 12px;
-      border-radius: 8px;
-      transition: 0.2s;
+      padding: 10px 12px;
+      border-radius: 12px;
+      transition: 0.18s ease;
+      border: 1px solid transparent;
+      display:inline-flex;
+      align-items:center;
+      gap: 8px;
+      white-space: nowrap;
     }
-    .nav a:hover {
+    .nav a:hover{
       color: var(--text);
-      background: var(--card);
+      background: var(--btn-ghost-bg);
+      border-color: var(--btn-ghost-border);
+      transform: translateY(-1px);
     }
-    .nav .cta {
+
+    /* CTA in nav: solid */
+    .nav .cta{
+      color: var(--btn-solid-text);
+      background: var(--btn-solid-bg);
+      border: 1px solid transparent;
+      font-weight: 950;
+    }
+    .nav .cta:hover{
+      transform: translateY(-1px);
+      filter: brightness(1.02);
+    }
+
+    /* Mobile menu button */
+    .menu-btn{
+      display:none;
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      border: 1px solid var(--btn-ghost-border);
+      background: var(--btn-ghost-bg);
+      color: var(--text);
+      cursor:pointer;
+      padding: 0;
+      transition: 0.18s ease;
+    }
+    .menu-btn:hover{
+      transform: translateY(-1px);
+      background: var(--btn-ghost-bg-hover);
+    }
+    .menu-btn span{
+      display:block;
+      width: 18px;
+      height: 2px;
+      margin: 4px auto;
       background: var(--text);
-      color: var(--bg);
-    }
-    .nav .cta:hover {
-      background: #e0e0e0;
+      border-radius: 2px;
+      opacity: 0.9;
+      transition: 0.2s ease;
     }
 
     /* Hero */
-    header.hero {
-      padding: 80px 0 40px 0;
-      text-align: center;
+    header.hero{ padding: 44px 0 18px 0; }
+    .hero-grid{
+      display:grid;
+      grid-template-columns: 1fr;
+      gap: 18px;
+      align-items: stretch;
     }
-    .hero-card {
-      background: linear-gradient(180deg, var(--card) 0%, transparent 100%);
+    .hero-card{
+      background: var(--card);
       border: 1px solid var(--border);
-      border-radius: 24px;
-      padding: 60px 40px;
+      border-radius: var(--radius);
       box-shadow: var(--shadow);
+      overflow: hidden;
+      position: relative;
     }
-    .kicker {
-      text-transform: uppercase;
-      font-size: 12px;
-      letter-spacing: 2px;
-      font-weight: 700;
+    .hero-card .pad{ padding: 24px; }
+
+    .kicker{
+      display:inline-flex;
+      align-items:center;
+      gap: 10px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: var(--card2);
+      border: 1px solid var(--border);
       color: var(--muted);
-      margin-bottom: 20px;
-      display: block;
-    }
-    .title {
-      font-size: clamp(2.5rem, 5vw, 4rem);
       font-weight: 900;
-      line-height: 1.1;
-      margin: 0 0 20px 0;
-      letter-spacing: -2px;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
     }
-    .subtitle {
-      font-size: 1.1rem;
+    .title{
+      margin: 14px 0 10px 0;
+      font-size: clamp(2rem, 3.2vw, 3.1rem);
+      line-height: 1.05;
+      letter-spacing: -1.4px;
+      font-weight: 1000;
+    }
+    .subtitle{
+      margin: 0;
       color: var(--muted);
-      max-width: 600px;
-      margin: 0 auto 30px auto;
+      font-weight: 650;
+      max-width: 70ch;
+    }
+    .hero-actions{
+      display:flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 16px;
     }
 
     /* Buttons */
-    .hero-actions {
-      display: flex;
-      gap: 12px;
-      justify-content: center;
-      flex-wrap: wrap;
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap: 10px;
+      padding: 11px 14px;
+      border-radius: 14px;
+      text-decoration:none;
+      font-weight: 950;
+      font-size: 14px;
+      border: 1px solid var(--btn-ghost-border);
+      background: transparent;             /* ghost by default */
+      color: var(--btn-ghost-text);
+      transition: 0.18s ease;
+      white-space: nowrap;
     }
-    .btn {
-      padding: 12px 24px;
-      border-radius: 10px;
-      text-decoration: none;
-      font-weight: 700;
-      font-size: 15px;
-      transition: 0.2s;
-      border: 1px solid var(--border);
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-    }
-    
-    /* De "Doorzichtige" knoppen waar je om vroeg */
-    .btn.outline {
-      background: transparent;
-      color: var(--text);
-    }
-    .btn.outline:hover {
-      background: var(--card);
-      border-color: rgba(255,255,255,0.3);
+    .btn:hover{
+      transform: translateY(-1px);
+      background: var(--btn-ghost-bg-hover);
     }
 
-    .btn.primary {
-      background: var(--text);
-      color: var(--bg);
-      border-color: var(--text);
+    .btn.primary{
+      border-color: transparent;
+      background: var(--btn-solid-bg);
+      color: var(--btn-solid-text);
     }
-    .btn.primary:hover {
-      background: #e0e0e0;
+    .btn.primary:hover{ filter: brightness(1.02); }
+
+    /* "good" knop blijft ghost maar iets meer contrast */
+    .btn.good{
+      border: 1px solid var(--btn-ghost-border);
+      background: var(--btn-ghost-bg);
+      color: var(--btn-ghost-text);
     }
+    .btn.good:hover{ background: var(--btn-ghost-bg-hover); }
 
     /* Sections */
-    section { padding: 60px 0; }
-    .section-title { font-size: 2rem; font-weight: 800; margin-bottom: 40px; text-align: center; }
+    section{ padding: 18px 0; }
+    .section-title{
+      font-size: 1.6rem;
+      letter-spacing: -0.6px;
+      margin: 0 0 10px 0;
+    }
+    .section-sub{
+      margin: 0 0 14px 0;
+      color: var(--muted);
+      font-weight: 650;
+    }
 
-    .grid3 {
-      display: grid;
+    .grid3{
+      display:grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 20px;
+      gap: 12px;
     }
-    .card {
+    .card{
       background: var(--card);
       border: 1px solid var(--border);
-      padding: 30px;
-      border-radius: var(--radius);
-      transition: 0.3s;
+      border-radius: 16px;
+      padding: 16px;
     }
-    .card:hover {
-      border-color: rgba(255,255,255,0.3);
-      background: var(--card-hover);
+    .card h3{
+      margin: 0 0 8px 0;
+      letter-spacing: -0.4px;
     }
-    .card h3 { margin-top: 0; font-size: 1.3rem; }
-    .card p { color: var(--muted); font-size: 15px; margin-bottom: 0; }
+    .card p{
+      margin: 0;
+      color: var(--muted);
+      font-weight: 650;
+    }
 
-    /* Commands Component */
-    .commands {
-      display: grid;
-      grid-template-columns: 280px 1fr;
-      gap: 24px;
-      background: var(--bg2);
-      padding: 24px;
-      border-radius: 20px;
+    /* Feature list */
+    .feature-list{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    .feature{
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 14px;
+      display:flex;
+      gap: 12px;
+      align-items:flex-start;
+    }
+    .dot{
+      flex: 0 0 12px;
+      width: 12px;
+      height: 12px;
+      border-radius: 999px;
+      margin-top: 6px;
+      background: linear-gradient(135deg, var(--dot1), var(--dot2));
+      box-shadow: 0 10px 25px rgba(0,0,0,0.20);
+    }
+    .feature strong{ display:block; margin-bottom: 2px; }
+    .feature span{ color: var(--muted); font-weight: 650; }
+
+    /* Steps */
+    .steps{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    .step{
+      border-radius: 16px;
+      padding: 16px;
+      background: var(--card);
       border: 1px solid var(--border);
     }
-    .cmd-nav { display: flex; flex-direction: column; gap: 4px; }
-    .cmd-nav button {
-      background: transparent;
-      border: 1px solid transparent;
-      color: var(--muted);
-      text-align: left;
-      padding: 12px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight: 600;
-      transition: 0.2s;
+    .step .n{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      width: 30px;
+      height: 30px;
+      border-radius: 12px;
+      background: var(--card2);
+      border: 1px solid var(--border);
+      font-weight: 950;
+      margin-bottom: 10px;
     }
-    .cmd-nav button.active {
-      background: var(--card);
-      color: var(--text);
-      border-color: var(--border);
-    }
-    .cmd-panel { padding: 10px; }
-    .cmd-panel ul { list-style: none; padding: 0; }
-    .cmd-panel li {
-      padding: 12px;
-      border-bottom: 1px solid rgba(255,255,255,0.05);
-      font-size: 14px;
-    }
-    .cmd-panel code { font-family: var(--mono); color: var(--text); font-weight: bold; margin-right: 10px; }
+    .step h3{ margin: 0 0 6px 0; }
 
-    footer {
-      text-align: center;
-      padding: 60px 0;
-      border-top: 1px solid var(--border);
-      color: var(--muted);
+    pre{
+      margin: 10px 0 0 0;
+      background: rgba(0,0,0,0.08);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 12px;
+      overflow-x:auto;
+    }
+    @media (prefers-color-scheme: dark){
+      pre{ background: rgba(0,0,0,0.35); }
+    }
+    pre code{
+      font-family: var(--mono);
       font-size: 13px;
+      color: var(--text);
+    }
+    code.inline{
+      font-family: var(--mono);
+      background: var(--card2);
+      border: 1px solid var(--border);
+      padding: 2px 6px;
+      border-radius: 8px;
+      font-size: 0.95em;
     }
 
-    @media (max-width: 850px) {
-      .grid3, .commands { grid-template-columns: 1fr; }
-      .hero-card { padding: 40px 20px; }
-      .nav { display: none; }
+    /* Command explorer */
+    .commands{
+      display:grid;
+      grid-template-columns: 320px 1fr;
+      gap: 12px;
+      align-items:start;
+    }
+    .cmd-nav{
+      position: sticky;
+      top: 78px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 12px;
+    }
+    .cmd-nav button{
+      width:100%;
+      text-align:left;
+      border: 1px solid transparent;
+      background: transparent;
+      color: var(--muted);
+      padding: 10px 12px;
+      border-radius: 12px;
+      font-weight: 900;
+      cursor:pointer;
+      transition: 0.16s ease;
+    }
+    .cmd-nav button:hover{
+      background: var(--btn-ghost-bg);
+      color: var(--text);
+      border-color: var(--btn-ghost-border);
+    }
+    .cmd-nav button.active{
+      background: var(--btn-ghost-bg-hover);
+      border-color: var(--btn-ghost-border);
+      color: var(--text);
+    }
+    .cmd-panel{
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 16px;
+      min-height: 260px;
+    }
+    .cmd-panel h3{
+      margin: 0 0 8px 0;
+      letter-spacing: -0.3px;
+    }
+    .cmd-panel ul{
+      margin: 10px 0 0 0;
+      padding-left: 18px;
+      color: var(--muted);
+      font-weight: 650;
+    }
+    .cmd-panel li{ margin: 6px 0; }
+
+    /* License block */
+    .license{
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 16px;
+    }
+    .license .tag{
+      display:inline-flex;
+      align-items:center;
+      gap: 10px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: var(--card2);
+      border: 1px solid var(--border);
+      font-weight: 950;
+      font-size: 12px;
+      margin-bottom: 10px;
+    }
+
+    /* Support server block */
+    .support{
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 16px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .support strong{
+      display:block;
+      letter-spacing: -0.3px;
+    }
+    .support span{
+      color: var(--muted);
+      font-weight: 650;
+    }
+
+    /* Footer */
+    footer{
+      padding: 35px 0 45px 0;
+      color: var(--muted);
+      font-weight: 650;
+      text-align:center;
+    }
+
+    /* Responsive */
+    @media (max-width: 980px){
+      .grid3{ grid-template-columns: 1fr; }
+      .feature-list{ grid-template-columns: 1fr; }
+      .steps{ grid-template-columns: 1fr; }
+      .commands{ grid-template-columns: 1fr; }
+      .cmd-nav{ position: relative; top: 0; }
+    }
+
+    @media (max-width: 760px){
+      .nav{ display:none; }
+      .menu-btn{ display:inline-block; }
+      .nav.mobile-open{
+        display:flex;
+        width: 100%;
+        padding: 8px 0 14px 0;
+        border-top: 1px solid var(--border);
+        margin-top: 10px;
+      }
+      .topbar-inner{ flex-wrap: wrap; }
     }
   </style>
 </head>
 
 <body>
+  <div class="topbar">
+    <div class="wrap">
+      <div class="topbar-inner">
+        <a class="brand" href="#top">
+          <span class="brand-badge" aria-hidden="true"></span>
+          <span class="brand-title">
+            <span class="brand-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24">
+                <path d="M12 15.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Z"></path>
+                <path d="M19.4 15a7.9 7.9 0 0 0 .1-1l2-1.2-2-3.4-2.3.5a7.7 7.7 0 0 0-1.7-1l-.4-2.3H9l-.4 2.3a7.7 7.7 0 0 0-1.7 1l-2.3-.5-2 3.4L4.6 14a7.9 7.9 0 0 0 .1 1 7.9 7.9 0 0 0-.1 1l-2 1.2 2 3.4 2.3-.5a7.7 7.7 0 0 0 1.7 1l.4 2.3h6.1l.4-2.3a7.7 7.7 0 0 0 1.7-1l2.3.5 2-3.4-2-1.2a7.9 7.9 0 0 0-.1-1Z"></path>
+              </svg>
+            </span>
+            <span>Ticketer</span>
+          </span>
+        </a>
 
-<div class="topbar">
-  <div class="wrap">
-    <div class="topbar-inner">
-      <a class="brand" href="#">
-        <div class="brand-badge">
-          <svg viewBox="0 0 24 24"><path d="M12 15.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Z"></path><path d="M19.4 15a7.9 7.9 0 0 0 .1-1l2-1.2-2-3.4-2.3.5a7.7 7.7 0 0 0-1.7-1l-.4-2.3H9l-.4 2.3a7.7 7.7 0 0 0-1.7 1l-2.3-.5-2 3.4L4.6 14a7.9 7.9 0 0 0 .1 1 7.9 7.9 0 0 0-.1 1l-2 1.2 2 3.4 2.3-.5a7.7 7.7 0 0 0 1.7 1l.4 2.3h6.1l.4-2.3a7.7 7.7 0 0 0 1.7-1l2.3.5 2-3.4-2-1.2a7.9 7.9 0 0 0-.1-1Z"></path></svg>
-        </div>
-        <span>Ticketer</span>
-      </a>
-      <nav class="nav">
-        <a href="#features">Features</a>
-        <a href="#commands">Commands</a>
-        <a href="#support">Support</a>
-        <a class="cta" href="https://github.com/Eltrix-Dot/Ticketer">GitHub Repo</a>
-      </nav>
+        <button class="menu-btn" id="menuBtn" aria-label="Toggle menu" aria-expanded="false" aria-controls="nav">
+          <span></span><span></span><span></span>
+        </button>
+
+        <nav class="nav" id="nav" aria-label="Site navigation">
+          <a href="#why">Why</a>
+          <a href="#features">Features</a>
+          <a href="#quickstart">Quick Start</a>
+          <a href="#setup">Setup</a>
+          <a href="#commands">Commands</a>
+          <a href="#support">Support</a>
+          <a href="#license">License</a>
+          <a class="cta" href="https://github.com/Eltrix-Dot/Ticketer" target="_blank" rel="noopener">GitHub Repo →</a>
+        </nav>
+      </div>
     </div>
   </div>
-</div>
 
-<div class="wrap">
-  <header class="hero">
-    <div class="hero-card">
-      <span class="kicker">Open-source • Security-first</span>
-      <h1 class="title">Stop paying for support.</h1>
-      <p class="subtitle">
-        Een krachtige, volledig aanpasbare Discord ticket bot. Geen maandelijkse kosten, geen beperkingen. Volledige controle over je data.
+  <div class="wrap" id="top">
+    <header class="hero">
+      <div class="hero-grid">
+        <div class="hero-card">
+          <div class="pad">
+            <div class="kicker">Open-source • No paywalls • Self-hosted</div>
+            <h1 class="title">Stop paying for support. Start building your community.</h1>
+            <p class="subtitle">
+              <strong>Ticketer</strong> is a fully open-source, unrestricted Discord ticket bot by <strong>Eltrix</strong>.
+              Built for server owners and developers who want <strong>full control</strong>, <strong>privacy</strong>, and <strong>zero monthly fees</strong>.
+            </p>
+
+            <div class="hero-actions">
+              <a class="btn primary" href="https://github.com/Eltrix-Dot/Ticketer" target="_blank" rel="noopener">View on GitHub →</a>
+              <a class="btn good" href="#quickstart">Quick Start ↓</a>
+              <a class="btn" href="#support">Support Server ↓</a>
+              <a class="btn" href="#commands">Commands ↓</a>
+            </div>
+
+            <div style="margin-top:14px; color:var(--muted); font-weight:650;">
+              Tip: This page is based on the repo docs (<span style="font-family:var(--mono);">README.md</span>, <span style="font-family:var(--mono);">SetUp.md</span>, <span style="font-family:var(--mono);">Commands.md</span>).
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <section id="why">
+      <h2 class="section-title">🚀 Why Ticketer?</h2>
+      <p class="section-sub">
+        Most Discord ticket bots lock essential features behind a monthly subscription. Ticketer is built to be the opposite.
       </p>
-      <div class="hero-actions">
-        <a href="https://github.com/Eltrix-Dot/Ticketer" class="btn primary">GitHub Repo →</a>
-        <a href="#commands" class="btn outline">Bekijk Commands</a>
-        <a href="https://discord.gg/xkygDEcZxm" class="btn outline">Support Server</a>
-      </div>
-    </div>
-  </header>
 
-  <section id="features">
-    <h2 class="section-title">Waarom Ticketer?</h2>
-    <div class="grid3">
-      <div class="card">
-        <h3>Puur Open Source</h3>
-        <p>De code is van jou. Pas aan wat je wilt onder de AGPL-3.0 licentie.</p>
-      </div>
-      <div class="card">
-        <h3>Privacy First</h3>
-        <p>Host het zelf op je eigen server. Geen externe databases die je data opslaan.</p>
-      </div>
-      <div class="card">
-        <h3>Gratis Voor Altijd</h3>
-        <p>Geen 'Pro' features achter een betaalmuur. Alles is direct beschikbaar.</p>
-      </div>
-    </div>
-  </section>
-
-  <section id="commands">
-    <h2 class="section-title">Commands Explorer</h2>
-    <div class="commands">
-      <div class="cmd-nav" id="cmdNav">
-        <button class="active" data-cat="general">Algemeen</button>
-        <button data-cat="admin">Admin & Setup</button>
-        <button data-cat="staff">Ticket Beheer</button>
-      </div>
-      <div class="cmd-panel" id="cmdPanel">
+      <div class="grid3">
+        <div class="card">
+          <h3>🆓 No Paywalls</h3>
+          <p>All features are free and open. No hidden “premium” tiers for basic needs.</p>
         </div>
-    </div>
-  </section>
-</div>
+        <div class="card">
+          <h3>🔒 Privacy First</h3>
+          <p>Host it yourself—your server, your data, your rules.</p>
+        </div>
+        <div class="card">
+          <h3>🧠 Open Source Forever</h3>
+          <p>Licensed under <strong>AGPL-3.0</strong> to protect user freedom and discourage closed forks.</p>
+        </div>
+      </div>
+    </section>
 
-<footer>
-  <div class="wrap">
-    © 2026 Eltrix Group • Gelicenseerd onder AGPL-3.0 • Gebouwd voor de community.
+    <section id="features">
+      <h2 class="section-title">✨ What you get</h2>
+      <p class="section-sub">Core capabilities, pulled from the Ticketer docs and command set.</p>
+
+      <div class="feature-list">
+        <div class="feature">
+          <span class="dot" aria-hidden="true"></span>
+          <div>
+            <strong>Interactive setup wizard</strong>
+            <span>Run <code class="inline">/setup</code> to configure channels, ticket category, logs, and staff role via select menus.</span>
+          </div>
+        </div>
+
+        <div class="feature">
+          <span class="dot" aria-hidden="true"></span>
+          <div>
+            <strong>Ticket panel + modal flow</strong>
+            <span>Users open tickets from a panel button; staff can claim, close, transcript, and manage members.</span>
+          </div>
+        </div>
+
+        <div class="feature">
+          <span class="dot" aria-hidden="true"></span>
+          <div>
+            <strong>Transcripts</strong>
+            <span>Generate transcripts with <code class="inline">/transcript</code> and optionally set a dedicated transcript channel.</span>
+          </div>
+        </div>
+
+        <div class="feature">
+          <span class="dot" aria-hidden="true"></span>
+          <div>
+            <strong>Department routing</strong>
+            <span>Configure routes using <code class="inline">/department_set</code> and move tickets with <code class="inline">/move</code>.</span>
+          </div>
+        </div>
+
+        <div class="feature">
+          <span class="dot" aria-hidden="true"></span>
+          <div>
+            <strong>Safety controls</strong>
+            <span>Blacklist users from opening tickets, plus anti-spam constraints (1 open ticket rule + cooldown after close).</span>
+          </div>
+        </div>
+
+        <div class="feature">
+          <span class="dot" aria-hidden="true"></span>
+          <div>
+            <strong>Staff tools</strong>
+            <span>Rename tickets, search tickets, view stats, add/remove members, and use anonymous staff responses.</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="quickstart">
+      <h2 class="section-title">⚙️ Quick Start</h2>
+      <p class="section-sub">From the repository docs (current setup flow uses Python).</p>
+
+      <div class="steps">
+        <div class="step">
+          <div class="n">1</div>
+          <h3>Clone</h3>
+          <pre><code>git clone https://github.com/Eltrix-Dot/Ticketer.git
+cd Ticketer</code></pre>
+        </div>
+
+        <div class="step">
+          <div class="n">2</div>
+          <h3>Install dependencies</h3>
+          <pre><code>pip install -r requirements.txt</code></pre>
+        </div>
+
+        <div class="step">
+          <div class="n">3</div>
+          <h3>Configure</h3>
+          <p class="section-sub" style="margin-top:0;">Create a <code class="inline">.env</code> file in the project root:</p>
+          <pre><code>DISCORD_TOKEN=your_bot_token_here
+CLIENT_ID=your_application_client_id
+ADMIN_USER_ID=optional_superuser_discord_id
+SUPPORT_INVITE_CODE=optional_support_invite</code></pre>
+        </div>
+
+        <div class="step">
+          <div class="n">4</div>
+          <h3>Run</h3>
+          <pre><code>python Main.py</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <section id="setup">
+      <h2 class="section-title">🧩 Setup flow (in Discord)</h2>
+      <p class="section-sub">Pulled from the project setup guide.</p>
+
+      <div class="grid3">
+        <div class="card">
+          <h3>1) Portal checklist</h3>
+          <p>
+            Enable <strong>Server Members Intent</strong>.
+            Invite with scopes <code class="inline">bot</code> + <code class="inline">applications.commands</code>.
+          </p>
+        </div>
+        <div class="card">
+          <h3>2) Run <code class="inline">/setup</code></h3>
+          <p>
+            Owner/superuser only. Select setup channel, ticket category, log channel, and staff role. Confirm deployment.
+          </p>
+        </div>
+        <div class="card">
+          <h3>3) Optional extras</h3>
+          <p>
+            Use <code class="inline">/set_transcript</code> for a dedicated transcript channel.
+            Configure department routes for <code class="inline">/move</code>.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="commands">
+      <h2 class="section-title">📋 Commands</h2>
+      <p class="section-sub">
+        Interactive overview based on <code class="inline">Commands.md</code>.
+      </p>
+
+      <div class="commands">
+        <div class="cmd-nav" aria-label="Command categories">
+          <button class="active" data-panel="general">General</button>
+          <button data-panel="admin">Setup / Admin</button>
+          <button data-panel="staff">Ticket & Staff</button>
+          <button data-panel="safety">Moderation / Safety</button>
+          <button data-panel="workflow">Workflow / Utility</button>
+          <button data-panel="ui">Buttons / UI Flows</button>
+        </div>
+
+        <div class="cmd-panel" id="panel"></div>
+      </div>
+    </section>
+
+    <section id="support">
+      <h2 class="section-title">💬 Support</h2>
+      <p class="section-sub">Need help setting up Ticketer or want to report a bug?</p>
+
+      <div class="support">
+        <div>
+          <strong>Join our support server</strong>
+          <span>Discord invite: <span style="font-family: var(--mono);">discord.gg/xkygDEcZxm</span></span>
+        </div>
+
+        <div style="display:flex; gap:10px; flex-wrap:wrap;">
+          <a class="btn good" href="https://discord.gg/xkygDEcZxm" target="_blank" rel="noopener">Join Support Server →</a>
+          <a class="btn" href="https://github.com/Eltrix-Dot/Ticketer/issues" target="_blank" rel="noopener">Open an issue →</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="license">
+      <h2 class="section-title">⚖️ License & Open Source Philosophy</h2>
+      <p class="section-sub">
+        Ticketer is licensed under the <strong>GNU Affero General Public License v3.0 (AGPL-3.0)</strong>.
+      </p>
+
+      <div class="license">
+        <div class="tag">AGPL-3.0 • Network copyleft</div>
+        <ul style="margin:0; padding-left:18px; color:var(--muted); font-weight:650;">
+          <li><strong>Keep it open:</strong> if you modify Ticketer and run it for others (network use), you must offer the corresponding source to users.</li>
+          <li><strong>Preserve credits:</strong> keep original copyright/credits.</li>
+          <li><strong>Contribute back:</strong> PRs are encouraged so improvements benefit everyone.</li>
+        </ul>
+        <div style="margin-top:12px;">
+          <a class="btn" href="https://github.com/Eltrix-Dot/Ticketer/blob/main/LICENSE" target="_blank" rel="noopener">Read LICENSE →</a>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      © 2026 Eltrix Group • Ticketer is open-source under AGPL-3.0 • Built for self-hosting and community ownership.
+    </footer>
   </div>
-</footer>
 
-<script>
-  const CMD_DATA = {
-    general: [
-      { c: "/ping", d: "Bekijk de bot latentie." },
-      { c: "/about", d: "Informatie over Ticketer." },
-      { c: "/serverinfo", d: "Statistieken van de huidige server." }
-    ],
-    admin: [
-      { c: "/setup", d: "Start de interactieve setup wizard." },
-      { c: "/set_transcript", d: "Stel een kanaal in voor logs." },
-      { c: "/blacklist", d: "Blokkeer een gebruiker van tickets." }
-    ],
-    staff: [
-      { c: "/claim", d: "Neem een ticket in behandeling." },
-      { c: "/close", d: "Sluit en archiveer het huidige ticket." },
-      { c: "/rename", d: "Verander de naam van het ticket kanaal." }
-    ]
-  };
+  <script>
+    // Mobile nav toggle
+    const menuBtn = document.getElementById("menuBtn");
+    const nav = document.getElementById("nav");
+    menuBtn?.addEventListener("click", () => {
+      const isOpen = nav.classList.toggle("mobile-open");
+      menuBtn.setAttribute("aria-expanded", String(isOpen));
+    });
 
-  function updatePanel(cat) {
-    const panel = document.getElementById('cmdPanel');
-    const items = CMD_DATA[cat];
-    panel.innerHTML = '<ul>' + items.map(i => `<li><code>${i.c}</code> ${i.d}</li>`).join('') + '</ul>';
-  }
+    // Command panels (from Commands.md)
+    const PANELS = {
+      general: {
+        title: "General Commands",
+        items: [
+          "/ping — Shows bot latency.",
+          "/about — Shows metadata about the bot.",
+          "/uptime — Shows bot uptime.",
+          "/serverinfo — Shows server statistics.",
+          "/userinfo [member] — Shows info about a member (or yourself).",
+          "/commands — Quick command summary."
+        ]
+      },
+      admin: {
+        title: "Setup / Admin Commands",
+        items: [
+          "/setup — Interactive setup wizard with Select Menus (owner/superuser only).",
+          "/check — Diagnostic pre-flight check (owner/superuser only).",
+          "/set_transcript <channel> — Set dedicated transcript channel (owner/superuser only).",
+          "/department_set <label> <category> <role> — Create/update department route (owner/admin only).",
+          "/department_remove <label> — Remove department route (owner/admin only).",
+          "/department_list — List department routes (owner/admin only)."
+        ]
+      },
+      staff: {
+        title: "Ticket & Staff Commands",
+        items: [
+          "/ticketsetup — Post ticket panel (staff only).",
+          "/ticketdelete — Delete a closed ticket channel (staff only).",
+          "/memberadd <member> — Add member to current ticket (staff only).",
+          "/memberremove <member> — Remove member from current ticket (staff only).",
+          "/ticketrename <new_name> — Rename current open ticket (staff only).",
+          "/ticket_search <query> — Search ticket channels (staff only).",
+          "/ticket_stats — Ticket metrics: open/closed/claimed/priority/age (staff only).",
+          "/my_tickets — Your open + recent closed tickets."
+        ]
+      },
+      safety: {
+        title: "Moderation / Safety Commands",
+        items: [
+          "/blacklist <user> — Block a user from opening tickets (staff only).",
+          "/unblacklist <user> — Remove user from blacklist (staff only).",
+          "/blacklist_list — Show blacklisted users (staff only)."
+        ]
+      },
+      workflow: {
+        title: "Workflow / Utility Commands",
+        items: [
+          "/transcript — Generate transcript for current ticket (staff only).",
+          "/move — Move current ticket via department route selector (staff only).",
+          "/anonymous <message> — Staff response as bot identity (staff only)."
+        ]
+      },
+      ui: {
+        title: "Buttons / UI Flows (not slash commands)",
+        items: [
+          "Open Ticket — panel button that starts ticket modal flow.",
+          "Claim Ticket — claims ticket + applies claim visibility rules.",
+          "Close Ticket — closes ticket + transcript/logging flow.",
+          "Force Unclaim — returns claimed ticket to unclaimed state."
+        ]
+      }
+    };
 
-  document.getElementById('cmdNav').addEventListener('click', (e) => {
-    if(e.target.tagName === 'BUTTON') {
-      document.querySelectorAll('#cmdNav button').forEach(b => b.classList.remove('active'));
-      e.target.classList.add('active');
-      updatePanel(e.target.dataset.cat);
+    const panelEl = document.getElementById("panel");
+    const navButtons = document.querySelectorAll(".cmd-nav button");
+
+    function renderPanel(key){
+      const data = PANELS[key];
+      if(!data || !panelEl) return;
+
+      panelEl.innerHTML = `
+        <h3>${data.title}</h3>
+        <p style="margin:0; color: var(--muted); font-weight:650;">
+          Click categories on the left to browse.
+        </p>
+        <ul>
+          ${data.items.map(x => {
+            const parts = x.split(" — ");
+            const cmd = parts[0];
+            const desc = parts.slice(1).join(" — ");
+            return `<li><span style="font-family: var(--mono); color: var(--text);">${cmd}</span>${desc ? `<span> — ${desc}</span>` : ""}</li>`;
+          }).join("")}
+        </ul>
+        <div style="margin-top:12px; display:flex; gap:10px; flex-wrap:wrap;">
+          <a class="btn" href="https://github.com/Eltrix-Dot/Ticketer/blob/main/Commands.md" target="_blank" rel="noopener">Open Commands.md →</a>
+          <a class="btn" href="https://github.com/Eltrix-Dot/Ticketer/blob/main/SetUp.md" target="_blank" rel="noopener">Open SetUp.md →</a>
+        </div>
+      `;
     }
-  });
 
-  updatePanel('general');
-</script>
+    navButtons.forEach(btn => {
+      btn.addEventListener("click", () => {
+        navButtons.forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        renderPanel(btn.dataset.panel);
+      });
+    });
 
+    renderPanel("general");
+  </script>
 </body>
 </html>
