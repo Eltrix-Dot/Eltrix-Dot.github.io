@@ -544,13 +544,13 @@
   <div class="topbar">
     <div class="wrap">
       <div class="topbar-inner">
-        <a class="brand" href="#top">
+        <a class="brand" href="index.html" aria-label="Back to Eltrix homepage">
           <span class="brand-badge" aria-hidden="true"></span>
           <span class="brand-title">
             <span class="brand-icon" aria-hidden="true">
               <svg viewBox="0 0 24 24">
                 <path d="M12 15.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Z"></path>
-                <path d="M19.4 15a7.9 7.9 0 0 0 .1-1l2-1.2-2-3.4-2.3.5a7.7 7.7 0 0 0-1.7-1l-.4-2.3H9l-.4 2.3a7.7 7.7 0 0 0-1.7 1l-2.3-.5-2 3.4L4.6 14a7.9 7.9 0 0 0 .1 1 7.9 7.9 0 0 0-.1 1l-2 1.2 2 3.4 2.3-.5a7.7 7.7 0 0 0 1.7 1l.4 2.3h6.1l.4-2.3a7.7 7.7 0 0 0 1.7-1l2.3.5 2-3.4-2-1.2a7.9 7.9 0 0 0-.1-1Z"></path>
+                <path d="M19.4 15a7.9 7.9 0 0 0 .1-1l2-1.2-2-3.4-2.3.5a7.7 7.7 0 0 0-1.7-1l-.4-2.3H9l-.4 2.3a7.7 7.7 0 0 0-1.7 1l-2.3-.5-2 3.4L4.6 14a7.9 7.9 0 0 0 .1 1 7.9 7.9 0 0 0-.1 1l-2 1.2 2 3.4
               </svg>
             </span>
             <span>Ticketer</span>
@@ -562,6 +562,7 @@
         </button>
 
         <nav class="nav" id="nav" aria-label="Site navigation">
+          <a href="index.html">Home</a>
           <a href="#why">Why</a>
           <a href="#features">Features</a>
           <a href="#quickstart">Quick Start</a>
@@ -886,7 +887,7 @@ SUPPORT_INVITE_CODE=optional_support_invite</code></pre>
 
       panelEl.innerHTML = `
         <h3>${data.title}</h3>
-        <p style="margin:0; color: var(--muted); font-weight:650;">
+        <p style="margin:0; color: var(--muted); font-weight:650;"><br>
           Click categories on the left to browse.
         </p>
         <ul>
