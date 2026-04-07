@@ -103,8 +103,9 @@
       gap: 12px;
     }
 
+    /* Brand (fixed + stable as button) */
     .brand{
-      display:flex;
+      display:inline-flex;
       align-items:center;
       gap: 10px;
       text-decoration:none;
@@ -112,7 +113,22 @@
       font-weight: 950;
       letter-spacing: -0.6px;
       white-space: nowrap;
+      line-height: 1;                 /* stabilizer */
+      padding: 6px 8px;               /* makes it feel like a button */
+      border-radius: 14px;
+      border: 1px solid transparent;
+      transition: 0.18s ease;
     }
+    .brand:hover{
+      background: var(--btn-ghost-bg);
+      border-color: var(--btn-ghost-border);
+      transform: translateY(-1px);
+    }
+    .brand:focus-visible{
+      outline: 2px solid var(--text);
+      outline-offset: 3px;
+    }
+
     .brand-badge{
       width: 34px;
       height: 34px;
@@ -121,25 +137,12 @@
       box-shadow: 0 10px 24px rgba(0,0,0,0.22);
       flex: 0 0 34px;
     }
+
     .brand-title{
       display:inline-flex;
       align-items:center;
       gap: 8px;
-    }
-    .brand-icon{
-      width: 18px;
-      height: 18px;
-      display:inline-block;
-      opacity: 0.95;
-    }
-    .brand-icon svg{
-      width: 18px;
-      height: 18px;
-      fill: none;
-      stroke: var(--text);
-      stroke-width: 2;
-      stroke-linecap: round;
-      stroke-linejoin: round;
+      line-height: 1;                 /* stabilizer */
     }
 
     .nav{
@@ -544,16 +547,11 @@
   <div class="topbar">
     <div class="wrap">
       <div class="topbar-inner">
+        <!-- Brand button: now says Eltrix and links to homepage -->
         <a class="brand" href="index.html" aria-label="Back to Eltrix homepage">
           <span class="brand-badge" aria-hidden="true"></span>
           <span class="brand-title">
-            <span class="brand-icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24">
-                <path d="M12 15.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Z"></path>
-                <path d="M19.4 15a7.9 7.9 0 0 0 .1-1l2-1.2-2-3.4-2.3.5a7.7 7.7 0 0 0-1.7-1l-.4-2.3H9l-.4 2.3a7.7 7.7 0 0 0-1.7 1l-2.3-.5-2 3.4L4.6 14a7.9 7.9 0 0 0 .1 1 7.9 7.9 0 0 0-.1 1l-2 1.2 2 3.4
-              </svg>
-            </span>
-            <span>Ticketer</span>
+            <span>Eltrix</span>
           </span>
         </a>
 
