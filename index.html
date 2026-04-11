@@ -3,31 +3,48 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  
+
   <title>Eltrix-Dot | Official Website & Discord Automation Projects</title>
-  
+
+  <!-- SEO -->
   <meta name="title" content="Eltrix-Dot | Official Website & Discord Automation Projects">
   <meta name="description" content="Official hub of Eltrix-Dot. Exploring Discord utilities, automation tools like Ticketer, and unique 2D pixel art games. Built for a safer internet.">
-  <meta name="keywords" content="Eltrix-Dot, Eltrix, Discord Bot, Ticketer, Swimpely, Automation, Pixel Art, Game Dev, Eltrix, eltrix, Eltrixbot">
+  <meta name="keywords" content="Eltrix-Dot, Eltrix, Discord Bot, Ticketer, Swimpely, Automation, Pixel Art, Game Dev, Eltrix, eltrix, Eltrixbot, Eltrixbot">
   <meta name="author" content="Eltrix-Dot">
   <link rel="canonical" href="https://eltrix-dot.github.io/" />
 
+  <!-- Favicons (IMPORTANT: use small files hosted on your site, not raw.githubusercontent.com) -->
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" href="/favicon-32.png" sizes="32x32">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180">
+
+  <!-- Optional PWA icons (safe even if you don't use a manifest yet) -->
+  <meta name="theme-color" content="#f8f9fa">
+
+  <!-- Open Graph (use a dedicated 1200x630 JPG/WEBP to avoid huge RAM decodes) -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://eltrix-dot.github.io/">
   <meta property="og:title" content="Eltrix-Dot | Official Website">
   <meta property="og:description" content="Discover the latest Discord utilities and automation tools by Eltrix-Dot.">
-  <meta property="og:image" content="https://raw.githubusercontent.com/Eltrix-Dot/Eltrix-Dot.github.io/main/Eltrix-Dot.png">
+  <meta property="og:image" content="https://eltrix-dot.github.io/og-image.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
 
-  <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/Eltrix-Dot/Eltrix-Dot.github.io/main/Eltrix-Dot.png">
+  <!-- Twitter (optional but nice) -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Eltrix-Dot | Official Website">
+  <meta name="twitter:description" content="Discover the latest Discord utilities and automation tools by Eltrix-Dot.">
+  <meta name="twitter:image" content="https://eltrix-dot.github.io/og-image.jpg">
 
+  <!-- Structured data: keep images SMALL to avoid heavy memory usage -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "Person",
     "name": "Eltrix-Dot",
     "url": "https://eltrix-dot.github.io/",
-    "logo": "https://raw.githubusercontent.com/Eltrix-Dot/Eltrix-Dot.github.io/main/Eltrix-Dot.png",
-    "image": "https://raw.githubusercontent.com/Eltrix-Dot/Eltrix-Dot.github.io/main/Eltrix-Dot.png",
+    "logo": "https://eltrix-dot.github.io/profile-512.png",
+    "image": "https://eltrix-dot.github.io/profile-512.png",
     "jobTitle": "Developer",
     "knowsAbout": ["Discord Bots", "Automation", "Game Development", "Pixel Art"],
     "sameAs": [
@@ -368,6 +385,11 @@
       .mobile-menu{ right: 0; width: min(92vw, 320px); }
       .big-title{ font-size: 2.4rem; }
     }
+
+    /* Accessibility: reduce motion */
+    @media (prefers-reduced-motion: reduce){
+      * { transition: none !important; scroll-behavior: auto !important; }
+    }
   </style>
 </head>
 
@@ -379,16 +401,16 @@
       <a href="https://eltrix-dot.github.io/privacymain" class="nav-btn nav-privacy">PRIVACY</a>
 
       <div class="social-icons" aria-label="Social links">
-        <a class="social-icon" href="https://discord.gg/kEj6UDdQvb" target="_blank" aria-label="Discord">
+        <a class="social-icon" href="https://discord.gg/kEj6UDdQvb" target="_blank" rel="noopener noreferrer" aria-label="Discord">
           <svg viewBox="0 0 245 240" aria-hidden="true">
-            <path d="M104.4 104.6c-5.7 0-10.2 5-10.2 11.1s4.6 11.1 10.2 11.1c5.7 0 10.3-5 10.2-11.1 0-6.1-4.6-11.1-10.2-11.1zm36.2 0c-5.7 0-10.2 5-10.2 11.1s4.6 11.1 10.2 11.1c5.7 0 10.3-5 10.2-11.1 0-6.1-4.5-11.1-10.2-11.1z"/>
-            <path d="M189.5 20h-134C24.9 20 20 24.9 20 31.1v140.4c0 6.2 4.9 11.1 11.1 11.1h113.6l-5.3-18.4 12.8 11.9 12.1 11.2 21.5 19V31.1c0-6.2-4.9-11.1-11.1-11.1zm-39.6 135.6s-3.7-4.4-6.8-8.3c13.5-3.8 18.7-12.3 18.7-12.3-4.2 2.8-8.2 4.7-11.8 6-5.1 2.1-10 3.5-14.8 4.3-9.8 1.9-18.8 1.4-26.4 0-5.8-1.1-10.8-2.6-15-4.3-2.4-.9-5.1-2.1-7.8-3.6-.3-.2-.6-.3-.9-.5-.2-.1-.3-.2-.5-.3-2.1-1.2-3.3-2-3.3-2s5 8.3 18.3 12.2c-3.1 3.9-6.9 8.5-6.9 8.5-22.8-.7-31.5-15.7-31.5-15.7 0-33.2 14.8-60.1 14.8-60.1 14.8-11.1 28.9-10.8 28.9-10.8l1 1.2c-18.5 5.3-27 13.4-27 13.4s2.2-1.2 6-2.9c11-4.8 19.7-6.1 23.3-6.4.6-.1 1.1-.1 1.7-.2 6.1-.8 13-1 20.2-.2 9.5 1.1 19.7 3.9 30.1 9.7 0 0-8.1-7.7-25.6-13l1.4-1.6s14.1-.3 28.9 10.8c0 0 14.8 26.9 14.8 60.1 0 0-8.8 15-31.6 15.7z"/>
+            <path d="M104.4 104.6c-5.7 0-10.2 5-10.2 11.1s4.6 11.1 10.2 11.1c5.7 0 10.3-5 10.2-11.1 0-6.1-4.6-11.1-10.2-11.1zm36.2 0c-5.7 0-10.2 5-10.2 11.1s4.6 11.1 10.2 11.1c5.7 0 10.3-5 10.2-11.1 0-6.1-4.6-11.1-10.2-11.1z"/>
+            <path d="M189.5 20h-134C24.9 20 20 24.9 20 31.1v140.4c0 6.2 4.9 11.1 11.1 11.1h113.6l-5.3-18.4 12.8 11.9 12.1 11.2 21.5 19V31.1c0-6.2-4.9-11.1-11.1-11.1zm-39.6 135.6s-3.7-4.4-6.8-8.3c13.5-3.8 18.6-12.1 18.6-12.1-4.2 2.8-8.2 4.8-11.8 6.1-5.1 2.1-10 3.5-14.8 4.3-9.8 1.8-18.8 1.3-26.5-.1-5.8-1.1-10.8-2.6-14.9-4.3-2.3-.9-4.8-2-7.3-3.4-.3-.2-.6-.3-.9-.5-.2-.1-.3-.2-.5-.3-2.2-1.2-3.4-2-3.4-2s4.9 8.1 17.9 12c-3.1 3.9-6.9 8.6-6.9 8.6-22.8-.7-31.4-15.7-31.4-15.7 0-33.2 14.8-60.1 14.8-60.1 14.8-11.1 28.8-10.8 28.8-10.8l1 1.2c-18.5 5.3-27 13.3-27 13.3s2.3-1.3 6.2-3.1c11.2-4.9 20.1-6.2 23.8-6.5.6-.1 1.1-.2 1.7-.2 6.1-.8 13-.9 20.2-.1 9.5 1.1 19.7 4 30.2 9.6 0 0-8.1-7.7-25.6-13l1.4-1.6s14-.3 28.8 10.8c0 0 14.8 26.9 14.8 60.1 0 0-8.7 15-31.5 15.7z"/>
           </svg>
         </a>
 
-        <a class="social-icon" href="https://github.com/Eltrix-Dot" target="_blank" aria-label="GitHub">
+        <a class="social-icon" href="https://github.com/Eltrix-Dot" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
           <svg viewBox="0 0 16 16" aria-hidden="true">
-            <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path>
+            <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"/>
           </svg>
         </a>
       </div>
@@ -400,24 +422,22 @@
       <div class="mobile-menu" id="dropdownMenu" role="menu" aria-label="Quick links">
         <a href="Eltrix.Discord-Bot.html" class="menu-item" role="menuitem">🤖 Eltrix Discord Bot</a>
         <a href="ticketer.html" class="menu-item" role="menuitem">🎫 Ticketer (Page)</a>
-        <a href="https://github.com/Eltrix-Dot/Ticketer" target="_blank" class="menu-item" role="menuitem">🎫 Ticketer (GitHub)</a>
+        <a href="https://github.com/Eltrix-Dot/Ticketer" target="_blank" rel="noopener noreferrer" class="menu-item" role="menuitem">🎫 Ticketer (GitHub)</a>
         <div class="menu-divider"></div>
-        <a href="https://discord.gg/kEj6UDdQvb" target="_blank" class="menu-item" role="menuitem">💬 Discord Server</a>
-        <a href="https://github.com/Eltrix-Dot/Eltrix-Discord.bot" target="_blank" class="menu-item" role="menuitem">💻 Bot Source Code</a>
+        <a href="https://discord.gg/kEj6UDdQvb" target="_blank" rel="noopener noreferrer" class="menu-item" role="menuitem">💬 Discord Server</a>
+        <a href="https://github.com/Eltrix-Dot/Eltrix-Discord.bot" target="_blank" rel="noopener noreferrer" class="menu-item" role="menuitem">💻 Bot Source Code</a>
         <div class="menu-divider"></div>
         <a href="shield.html" class="menu-item" role="menuitem">🛡️ Project Shield</a>
         <a href="https://eltrix-dot.github.io/Breakcheck" class="menu-item" role="menuitem">🔍 BreachCheck</a>
         <a href="https://eltrix-dot.github.io/ecopulse" class="menu-item" role="menuitem">🌿 Ecopulse</a>
         <div class="menu-divider"></div>
-        <a href="https://eltrix-dot.github.io/dashboard" target="_blank" class="menu-item" role="menuitem">📊 Dashboard</a>
+        <a href="https://eltrix-dot.github.io/dashboard" target="_blank" rel="noopener noreferrer" class="menu-item" role="menuitem">📊 Dashboard</a>
       </div>
     </nav>
   </header>
 
   <main class="main-content">
-    <h1 class="big-title">
-      ELTRIX-DOT: DISCORD BOTS & AUTOMATION
-    </h1>
+    <h1 class="big-title">ELTRIX-DOT: DISCORD BOTS & AUTOMATION</h1>
     <div class="subtitle">
       Projects focused on Discord utilities, community tooling, and automation — built with privacy and transparency at the core.
     </div>
@@ -434,10 +454,10 @@
           <a class="btn-primary" style="background: var(--discord);" href="Eltrix.Discord-Bot.html">
             View Bot Page →
           </a>
-          <a class="btn-ghost" href="https://github.com/Eltrix-Dot/Eltrix-Discord.bot" target="_blank">
+          <a class="btn-ghost" href="https://github.com/Eltrix-Dot/Eltrix-Discord.bot" target="_blank" rel="noopener noreferrer">
             Source Code
           </a>
-          <a class="btn-ghost" href="https://discord.gg/kEj6UDdQvb" target="_blank">
+          <a class="btn-ghost" href="https://discord.gg/kEj6UDdQvb" target="_blank" rel="noopener noreferrer">
             Join Discord
           </a>
         </div>
@@ -454,10 +474,10 @@
           <a class="btn-primary" style="background: var(--green);" href="ticketer.html">
             View Ticketer Page →
           </a>
-          <a class="btn-ghost" href="https://github.com/Eltrix-Dot/Ticketer" target="_blank">
+          <a class="btn-ghost" href="https://github.com/Eltrix-Dot/Ticketer" target="_blank" rel="noopener noreferrer">
             Source Code →
           </a>
-          <a class="btn-ghost" href="https://discord.gg/xkygDEcZxm" target="_blank">
+          <a class="btn-ghost" href="https://discord.gg/xkygDEcZxm" target="_blank" rel="noopener noreferrer">
             Join Discord
           </a>
         </div>
@@ -484,22 +504,19 @@
     <div class="footer-content">
       <div class="footer-links">
         <a href="https://eltrix-dot.github.io/ToS" class="footer-link">Terms of Service</a>
-        <a href="https://discord.gg/kEj6UDdQvb" class="footer-link" target="_blank" aria-label="Discord">
+        <a href="https://discord.gg/kEj6UDdQvb" class="footer-link" target="_blank" rel="noopener noreferrer" aria-label="Discord">
           <span style="font-weight:900; color: var(--discord);">●</span> Discord
         </a>
-        <a href="https://github.com/Eltrix-Dot" class="footer-link" target="_blank" aria-label="GitHub">
-          <svg height="18" viewBox="0 0 16 16" width="18" style="fill: currentColor;">
-            <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path>
+        <a href="https://github.com/Eltrix-Dot" class="footer-link" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+          <svg height="18" viewBox="0 0 16 16" width="18" style="fill: currentColor;" aria-hidden="true">
+            <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"/>
           </svg>
           GitHub
         </a>
       </div>
 
       <a href="mailto:Eltrix.public@protonmail.com" class="footer-email">
-        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
-          <polyline points="22,6 12,13 2,6"></polyline>
-        </svg>
+        <span aria-hidden="true">✉</span>
         Contact: Eltrix.public@protonmail.com
       </a>
 
@@ -523,17 +540,23 @@
       menuToggle.setAttribute("aria-expanded", "false");
     }
 
+    function isMenuOpen(){
+      return dropdownMenu.classList.contains("active");
+    }
+
     menuToggle.addEventListener("click", (e) => {
       e.stopPropagation();
-      dropdownMenu.classList.contains("active") ? closeMenu() : openMenu();
+      isMenuOpen() ? closeMenu() : openMenu();
     });
 
+    // Close when clicking outside
     window.addEventListener("click", (e) => {
       if (!dropdownMenu.contains(e.target) && !menuToggle.contains(e.target)) {
         closeMenu();
       }
     });
 
+    // Close on Escape
     window.addEventListener("keydown", (e) => {
       if (e.key === "Escape") closeMenu();
     });
