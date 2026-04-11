@@ -1,685 +1,668 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Eltrix Discord Bot | Server Manager</title>
 
   <style>
-    :root{
-      --bg: #f0f2f5;
+    :root {
+      /* Ticketer-like White Theme */
+      --bg: #ffffff;
+      --bg2: #fcfcfc;
+
+      --text: #111111;
+      --muted: rgba(0, 0, 0, 0.62);
+
       --card: #ffffff;
-      --text: #1a1a1a;
-      --muted: #666;
-      --border: #e9ecef;
+      --card2: #f6f6f6;
 
+      --border: rgba(0, 0, 0, 0.10);
+      --shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+
+      --radius: 18px;
+      --topbar-bg: rgba(255, 255, 255, 0.85);
+
+      /* Accents */
       --blue: #007bff;
-      --green: #20c997;
-      --yellow: #ffc107;
-      --red: #dc3545;
 
-      --shadow: 0 10px 30px rgba(0,0,0,0.10);
-      --radius: 14px;
+      --btn-solid-bg: #111111;
+      --btn-solid-text: #ffffff;
+
+      --btn-ghost-bg: rgba(0, 0, 0, 0.04);
+      --btn-ghost-border: rgba(0, 0, 0, 0.12);
+
+      --sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #07070a;
+        --bg2: #07070a;
+
+        --text: #f5f5f5;
+        --muted: rgba(245, 245, 245, 0.70);
+
+        --card: #0d0d12;
+        --card2: #14141a;
+
+        --border: rgba(255, 255, 255, 0.10);
+        --shadow: 0 14px 45px rgba(0, 0, 0, 0.50);
+
+        --topbar-bg: rgba(7, 7, 10, 0.85);
+
+        --btn-solid-bg: #f5f5f5;
+        --btn-solid-text: #07070a;
+
+        --btn-ghost-bg: rgba(255, 255, 255, 0.04);
+        --btn-ghost-border: rgba(255, 255, 255, 0.12);
+      }
     }
 
     * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
 
-    body{
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-      background: var(--bg);
-      color: var(--text);
+    body {
       margin: 0;
-      line-height: 1.65;
+      font-family: var(--sans);
+      color: var(--text);
+      background: var(--bg);
+      line-height: 1.6;
     }
 
-    /* Top navigation bar */
-    .top-nav-bar{
-      background: var(--card);
-      padding: 14px 40px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      box-shadow: 0 2px 15px rgba(0, 0, 0, 0.06);
+    a { color: inherit; }
+
+    .wrap {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* Topbar */
+    .topbar {
       position: sticky;
       top: 0;
-      z-index: 10;
+      z-index: 50;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      background: var(--topbar-bg);
+      border-bottom: 1px solid var(--border);
     }
 
-    .site-title{
-      color: var(--text);
-      font-size: 26px;
-      font-weight: 900;
+    .topbar-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 0;
+      gap: 16px;
+    }
+
+    .brand {
       text-decoration: none;
-      letter-spacing: -1px;
+      color: var(--text);
+      font-weight: 950;
+      font-size: 22px;
+      letter-spacing: -0.8px;
       white-space: nowrap;
     }
 
-    /* Navigation links */
-    .nav-buttons{
+    .nav {
       display: flex;
-      gap: 12px;
+      gap: 6px;
       align-items: center;
       flex-wrap: wrap;
       justify-content: flex-end;
     }
 
-    .nav-buttons a,
-    .dropdown-button{
-      padding: 10px 16px;
+    .nav a, .dropdown-btn {
+      color: var(--muted);
       text-decoration: none;
-      color: #555;
-      font-weight: 800;
-      border-radius: 12px;
-      transition: 0.2s ease;
-      background: transparent;
-      border: 0;
-      cursor: pointer;
+      font-weight: 850;
       font-size: 14px;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      user-select: none;
+      padding: 10px 14px;
+      border-radius: 12px;
+      transition: 0.18s ease;
+      background: transparent;
+      border: none;
+      cursor: pointer;
       white-space: nowrap;
     }
 
-    .nav-buttons a:hover,
-    .dropdown-button:hover{
-      background: #e9ecef;
-      color: var(--blue);
-      transform: translateY(-1px);
+    .nav a:hover, .dropdown-btn:hover {
+      color: var(--text);
+      background: var(--btn-ghost-bg);
     }
 
-    /* Dropdown (Changelog) */
-    .dropdown{
-      position: relative;
-      display: inline-block;
-    }
-    .dropdown-content{
+    /* Dropdown */
+    .dropdown { position: relative; }
+    .dropdown-content {
       position: absolute;
       right: 0;
       top: 120%;
-      background: #fff;
-      min-width: 220px;
-      box-shadow: var(--shadow);
-      z-index: 10;
-      border-radius: 14px;
-      overflow: hidden;
-      border: 1px solid #eee;
-
-      opacity: 0;
-      visibility: hidden;
-      transform: translateY(-8px) scale(0.98);
-      pointer-events: none;
-      transition: opacity 0.18s ease, transform 0.18s ease, visibility 0.18s ease;
-      padding: 8px 0;
-    }
-    .dropdown.active .dropdown-content{
-      opacity: 1;
-      visibility: visible;
-      transform: translateY(0) scale(1);
-      pointer-events: auto;
-    }
-    .dropdown-content a{
-      color: #333;
-      padding: 12px 16px;
-      display: block;
-      text-align: left;
-      margin: 0;
-      font-weight: 750;
-    }
-    .dropdown-content a:hover{
-      background: #f8f9fa;
-      color: var(--blue);
-    }
-
-    /* Container */
-    .container{
-      max-width: 980px;
-      margin: 22px auto 55px auto;
       background: var(--card);
-      padding: 30px;
-      border-radius: 16px;
-      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
-      border: 1px solid #f1f3f5;
-    }
-
-    /* Head section */
-    .header-section{
-      text-align: center;
-      margin-bottom: 10px;
-    }
-    .hero-image{
-      width: 100%;
-      height: auto;
+      min-width: 220px;
       border-radius: 14px;
-      border: 1px solid #f1f3f5;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      display: none;
+      overflow: hidden;
+    }
+    .dropdown.active .dropdown-content { display: block; }
+
+    .dropdown-content a {
+      display: block;
+      width: 100%;
+      padding: 12px 14px;
+      border-radius: 0;
+      color: var(--text);
+      font-weight: 800;
+    }
+    .dropdown-content a:hover {
+      background: var(--btn-ghost-bg);
     }
 
-    .badges{
-      margin: 14px 0 0 0;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      justify-content: center;
-      align-items: center;
+    /* Hero */
+    .hero {
+      padding: 80px 0 60px 0;
+      text-align: center;
     }
-    .badge{
+
+    .hero-img {
+      width: 100%;
+      max-width: 920px;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      margin: 28px auto 40px auto;
+      border: 1px solid var(--border);
+      display: block;
+      background: var(--card);
+    }
+
+    .kicker {
       display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 8px 12px;
-      border-radius: 999px;
+      padding: 8px 16px;
+      border-radius: 99px;
+      background: var(--card2);
+      border: 1px solid var(--border);
+      color: var(--muted);
       font-weight: 900;
       font-size: 12px;
-      border: 1px solid #e9ecef;
-      background: #f8f9fa;
-      color: #333;
-      text-decoration: none;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      gap: 10px;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
     }
-    .badge.blue{ background: #eef6ff; border-color: #d6e9ff; color: #0b5ed7; }
-    .badge.yellow{ background: #fff8e6; border-color: #ffe8a3; color: #7a5b00; }
-    .badge.green{ background: #e9fbf4; border-color: #bff3df; color: #0f5132; }
-    .badge.red{ background: #fff1f2; border-color: #ffd0d6; color: #b02a37; }
 
-    h1{
-      margin: 18px 0 6px 0;
-      font-size: 2.2rem;
-      line-height: 1.15;
-      letter-spacing: -1px;
+    .title {
+      font-size: clamp(2.5rem, 5vw, 3.8rem);
+      line-height: 1.05;
+      letter-spacing: -2px;
+      font-weight: 1000;
+      margin: 0 0 18px 0;
     }
-    .subtitle{
-      margin: 0 auto;
-      max-width: 75ch;
+
+    .subtitle {
+      max-width: 720px;
+      margin: 0 auto 30px auto;
       color: var(--muted);
       font-weight: 650;
+      font-size: 1.15rem;
     }
 
-    .notice{
-      margin: 18px 0 0 0;
-      padding: 14px 16px;
-      border-radius: 14px;
-      border: 1px solid #ffe8a3;
-      background: #fff8e6;
-      text-align: left;
-    }
-    .notice strong{
-      display: inline-block;
-      margin-bottom: 4px;
-    }
-
-    .btn-row{
+    .btn-row {
       display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
       justify-content: center;
-      margin-top: 14px;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 6px;
     }
-    .btn{
+
+    .btn {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 8px;
-      padding: 10px 14px;
-      border-radius: 12px;
-      font-weight: 900;
-      text-decoration: none;
-      border: 2px solid transparent;
-      transition: 0.2s ease;
-      font-size: 14px;
-      white-space: nowrap;
-    }
-    .btn:hover{ transform: translateY(-1px); }
-
-    .btn-primary{
-      background: var(--blue);
-      color: #fff;
-    }
-    .btn-ghost{
-      background: transparent;
-      border-color: #dbe7ff;
-      color: var(--blue);
-    }
-    .btn-ghost:hover{ background: #f2f7ff; }
-
-    hr{
-      border: 0;
-      height: 1px;
-      background: #eef0f2;
-      margin: 26px 0;
-    }
-
-    /* Section headings */
-    h2{
-      font-size: 1.6rem;
-      margin: 0 0 10px 0;
-      letter-spacing: -0.5px;
-    }
-    h3{
-      font-size: 1.25rem;
-      margin: 24px 0 8px 0;
-      letter-spacing: -0.2px;
-    }
-    p{ margin: 10px 0; }
-    .muted{ color: var(--muted); }
-
-    /* TOC */
-    .toc{
-      background: #f8f9fa;
-      border: 1px solid #eef0f2;
+      padding: 14px 22px;
       border-radius: 14px;
-      padding: 14px 16px;
-    }
-    .toc ul{
-      list-style: none;
-      padding-left: 0;
-      margin: 0;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 6px 18px;
-    }
-    .toc a{
-      color: var(--blue);
       text-decoration: none;
-      font-weight: 850;
-    }
-    .toc a:hover{ text-decoration: underline; }
-
-    /* Inline code & code blocks */
-    code{
-      background: #e9ecef;
-      padding: 3px 6px;
-      border-radius: 6px;
-      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
-      color: #d63384;
-      font-size: 0.95em;
-    }
-    pre{
-      background: #212529;
-      color: #f8f9fa;
-      padding: 14px;
-      border-radius: 12px;
-      overflow-x: auto;
-      border: 1px solid #2b3035;
-      margin: 10px 0;
-    }
-    pre code{
-      background: transparent;
-      color: inherit;
-      padding: 0;
+      font-weight: 950;
+      font-size: 15px;
+      transition: 0.18s ease;
+      border: 1px solid var(--btn-ghost-border);
+      background: var(--btn-ghost-bg);
+      color: var(--text);
+      gap: 10px;
+      user-select: none;
     }
 
-    /* Tables */
-    table{
-      width: 100%;
-      border-collapse: collapse;
-      margin: 12px 0 0 0;
-      background: #ffffff;
-      border: 1px solid #e9ecef;
-      border-radius: 12px;
-      overflow: hidden;
+    .btn.primary {
+      background: var(--btn-solid-bg);
+      color: var(--btn-solid-text);
+      border: none;
     }
-    th, td{
-      border-bottom: 1px solid #eef0f2;
-      padding: 12px;
-      text-align: left;
-      vertical-align: top;
-      font-size: 14px;
-    }
-    th{
-      background: #f8f9fa;
-      color: #333;
-      font-weight: 900;
-    }
-    tr:last-child td{ border-bottom: 0; }
 
-    .grid-2{
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 14px;
-      margin-top: 12px;
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow);
     }
-    .card{
-      border: 1px solid #eef0f2;
-      border-radius: 14px;
-      padding: 14px;
-      background: #fff;
-    }
-    .card strong{ display: block; margin-bottom: 6px; }
 
-    /* Footer small note */
-    .footer-note{
-      margin-top: 24px;
-      padding-top: 18px;
-      border-top: 1px solid #eef0f2;
+    /* Sections */
+    section {
+      padding: 80px 0;
+      border-top: 1px solid var(--border);
+    }
+
+    .section-title {
+      font-size: 2.2rem;
+      letter-spacing: -1px;
+      font-weight: 1000;
+      margin: 0 0 18px 0;
+    }
+
+    .section-subtitle {
+      margin: 0 0 28px 0;
       color: var(--muted);
       font-weight: 650;
-      text-align: center;
+      max-width: 80ch;
+    }
+
+    /* Features Grid */
+    .grid-features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 18px;
+      margin-top: 18px;
+    }
+
+    .feature-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      padding: 26px;
+      border-radius: var(--radius);
+      transition: 0.18s ease;
+    }
+    .feature-card:hover { border-color: var(--text); }
+
+    .feature-card h3 {
+      margin: 0 0 10px 0;
+      font-size: 1.35rem;
+      font-weight: 950;
+      letter-spacing: -0.5px;
+    }
+    .feature-card p {
+      margin: 0;
+      color: var(--muted);
+      font-weight: 650;
+    }
+
+    /* Commands */
+    .commands-container {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 26px;
+      margin-top: 26px;
+      align-items: start;
+    }
+
+    .cmd-nav {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      position: sticky;
+      top: 82px; /* below topbar */
+    }
+
+    .cmd-nav button {
+      text-align: left;
+      padding: 14px;
+      border-radius: 14px;
+      background: transparent;
+      border: 1px solid transparent;
+      color: var(--muted);
+      font-weight: 900;
+      cursor: pointer;
+      transition: 0.15s ease;
+    }
+    .cmd-nav button:hover {
+      background: var(--btn-ghost-bg);
+      color: var(--text);
+    }
+    .cmd-nav button.active {
+      background: var(--card2);
+      border-color: var(--border);
+      color: var(--text);
+    }
+
+    .cmd-display {
+      background: var(--card2);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 34px;
+      min-height: 260px;
+    }
+
+    .cmd-title {
+      margin: 0 0 14px 0;
+      font-size: 1.7rem;
+      font-weight: 1000;
+      letter-spacing: -0.8px;
+    }
+
+    .cmd-list { display: grid; gap: 10px; }
+    .cmd-item {
+      padding: 14px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      font-weight: 750;
+      display: grid;
+      grid-template-columns: 160px 1fr;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .cmd-item code {
+      color: var(--blue);
+      font-family: var(--mono);
+      font-weight: 900;
+      background: transparent;
+    }
+
+    .cmd-item .desc {
+      color: var(--muted);
+      font-weight: 650;
       font-size: 14px;
     }
 
-    /* Responsive */
-    @media (max-width: 900px){
-      .top-nav-bar{ padding: 14px 18px; }
-      .container{ margin: 12px auto 45px auto; padding: 22px; border-radius: 14px; }
-      .toc ul{ grid-template-columns: 1fr; }
-      .grid-2{ grid-template-columns: 1fr; }
+    /* Setup */
+    .setup-box {
+      background: #111;
+      color: #fff;
+      padding: 26px;
+      border-radius: 20px;
+      font-family: var(--mono);
+      font-size: 14px;
+      overflow-x: auto;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      box-shadow: var(--shadow);
+    }
+    .setup-box .comment { color: rgba(255,255,255,0.55); }
+    .setup-box .spacer { height: 14px; }
+
+    /* Small note card */
+    .notice {
+      margin: 18px auto 0 auto;
+      max-width: 900px;
+      text-align: left;
+      background: var(--card2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px 18px;
+      color: var(--muted);
+      font-weight: 650;
+    }
+    .notice strong { color: var(--text); }
+
+    /* Footer */
+    footer {
+      padding: 60px 0;
+      text-align: center;
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      font-weight: 750;
+    }
+    footer a { text-decoration: none; border-bottom: 1px solid transparent; }
+    footer a:hover { border-bottom-color: currentColor; }
+
+    @media (max-width: 900px) {
+      .topbar-inner { flex-direction: column; align-items: flex-start; }
+      .commands-container { grid-template-columns: 1fr; }
+      .cmd-nav {
+        position: relative;
+        top: auto;
+        flex-direction: row;
+        overflow-x: auto;
+        padding-bottom: 10px;
+      }
+      .cmd-nav button { white-space: nowrap; }
+      .cmd-item { grid-template-columns: 1fr; }
+      .hero { padding: 58px 0 46px 0; }
     }
   </style>
 </head>
 
 <body>
-  <header class="top-nav-bar">
-    <a href="https://eltrix-dot.github.io/" class="site-title">ELTRIX ©</a>
+  <header class="topbar">
+    <div class="wrap">
+      <div class="topbar-inner">
+        <a href="https://eltrix-dot.github.io/" class="brand">ELTRIX ©</a>
 
-    <nav class="nav-buttons" aria-label="Page links">
-      <a href="https://discord.gg/kEj6UDdQvb" target="_blank" rel="noopener">Discord</a>
-      <a href="https://github.com/Eltrix-Dot/Eltrix-Discord.bot" target="_blank" rel="noopener">Bot Repo</a>
+        <nav class="nav" aria-label="Page links">
+          <a href="#features">Features</a>
+          <a href="#commands">Commands</a>
+          <a href="#setup">Setup</a>
 
-      <div class="dropdown">
-        <button class="dropdown-button" type="button">ChangeLog ▼</button>
-        <div class="dropdown-content" role="menu" aria-label="Changelog pages">
-          <a href="https://eltrix-dot.github.io/discord-changelog.html" target="_blank" rel="noopener">Discord Changelog</a>
-          <a href="https://eltrix-dot.github.io/game-changelog.html" target="_blank" rel="noopener">Game Changelog</a>
-        </div>
+          <a href="https://github.com/Eltrix-Dot/Eltrix-Discord.bot" target="_blank" rel="noopener">Bot Repo</a>
+          <a href="https://discord.gg/kEj6UDdQvb" target="_blank" rel="noopener">Discord</a>
+
+          <div class="dropdown" id="changelog-dropdown">
+            <button class="dropdown-btn" type="button">Changelog ▼</button>
+            <div class="dropdown-content" role="menu" aria-label="Changelog pages">
+              <a href="https://eltrix-dot.github.io/discord-changelog.html" target="_blank" rel="noopener">Discord Changelog</a>
+              <a href="https://eltrix-dot.github.io/game-changelog.html" target="_blank" rel="noopener">Game Changelog</a>
+            </div>
+          </div>
+        </nav>
       </div>
-    </nav>
+    </div>
   </header>
 
-  <div class="container">
-    <div class="header-section">
-      <!-- Keep your existing banner image (can be replaced later) -->
-      <img class="hero-image"
-           src="https://cdn.discordapp.com/attachments/1393265882280493069/1406691590013059123/DiscoHook-Banner.png"
-           alt="Eltrix Discord Bot Banner" />
+  <div class="wrap">
+    <section class="hero">
+      <div class="kicker">Built with Python 3.11+ • v3.1 Active • 70+ Commands</div>
 
-      <div class="badges" aria-label="Project badges">
-        <span class="badge blue">Version: 3.1</span>
-        <span class="badge yellow">Python: 3.11+</span>
-        <span class="badge green">License: MIT</span>
-        <span class="badge red">Commands: 70+</span>
-        <span class="badge green">Status: Active</span>
-      </div>
+      <img
+        class="hero-img"
+        src="https://cdn.discordapp.com/attachments/1393265882280493069/1406691590013059123/DiscoHook-Banner.png"
+        alt="Eltrix Discord Bot Banner"
+      />
 
-      <h1>✨ Eltrix Discord Bot</h1>
+      <h1 class="title">The only bot your<br>server will ever need.</h1>
       <p class="subtitle">
-        The all-in-one Discord server manager — built with <strong>Python</strong> and <strong>discord.py</strong>.
-        Designed to help you <strong>moderate</strong>, <strong>manage</strong>, and <strong>grow</strong> your server with a modular set of features.
+        Eltrix is an all‑in‑one powerhouse for Discord. From advanced moderation to tickets,
+        leveling and economy — manage everything with one modular bot.
       </p>
 
-      <div class="notice">
-        <strong>Heads up:</strong> Version <strong>4</strong> is planned and coming in the next couple of months.
-        This page describes the <strong>current public version (v3.1)</strong>.
-      </div>
-
       <div class="btn-row">
-        <a class="btn btn-primary" href="https://github.com/Eltrix-Dot/Eltrix-Discord.bot" target="_blank" rel="noopener">
-          View Source on GitHub →
+        <a class="btn primary" href="https://github.com/Eltrix-Dot/Eltrix-Discord.bot" target="_blank" rel="noopener">
+          View on GitHub
         </a>
-        <a class="btn btn-ghost" href="#installation">
-          Installation & Setup ↓
+        <a class="btn" href="https://discord.gg/kEj6UDdQvb" target="_blank" rel="noopener">
+          Join Support
         </a>
-        <a class="btn btn-ghost" href="#commands">
-          Commands ↓
-        </a>
+        <a class="btn" href="#setup">Quick Setup</a>
       </div>
-    </div>
 
-    <hr>
-
-    <h2 id="table-of-contents">📖 Table of Contents</h2>
-    <div class="toc">
-      <ul>
-        <li><a href="#about">🚀 About</a></li>
-        <li><a href="#features">📦 Features</a></li>
-        <li><a href="#installation">🛠️ Installation</a></li>
-        <li><a href="#commands">📋 Command Overview</a></li>
-        <li><a href="#contributing">🤝 Contributing</a></li>
-        <li><a href="#license">📜 License</a></li>
-      </ul>
-    </div>
-
-    <hr>
-
-    <h2 id="about">🚀 About Eltrix</h2>
-    <p>
-      <strong>Eltrix</strong> is a powerful <strong>multi-purpose Discord bot</strong> built with <strong>Python</strong> and <strong>discord.py</strong>.
-      It helps you manage, moderate, and grow your server with tools like moderation, tickets, leveling, economy, and community commands.
-    </p>
-
-    <div class="grid-2">
-      <div class="card">
-        <strong>Focus</strong>
-        <div>⚡ Performance</div>
-        <div>🧩 Modular architecture</div>
-        <div>🛡️ Advanced moderation</div>
-        <div>🎮 Community engagement</div>
+      <div class="notice">
+        <strong>Heads up:</strong> Version <strong>4</strong> is planned (coming soon). This page describes the current public version (<strong>v3.1</strong>).
       </div>
-      <div class="card">
-        <strong>Current version</strong>
-        <div><span class="muted">v3.1 (active)</span></div>
-        <div style="margin-top:8px;"><strong>Next:</strong> v4 planned (coming soon)</div>
+    </section>
+
+    <section id="features">
+      <h2 class="section-title">Core Modules</h2>
+      <p class="section-subtitle">
+        Everything you need to run a serious community — clean UI, modular systems, and practical slash commands.
+      </p>
+
+      <div class="grid-features">
+        <div class="feature-card">
+          <h3>🛡️ Moderation</h3>
+          <p>Warns, timeouts, kicks/bans, purges, slowmode, channel locks, and server lockdown tools.</p>
+        </div>
+        <div class="feature-card">
+          <h3>🎟️ Tickets</h3>
+          <p>Professional ticket panels with categories, staff claim flows, and transcript support.</p>
+        </div>
+        <div class="feature-card">
+          <h3>💰 Economy</h3>
+          <p>Wallet + bank, daily rewards, gambling, investments, and leaderboards for engagement.</p>
+        </div>
+        <div class="feature-card">
+          <h3>📈 Leveling</h3>
+          <p>XP system with rank cards, levelboards, and automatic role rewards.</p>
+        </div>
       </div>
-    </div>
+    </section>
 
-    <hr>
+    <section id="commands">
+      <h2 class="section-title">Command Explorer</h2>
+      <p class="section-subtitle">
+        Click a category to preview common commands. (All commands use Discord Slash Commands.)
+      </p>
 
-    <h2 id="features">📦 Features</h2>
-    <table aria-label="Feature table">
-      <thead>
-        <tr>
-          <th style="width: 220px;">Category</th>
-          <th>Description</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr><td>🛡️ Moderation</td><td>Warn, mute, kick, ban, purge, slowmode, lockdown system.</td></tr>
-        <tr><td>🎟️ Ticket System</td><td>Multi-category support with transcripts and staff claims.</td></tr>
-        <tr><td>📈 Leveling System</td><td>XP system with role rewards.</td></tr>
-        <tr><td>💰 Economy</td><td>Coins, daily rewards, gambling and investments.</td></tr>
-        <tr><td>🎨 Role Menus</td><td>Self-assign roles with dropdown menus.</td></tr>
-        <tr><td>🎉 Community</td><td>Polls, memes, games and social commands.</td></tr>
-      </tbody>
-    </table>
+      <div class="commands-container">
+        <aside class="cmd-nav" id="cmd-nav" aria-label="Command categories">
+          <button class="active" data-cat="mod" type="button">Moderation</button>
+          <button data-cat="tickets" type="button">Tickets</button>
+          <button data-cat="eco" type="button">Economy</button>
+          <button data-cat="fun" type="button">Community & Fun</button>
+          <button data-cat="util" type="button">Utility</button>
+        </aside>
 
-    <hr>
+        <div class="cmd-display" id="cmd-display" aria-live="polite"></div>
+      </div>
+    </section>
 
-    <h2 id="installation">🛠️ Installation</h2>
-    <h3>1) Requirements</h3>
-    <ul>
-      <li><strong>Python 3.11+</strong></li>
-      <li><strong>Git</strong></li>
-      <li>A <strong>Discord Bot Token</strong> (create one via the Discord Developer Portal)</li>
-      <li>Enable Privileged Gateway Intents:
-        <ul>
-          <li>Server Members Intent</li>
-          <li>Message Content Intent</li>
-        </ul>
-      </li>
-    </ul>
+    <section id="setup">
+      <h2 class="section-title">Quick Installation</h2>
+      <p class="section-subtitle">
+        Minimal steps to run v3.1 locally. (Tip: enable Developer Mode in Discord to copy IDs.)
+      </p>
 
-    <h3>2) Clone the Repository</h3>
-    <pre><code>git clone https://github.com/Eltrix-Dot/Eltrix-Discord.bot
-cd Eltrix-Discord.bot</code></pre>
+      <div class="setup-box" role="region" aria-label="Setup commands">
+        <div class="comment"># Clone the bot</div>
+        <div>git clone https://github.com/Eltrix-Dot/Eltrix-Discord.bot</div>
+        <div>cd Eltrix-Discord.bot</div>
 
-    <h3>3) Install Dependencies</h3>
-    <pre><code>pip install -r requirements.txt</code></pre>
+        <div class="spacer"></div>
 
-    <h3>4) Configure the Bot</h3>
-    <p>
-      Open <code>Eltrix-Bot_V3.1.py</code> and edit the configuration section.
-    </p>
-    <pre><code># ==============================
-# CONFIGURATION
-# ==============================
+        <div class="comment"># Install dependencies</div>
+        <div>pip install -r requirements.txt</div>
 
-TOKEN = "YOUR_BOT_TOKEN"
+        <div class="spacer"></div>
 
-GUILD_ID = 123456789012345678
+        <div class="comment"># Configure your TOKEN in Eltrix-Bot_V3.1.py, then start</div>
+        <div>python Eltrix-Bot_V3.1.py</div>
+      </div>
+    </section>
 
-LOG_CHANNEL_ID = 123456789012345678
-
-STAFF_ROLE_IDS = {
-    123456789012345678,
-    123456789012345679
-}
-
-OWNER_ID = 123456789012345678</code></pre>
-
-    <h3>5) Start the Bot</h3>
-    <pre><code>python Eltrix-Bot_V3.1.py</code></pre>
-
-    <p class="muted">
-      Tip: In Discord, enable <strong>Developer Mode</strong> to copy IDs:
-      <code>User Settings → Advanced → Developer Mode</code>.
-    </p>
-
-    <hr>
-
-    <h2 id="commands">📋 Command Overview</h2>
-    <p>All commands use <strong>Discord Slash Commands</strong>.</p>
-
-    <h3>🛡️ Moderation</h3>
-    <table aria-label="Moderation commands">
-      <thead>
-        <tr><th style="width: 260px;">Command</th><th>Description</th></tr>
-      </thead>
-      <tbody>
-        <tr><td><code>/warn</code></td><td>Warn a user.</td></tr>
-        <tr><td><code>/warnings</code></td><td>View user warnings.</td></tr>
-        <tr><td><code>/clearwarnings</code></td><td>Remove warnings.</td></tr>
-        <tr><td><code>/mute</code></td><td>Timeout a user.</td></tr>
-        <tr><td><code>/kick</code></td><td>Kick a member.</td></tr>
-        <tr><td><code>/ban</code></td><td>Ban a member.</td></tr>
-        <tr><td><code>/softban</code></td><td>Ban + delete messages.</td></tr>
-        <tr><td><code>/purge</code></td><td>Delete messages.</td></tr>
-        <tr><td><code>/lock</code></td><td>Lock a channel.</td></tr>
-        <tr><td><code>/unlock</code></td><td>Unlock a channel.</td></tr>
-        <tr><td><code>/lockdown</code></td><td>Lock entire server.</td></tr>
-      </tbody>
-    </table>
-
-    <h3>🎟️ Ticket System</h3>
-    <table aria-label="Ticket commands">
-      <thead>
-        <tr><th style="width: 260px;">Command</th><th>Description</th></tr>
-      </thead>
-      <tbody>
-        <tr><td><code>/ticketsetup</code></td><td>Create ticket panel.</td></tr>
-        <tr><td><code>/ticketclaim</code></td><td>Claim a ticket.</td></tr>
-        <tr><td><code>/ticketadd</code></td><td>Add user to ticket.</td></tr>
-        <tr><td><code>/ticketremove</code></td><td>Remove user from ticket.</td></tr>
-        <tr><td><code>/ticketdelete</code></td><td>Delete ticket.</td></tr>
-      </tbody>
-    </table>
-
-    <h3>📈 Leveling System</h3>
-    <table aria-label="Leveling commands">
-      <thead>
-        <tr><th style="width: 260px;">Command</th><th>Description</th></tr>
-      </thead>
-      <tbody>
-        <tr><td><code>/rank</code></td><td>Show rank card.</td></tr>
-        <tr><td><code>/levelboard</code></td><td>XP leaderboard.</td></tr>
-        <tr><td><code>/setxp</code></td><td>Set XP.</td></tr>
-        <tr><td><code>/setlevelrole</code></td><td>Add level role.</td></tr>
-        <tr><td><code>/removelevelrole</code></td><td>Remove level role.</td></tr>
-      </tbody>
-    </table>
-
-    <h3>💰 Economy</h3>
-    <table aria-label="Economy commands">
-      <thead>
-        <tr><th style="width: 260px;">Command</th><th>Description</th></tr>
-      </thead>
-      <tbody>
-        <tr><td><code>/balance</code></td><td>Show balance.</td></tr>
-        <tr><td><code>/daily</code></td><td>Daily reward.</td></tr>
-        <tr><td><code>/leaderboard</code></td><td>Richest users.</td></tr>
-        <tr><td><code>/give</code></td><td>Send coins.</td></tr>
-        <tr><td><code>/gamble</code></td><td>50% gamble.</td></tr>
-        <tr><td><code>/invest</code></td><td>24h investment.</td></tr>
-        <tr><td><code>/bank deposit</code></td><td>Deposit coins.</td></tr>
-        <tr><td><code>/bank withdraw</code></td><td>Withdraw coins.</td></tr>
-        <tr><td><code>/rep</code></td><td>Give reputation.</td></tr>
-      </tbody>
-    </table>
-
-    <h3>🎉 Fun Commands</h3>
-    <table aria-label="Fun commands">
-      <thead>
-        <tr><th style="width: 260px;">Command</th><th>Description</th></tr>
-      </thead>
-      <tbody>
-        <tr><td><code>/poll</code></td><td>Create a poll.</td></tr>
-        <tr><td><code>/suggest</code></td><td>Submit suggestion.</td></tr>
-        <tr><td><code>/meme</code></td><td>Random meme.</td></tr>
-        <tr><td><code>/8ball</code></td><td>Ask the magic ball.</td></tr>
-        <tr><td><code>/ship</code></td><td>Love compatibility.</td></tr>
-        <tr><td><code>/roast</code></td><td>Friendly roast.</td></tr>
-        <tr><td><code>/hug</code> / <code>/pat</code> / <code>/slap</code></td><td>Interaction commands.</td></tr>
-      </tbody>
-    </table>
-
-    <h3>⚙️ Utility</h3>
-    <table aria-label="Utility commands">
-      <thead>
-        <tr><th style="width: 260px;">Command</th><th>Description</th></tr>
-      </thead>
-      <tbody>
-        <tr><td><code>/ping</code></td><td>Check latency.</td></tr>
-        <tr><td><code>/uptime</code></td><td>Bot uptime.</td></tr>
-        <tr><td><code>/userinfo</code></td><td>User info.</td></tr>
-        <tr><td><code>/serverinfo</code></td><td>Server stats.</td></tr>
-        <tr><td><code>/remindme</code></td><td>Reminder.</td></tr>
-        <tr><td><code>/afk</code></td><td>AFK status.</td></tr>
-        <tr><td><code>/botinvite</code></td><td>Invite link.</td></tr>
-      </tbody>
-    </table>
-
-    <hr>
-
-    <h2 id="contributing">🤝 Contributing</h2>
-    <p>
-      Contributions are welcome! Fork the repository, create a branch, commit, push, and open a Pull Request.
-    </p>
-    <pre><code>git checkout -b feature/AmazingFeature
-git commit -m "Added AmazingFeature"
-git push origin feature/AmazingFeature</code></pre>
-
-    <hr>
-
-    <h2 id="license">📜 License</h2>
-    <p>
-      Distributed under the <strong>MIT License</strong>.
-      <br>
-      <strong>Copyright © 2026 — Eltrix-Dot</strong>
-    </p>
-
-    <div class="footer-note">
-      Built with <strong>Python</strong> &amp; <strong>discord.py</strong>.
-    </div>
+    <footer>
+      © 2026 Eltrix Group • Powered by discord.py •
+      <a href="https://eltrix-dot.github.io/">Home</a>
+    </footer>
   </div>
 
   <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      const dropdownButton = document.querySelector(".dropdown-button");
-      const dropdown = document.querySelector(".dropdown");
+    // Command data (you can expand this freely)
+    const COMMANDS = {
+      mod: {
+        title: "Moderation Tools",
+        list: [
+          { c: "/warn", d: "Add a warning to a member" },
+          { c: "/warnings", d: "View a user's warnings" },
+          { c: "/mute", d: "Timeout a member" },
+          { c: "/purge", d: "Bulk delete messages" },
+          { c: "/lock", d: "Lock a channel" },
+          { c: "/unlock", d: "Unlock a channel" },
+          { c: "/lockdown", d: "Lock the entire server (emergency)" }
+        ]
+      },
+      tickets: {
+        title: "Ticket System",
+        list: [
+          { c: "/ticketsetup", d: "Create a ticket panel" },
+          { c: "/ticketclaim", d: "Claim a ticket as staff" },
+          { c: "/ticketadd", d: "Add a user to a ticket" },
+          { c: "/ticketremove", d: "Remove a user from a ticket" },
+          { c: "/ticketdelete", d: "Delete a ticket channel" }
+        ]
+      },
+      eco: {
+        title: "Economy & Finance",
+        list: [
+          { c: "/balance", d: "Check your wallet and bank" },
+          { c: "/daily", d: "Claim your daily allowance" },
+          { c: "/invest", d: "Long term investments for profit" },
+          { c: "/gamble", d: "Double or nothing coin toss" },
+          { c: "/bank deposit", d: "Deposit coins to the bank" },
+          { c: "/bank withdraw", d: "Withdraw coins from the bank" }
+        ]
+      },
+      fun: {
+        title: "Community & Fun",
+        list: [
+          { c: "/meme", d: "Grab a random meme (Reddit)" },
+          { c: "/poll", d: "Create an interactive poll" },
+          { c: "/ship", d: "Test love compatibility" },
+          { c: "/rank", d: "Show your leveling progress" }
+        ]
+      },
+      util: {
+        title: "Utilities",
+        list: [
+          { c: "/ping", d: "Check bot and API latency" },
+          { c: "/serverinfo", d: "Detailed guild statistics" },
+          { c: "/userinfo", d: "Get user info" },
+          { c: "/remindme", d: "Set a personal reminder" },
+          { c: "/afk", d: "Set an AFK status" }
+        ]
+      }
+    };
 
-      dropdownButton.addEventListener("click", function (e) {
-        e.stopPropagation();
-        dropdown.classList.toggle("active");
-      });
+    const nav = document.getElementById("cmd-nav");
+    const display = document.getElementById("cmd-display");
 
-      window.addEventListener("click", function (e) {
-        if (!dropdown.contains(e.target)) {
-          dropdown.classList.remove("active");
-        }
-      });
+    function renderCommands(cat) {
+      const data = COMMANDS[cat];
+      display.innerHTML = `
+        <h3 class="cmd-title">${data.title}</h3>
+        <div class="cmd-list">
+          ${data.list.map(item => `
+            <div class="cmd-item">
+              <code>${item.c}</code>
+              <div class="desc">${item.d}</div>
+            </div>
+          `).join("")}
+        </div>
+      `;
+    }
 
-      window.addEventListener("keydown", function (e) {
-        if (e.key === "Escape") dropdown.classList.remove("active");
-      });
+    // Category switching
+    nav.addEventListener("click", (e) => {
+      if (e.target.tagName !== "BUTTON") return;
+      document.querySelectorAll("#cmd-nav button").forEach(b => b.classList.remove("active"));
+      e.target.classList.add("active");
+      renderCommands(e.target.dataset.cat);
     });
+
+    // Dropdown
+    const dd = document.getElementById("changelog-dropdown");
+    const ddBtn = dd.querySelector(".dropdown-btn");
+
+    ddBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      dd.classList.toggle("active");
+    });
+
+    window.addEventListener("click", () => dd.classList.remove("active"));
+    window.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") dd.classList.remove("active");
+    });
+
+    // Initial render
+    renderCommands("mod");
   </script>
 </body>
 </html>
