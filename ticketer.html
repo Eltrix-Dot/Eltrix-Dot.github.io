@@ -6,76 +6,88 @@
   <title>Ticketer — Open-source Discord Ticket Bot</title>
 
   <style>
-    :root {
-      /* White Theme Colors */
+    :root{
+      /* Light (default) */
       --bg: #ffffff;
-      --bg2: #ffffff;
-      --text: #111111;
-      --muted: rgba(0, 0, 0, 0.62);
-      --card: #ffffff;
-      --card2: #f6f6f6;
-      --border: rgba(0, 0, 0, 0.10);
-      --shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-      --radius: 18px;
-      --topbar-bg: rgba(255, 255, 255, 0.85);
+      --bg2:#f6f7f9;
 
-      /* Buttons */
-      --btn-ghost-bg: rgba(0, 0, 0, 0.04);
-      --btn-ghost-bg-hover: rgba(0, 0, 0, 0.06);
-      --btn-ghost-border: rgba(0, 0, 0, 0.12);
+      --text: #0f1115;
+      --muted: rgba(15,17,21,0.62);
+
+      --card: rgba(15,17,21,0.035);
+      --card2: rgba(15,17,21,0.055);
+      --border: rgba(15,17,21,0.10);
+
+      --shadow: 0 14px 45px rgba(15,17,21,0.10);
+      --shadow-soft: 0 10px 26px rgba(15,17,21,0.08);
+      --radius: 18px;
+
+      --topbar-bg: rgba(255,255,255,0.72);
+
+      --btn-ghost-bg: rgba(15,17,21,0.04);
+      --btn-ghost-bg-hover: rgba(15,17,21,0.06);
+      --btn-ghost-border: rgba(15,17,21,0.12);
       --btn-ghost-text: var(--text);
-      --btn-solid-bg: #111111;
+
+      --btn-solid-bg: #0f1115;
       --btn-solid-text: #ffffff;
 
-      /* Accents */
-      --dot1: #111111;
-      --dot2: #666666;
+      --ring: rgba(15,17,21,0.18);
 
-      --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
       --sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
     }
 
-    @media (prefers-color-scheme: dark) {
-      :root {
+    @media (prefers-color-scheme: dark){
+      :root{
         --bg: #07070a;
-        --bg2: #07070a;
+        --bg2:#0b0c10;
+
         --text: #f5f5f5;
-        --muted: rgba(245, 245, 245, 0.70);
-        --card: #0d0d12;
-        --card2: #14141a;
-        --border: rgba(255, 255, 255, 0.10);
-        --shadow: 0 14px 45px rgba(0, 0, 0, 0.50);
-        --topbar-bg: rgba(7, 7, 10, 0.85);
-        --btn-ghost-bg: rgba(255, 255, 255, 0.04);
-        --btn-ghost-bg-hover: rgba(255, 255, 255, 0.06);
-        --btn-ghost-border: rgba(255, 255, 255, 0.12);
+        --muted: rgba(245,245,245,0.70);
+
+        --card: rgba(255,255,255,0.04);
+        --card2: rgba(255,255,255,0.06);
+        --border: rgba(255,255,255,0.10);
+
+        --shadow: 0 16px 55px rgba(0,0,0,0.55);
+        --shadow-soft: 0 12px 28px rgba(0,0,0,0.42);
+
+        --topbar-bg: rgba(7,7,10,0.72);
+
+        --btn-ghost-bg: rgba(255,255,255,0.04);
+        --btn-ghost-bg-hover: rgba(255,255,255,0.06);
+        --btn-ghost-border: rgba(255,255,255,0.12);
         --btn-ghost-text: var(--text);
+
         --btn-solid-bg: #f5f5f5;
         --btn-solid-text: #07070a;
-        --dot1: #f5f5f5;
-        --dot2: #9a9a9a;
+
+        --ring: rgba(245,245,245,0.18);
       }
     }
 
-    * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
+    *{ box-sizing:border-box; }
+    html{ scroll-behavior:smooth; }
 
-    body {
-      margin: 0;
+    body{
+      margin:0;
       font-family: var(--sans);
       color: var(--text);
-      background: var(--bg);
-      line-height: 1.6;
+      background: radial-gradient(1200px 600px at 50% -100px, var(--card2), transparent 60%),
+                  linear-gradient(180deg, var(--bg), var(--bg2));
+      line-height:1.6;
     }
 
-    .wrap {
+    a{ color: inherit; }
+    .wrap{
       max-width: 1100px;
       margin: 0 auto;
       padding: 0 20px;
     }
 
     /* Topbar */
-    .topbar {
+    .topbar{
       position: sticky;
       top: 0;
       z-index: 50;
@@ -83,62 +95,67 @@
       background: var(--topbar-bg);
       border-bottom: 1px solid var(--border);
     }
-
-    .topbar-inner {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+    .topbar-inner{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
       padding: 14px 0;
+      gap: 14px;
     }
-
-    /* Brand: Clean Text Link */
-    .brand {
-      display: inline-flex;
-      align-items: center;
-      text-decoration: none;
+    .brand{
+      display:inline-flex;
+      align-items:center;
+      text-decoration:none;
       color: var(--text);
       font-weight: 950;
       font-size: 22px;
       letter-spacing: -0.8px;
       transition: 0.18s ease;
     }
-
-    .brand:hover {
-      opacity: 0.7;
+    .brand:hover{
+      opacity: 0.75;
       transform: translateY(-1px);
     }
-
-    .nav {
-      display: flex;
+    .nav{
+      display:flex;
+      align-items:center;
       gap: 10px;
-      align-items: center;
+      flex-wrap: wrap;
+      justify-content: flex-end;
     }
-
-    .nav a {
+    .nav a{
       color: var(--muted);
-      text-decoration: none;
+      text-decoration:none;
       font-weight: 850;
       font-size: 14px;
       padding: 10px 12px;
       border-radius: 12px;
       transition: 0.18s ease;
     }
-
-    .nav a:hover {
+    .nav a:hover{
       color: var(--text);
       background: var(--btn-ghost-bg);
+      transform: translateY(-1px);
     }
-
-    .nav .cta {
+    .nav .cta{
       color: var(--btn-solid-text);
       background: var(--btn-solid-bg);
       font-weight: 950;
     }
+    .nav .cta:hover{
+      transform: translateY(-1px) scale(1.02);
+      box-shadow: var(--shadow-soft);
+      background: var(--btn-solid-bg);
+      color: var(--btn-solid-text);
+    }
 
     /* Hero */
-    header.hero { padding: 80px 0 40px 0; text-align: center; }
-    .kicker {
-      display: inline-flex;
+    header.hero{
+      padding: 78px 0 40px 0;
+      text-align:center;
+    }
+    .kicker{
+      display:inline-flex;
       padding: 8px 12px;
       border-radius: 999px;
       background: var(--card2);
@@ -147,126 +164,304 @@
       font-weight: 900;
       font-size: 12px;
       text-transform: uppercase;
-      margin-bottom: 20px;
+      margin-bottom: 18px;
     }
-
-    .title {
-      font-size: clamp(2.5rem, 5vw, 4rem);
+    .title{
+      font-size: clamp(2.4rem, 5vw, 3.9rem);
       line-height: 1.05;
       letter-spacing: -2px;
       font-weight: 1000;
-      margin: 0 0 20px 0;
+      margin: 0 0 14px 0;
     }
-
-    .subtitle {
-      max-width: 700px;
-      margin: 0 auto 30px auto;
+    .subtitle{
+      max-width: 72ch;
+      margin: 0 auto 18px auto;
       color: var(--muted);
       font-weight: 650;
-      font-size: 1.1rem;
+      font-size: 1.08rem;
     }
 
-    .hero-actions {
-      display: flex;
-      justify-content: center;
+    .badges{
+      margin: 12px 0 0 0;
+      display:flex;
+      flex-wrap:wrap;
+      gap: 8px;
+      justify-content:center;
+      align-items:center;
+    }
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      font-weight: 900;
+      font-size: 12px;
+      border: 1px solid var(--border);
+      background: var(--card2);
+      color: var(--text);
+      text-decoration:none;
+      transition: 0.18s ease;
+    }
+    .badge:hover{
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .hero-actions{
+      display:flex;
+      justify-content:center;
       gap: 10px;
-      flex-wrap: wrap;
+      flex-wrap:wrap;
+      margin-top: 18px;
     }
 
     /* Buttons */
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      padding: 12px 20px;
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap: 10px;
+      padding: 12px 18px;
       border-radius: 14px;
-      text-decoration: none;
+      text-decoration:none;
       font-weight: 950;
       font-size: 14px;
       border: 1px solid var(--btn-ghost-border);
-      transition: 0.18s ease;
+      background: transparent;
+      color: var(--btn-ghost-text);
+      transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease, border-color 0.18s ease;
+      will-change: transform;
     }
-
-    .btn.primary {
+    .btn.primary{
       background: var(--btn-solid-bg);
       color: var(--btn-solid-text);
       border-color: transparent;
     }
-
-    .btn:hover {
-      transform: translateY(-2px);
+    .btn:hover{
+      transform: translateY(-2px) scale(1.03);
       box-shadow: var(--shadow);
+    }
+    .btn:focus-visible{
+      outline: none;
+      box-shadow: 0 0 0 4px var(--ring), var(--shadow);
     }
 
     /* Sections */
-    section { padding: 60px 0; border-top: 1px solid var(--border); }
-    .section-title { font-size: 2rem; letter-spacing: -1px; margin-bottom: 10px; }
-    .section-sub { color: var(--muted); margin-bottom: 30px; font-weight: 650; }
-
-    .grid3 {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 20px;
+    section{
+      padding: 58px 0;
+      border-top: 1px solid var(--border);
+    }
+    .section-title{
+      font-size: 2rem;
+      letter-spacing: -1px;
+      margin: 0 0 10px 0;
+    }
+    .section-sub{
+      color: var(--muted);
+      margin: 0 0 26px 0;
+      font-weight: 650;
     }
 
-    .card {
-      background: var(--card);
+    .grid3{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+    .card{
+      background: rgba(255,255,255,0.0);
       border: 1px solid var(--border);
       border-radius: 16px;
-      padding: 24px;
-      box-shadow: var(--shadow);
+      padding: 22px;
+      box-shadow: var(--shadow-soft);
+      background: var(--card);
+    }
+    .card h3{
+      margin: 0 0 8px 0;
+      letter-spacing: -0.4px;
+    }
+    .card p{
+      margin: 0;
+      color: var(--muted);
+      font-weight: 650;
     }
 
     /* Commands Layout */
-    .commands {
-      display: grid;
-      grid-template-columns: 300px 1fr;
-      gap: 20px;
+    .commands{
+      display:grid;
+      grid-template-columns: 320px 1fr;
+      gap: 18px;
+      align-items: start;
     }
 
-    .cmd-nav button {
+    .cmd-nav{
+      position: sticky;
+      top: 78px;
+      align-self: start;
+      padding: 14px;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      background: var(--card);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .cmd-nav-title{
+      font-weight: 950;
+      letter-spacing: -0.3px;
+      margin: 0 0 10px 0;
+      font-size: 14px;
+      color: var(--muted);
+      text-transform: uppercase;
+    }
+
+    .cmd-nav button{
       width: 100%;
       text-align: left;
-      padding: 12px;
-      margin-bottom: 8px;
-      border-radius: 12px;
+      padding: 12px 12px;
+      margin-bottom: 10px;
+      border-radius: 14px;
       border: 1px solid transparent;
       background: transparent;
       color: var(--muted);
-      font-weight: 900;
+      font-weight: 950;
       cursor: pointer;
-      transition: 0.16s ease;
+
+      transition: transform 0.16s ease, background 0.16s ease, border-color 0.16s ease, color 0.16s ease, box-shadow 0.16s ease;
+      transform-origin: left center;
+      will-change: transform;
     }
 
-    .cmd-nav button.active {
+    /* Lively hover (bigger + subtle glow) */
+    .cmd-nav button:hover{
+      transform: translateY(-1px) scale(1.05);
+      background: var(--btn-ghost-bg);
+      color: var(--text);
+      box-shadow: 0 10px 22px rgba(0,0,0,0.08);
+    }
+
+    .cmd-nav button.active{
       background: var(--btn-ghost-bg);
       border-color: var(--btn-ghost-border);
       color: var(--text);
+      transform: scale(1.03);
     }
 
-    .cmd-panel {
+    .cmd-panel{
       background: var(--card2);
       border: 1px solid var(--border);
       border-radius: 20px;
-      padding: 30px;
-      min-height: 400px;
+      padding: 26px;
+      min-height: 420px;
+      box-shadow: var(--shadow-soft);
     }
 
-    pre {
-      background: #111;
-      color: #eee;
-      padding: 20px;
-      border-radius: 14px;
-      overflow-x: auto;
-      font-family: var(--mono);
+    .cmd-panel h3{
+      margin: 0;
+      letter-spacing: -0.5px;
+    }
+    .cmd-meta{
+      margin-top: 10px;
+      color: var(--muted);
+      font-weight: 650;
       font-size: 14px;
     }
 
-    footer { padding: 40px 0; text-align: center; color: var(--muted); border-top: 1px solid var(--border); }
+    .cmd-list{
+      list-style: none;
+      padding: 0;
+      margin: 16px 0 0 0;
+      display:flex;
+      flex-direction: column;
+      gap: 10px;
+    }
 
-    @media (max-width: 900px) {
-      .grid3, .commands { grid-template-columns: 1fr; }
-      .cmd-nav { display: flex; overflow-x: auto; gap: 10px; }
-      .cmd-nav button { white-space: nowrap; width: auto; }
+    .cmd-item{
+      padding: 12px 12px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      font-weight: 750;
+      display:flex;
+      align-items:center;
+      justify-content: space-between;
+      gap: 12px;
+      transition: transform 0.16s ease, box-shadow 0.16s ease, background 0.16s ease;
+    }
+
+    .cmd-item:hover{
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-soft);
+      background: rgba(255,255,255,0.02);
+    }
+
+    .cmd-code{
+      font-family: var(--mono);
+      font-weight: 900;
+      font-size: 13px;
+      padding: 5px 8px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: rgba(0,0,0,0.06);
+      color: var(--text);
+      white-space: nowrap;
+    }
+    @media (prefers-color-scheme: dark){
+      .cmd-code{
+        background: rgba(255,255,255,0.07);
+      }
+    }
+
+    .cmd-desc{
+      color: var(--muted);
+      font-weight: 650;
+      font-size: 14px;
+      flex: 1;
+      text-align: right;
+    }
+
+    pre{
+      background: #111;
+      color: #eee;
+      padding: 18px 18px;
+      border-radius: 16px;
+      overflow-x:auto;
+      font-family: var(--mono);
+      font-size: 14px;
+      border: 1px solid rgba(255,255,255,0.08);
+      box-shadow: var(--shadow-soft);
+    }
+
+    footer{
+      padding: 42px 0;
+      text-align:center;
+      color: var(--muted);
+      border-top: 1px solid var(--border);
+    }
+    footer a{ color: inherit; }
+
+    @media (max-width: 980px){
+      .grid3{ grid-template-columns: 1fr; }
+      .commands{ grid-template-columns: 1fr; }
+      .cmd-nav{
+        position: relative;
+        top: auto;
+      }
+      .cmd-nav button{
+        text-align: center;
+      }
+      .cmd-item{
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .cmd-desc{
+        text-align: left;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce){
+      *{ transition: none !important; scroll-behavior: auto !important; }
+      .cmd-nav button:hover,
+      .btn:hover{ transform: none !important; }
     }
   </style>
 </head>
@@ -276,11 +471,11 @@
     <div class="wrap">
       <div class="topbar-inner">
         <a class="brand" href="index.html">Eltrix</a>
-        <nav class="nav">
+        <nav class="nav" aria-label="Page navigation">
           <a href="#features">Features</a>
-          <a href="#quickstart">Setup</a>
           <a href="#commands">Commands</a>
-          <a class="cta" href="https://github.com/Eltrix-Dot/Ticketer" target="_blank">GitHub Repo →</a>
+          <a href="#quickstart">Quick Start</a>
+          <a class="cta" href="https://github.com/Eltrix-Dot/Ticketer" target="_blank" rel="noopener">GitHub Repo →</a>
         </nav>
       </div>
     </div>
@@ -288,133 +483,177 @@
 
   <div class="wrap">
     <header class="hero">
-      <div class="kicker">Open-source • No paywalls • Self-hosted</div>
-      <h1 class="title">Professional Ticketing,<br>Powered by Eltrix.</h1>
+      <div class="kicker">Open-source • Self-hosted • No paywalls</div>
+      <h1 class="title">Clean support tickets,<br/>done right.</h1>
       <p class="subtitle">
-        <strong>Ticketer</strong> is a fully open-source Discord bot designed for full control and privacy. No hidden fees, no subscriptions, just pure performance.
+        <strong>Ticketer</strong> is a minimal, production-ready Discord ticket bot focused on
+        privacy, control, and speed — built for server owners that want everything self-hosted.
       </p>
+
+      <div class="badges" aria-label="Project stats">
+        <span class="badge">Python 3.11+</span>
+        <span class="badge">Async SQLite Database</span>
+        <span class="badge">Transcripts (HTML)</span>
+        <span class="badge">Slash Commands</span>
+        <span class="badge">AGPL-3.0</span>
+        <span class="badge">Self-hosted</span>
+      </div>
+
       <div class="hero-actions">
-        <a class="btn primary" href="https://github.com/Eltrix-Dot/Ticketer">Get Started on GitHub</a>
-        <a class="btn" href="#commands">View Commands</a>
+        <a class="btn primary" href="https://github.com/Eltrix-Dot/Ticketer" target="_blank" rel="noopener">View on GitHub</a>
+        <a class="btn" href="#commands">Explore Commands</a>
+        <a class="btn" href="#quickstart">Quick Start</a>
       </div>
     </header>
 
     <section id="features">
-      <h2 class="section-title">🚀 Core Features</h2>
-      <p class="section-sub">Everything you need to manage support efficiently.</p>
+      <h2 class="section-title">Core Features</h2>
+      <p class="section-sub">Minimal UI. Strong workflow. Everything you actually need.</p>
+
       <div class="grid3">
         <div class="card">
-          <h3>No Paywalls</h3>
-          <p>Every single feature is open and free. We don't believe in "Premium" tiers for support tools.</p>
+          <h3>No paywalls</h3>
+          <p>Every feature is available. No “premium” tiers for basic support tooling.</p>
         </div>
+
         <div class="card">
-          <h3>Self-Hosted</h3>
-          <p>Host it yourself on your own hardware or VPS. Your data never leaves your control.</p>
+          <h3>Async SQLite backend</h3>
+          <p>Fast, durable storage with async-safe operations — optimized for Discord bot runtime.</p>
         </div>
+
         <div class="card">
-          <h3>Transcripts</h3>
-          <p>Automatically generate and save HTML transcripts of every ticket for auditing and records.</p>
+          <h3>Transcripts & logging</h3>
+          <p>Generate HTML transcripts and route logs/transcripts to configured channels.</p>
         </div>
+      </div>
+    </section>
+
+    <!-- Commands ABOVE Quick Start (as requested) -->
+    <section id="commands">
+      <h2 class="section-title">Command Explorer</h2>
+      <p class="section-sub">Hover, click, and browse what Ticketer can do.</p>
+
+      <div class="commands">
+        <div class="cmd-nav" aria-label="Command categories">
+          <div class="cmd-nav-title">Categories</div>
+          <button class="active" data-panel="general" type="button">General</button>
+          <button data-panel="setup_admin" type="button">Setup / Admin</button>
+          <button data-panel="tickets_staff" type="button">Tickets / Staff</button>
+          <button data-panel="safety" type="button">Safety / Moderation</button>
+          <button data-panel="workflow" type="button">Workflow</button>
+        </div>
+
+        <div class="cmd-panel" id="panel" role="region" aria-live="polite"></div>
       </div>
     </section>
 
     <section id="quickstart">
-      <h2 class="section-title">⚙️ Quick Start</h2>
-      <p class="section-sub">Install Ticketer in four simple steps.</p>
-      <pre><code># 1. Clone the repo
-git clone https://github.com/Eltrix-Dot/Ticketer.git
+      <h2 class="section-title">Quick Start</h2>
+      <p class="section-sub">Get it running fast (venv + env file recommended).</p>
 
-# 2. Enter directory
+      <pre><code># 1) Clone
+git clone https://github.com/Eltrix-Dot/Ticketer.git
 cd Ticketer
 
-# 3. Install requirements
+# 2) (Recommended) Create venv
+python -m venv .venv
+
+# 3) Activate venv
+# Windows PowerShell:
+.\.venv\Scripts\Activate.ps1
+# macOS/Linux:
+# source .venv/bin/activate
+
+# 4) Install dependencies
 pip install -r requirements.txt
 
-# 4. Start the bot
-python Main.py</code></pre>
-    </section>
+# 5) Configure env
+copy .env.example .env   # Windows
+# cp .env.example .env   # macOS/Linux
 
-    <section id="commands">
-      <h2 class="section-title">📋 Command Explorer</h2>
-      <p class="section-sub">Browse all available slash commands and interactions.</p>
-      <div class="commands">
-        <div class="cmd-nav">
-          <button class="active" data-panel="general">General</button>
-          <button data-panel="admin">Setup / Admin</button>
-          <button data-panel="staff">Staff / Tickets</button>
-          <button data-panel="safety">Safety / Mod</button>
-          <button data-panel="workflow">Workflow</button>
-        </div>
-        <div class="cmd-panel" id="panel">
-          </div>
-      </div>
+# 6) Run
+python src/run.py
+
+# 7) In Discord run:
+# /setup</code></pre>
     </section>
 
     <section id="support">
-      <div class="card" style="text-align: center; border: 2px solid var(--border);">
-        <h2>Need Assistance?</h2>
-        <p>Join the official Eltrix support server for help with setup or bug reports.</p>
-        <div class="hero-actions" style="margin-top:20px;">
-          <a class="btn primary" href="https://discord.gg/xkygDEcZxm">Join Support Server</a>
+      <div class="card" style="text-align:center;">
+        <h2 style="margin:0 0 8px 0;">Need help?</h2>
+        <p style="margin:0; color:var(--muted); font-weight:650;">
+          Join the official support server for setup help, bug reports, and updates.
+        </p>
+        <div class="hero-actions" style="margin-top:18px;">
+          <a class="btn primary" href="https://discord.gg/xkygDEcZxm" target="_blank" rel="noopener">Join Support Server</a>
+          <a class="btn" href="index.html">Back to Home</a>
         </div>
       </div>
     </section>
 
     <footer>
-      © 2026 Eltrix Group • Licensed under AGPL-3.0 • <a href="index.html" style="color:inherit;">Home</a>
+      © 2026 Eltrix Group • Licensed under AGPL-3.0 • <a href="index.html">Home</a>
     </footer>
   </div>
 
   <script>
     const PANELS = {
       general: {
-        title: "General Commands",
+        title: "General",
+        meta: "Basic info + diagnostics.",
         items: [
-          "/ping — Shows bot latency.",
-          "/about — Shows metadata about the bot.",
-          "/uptime — Shows bot uptime.",
-          "/serverinfo — Shows server statistics.",
-          "/userinfo — Info about a member.",
-          "/commands — Quick summary."
+          { cmd: "/ping", desc: "Shows bot latency." },
+          { cmd: "/about", desc: "Shows metadata about the bot." },
+          { cmd: "/uptime", desc: "Shows bot uptime." },
+          { cmd: "/serverinfo", desc: "Shows server statistics." },
+          { cmd: "/userinfo", desc: "Info about a member (or yourself)." },
+          { cmd: "/commands", desc: "Quick command summary in Discord." }
         ]
       },
-      admin: {
-        title: "Setup & Admin",
+      setup_admin: {
+        title: "Setup / Admin",
+        meta: "First-time setup + configuration + diagnostics.",
         items: [
-          "/setup — Interactive setup wizard.",
-          "/check — Diagnostic pre-flight check.",
-          "/set_transcript <channel> — Set log channel.",
-          "/department_set <label> <category> <role> — Route tickets.",
-          "/department_remove <label> — Remove route.",
-          "/department_list — View all routes."
+          { cmd: "/setup", desc: "Interactive setup wizard (first-time configuration)." },
+          { cmd: "/setup_reset", desc: "Reset guild config so setup can be run again." },
+          { cmd: "/admin check", desc: "Pre-flight checks (permissions/channels)." },
+          { cmd: "/config transcript <channel>", desc: "Set transcript destination channel." },
+          { cmd: "/config logs <channel>", desc: "Set log channel for ticket events." },
+          { cmd: "/department_set <label> <category> <role>", desc: "Create/update department routes used by /move." },
+          { cmd: "/department_remove <label>", desc: "Remove a department route." },
+          { cmd: "/department_list", desc: "List configured department routes." }
         ]
       },
-      staff: {
-        title: "Staff & Tickets",
+      tickets_staff: {
+        title: "Tickets / Staff",
+        meta: "Ticket operations for staff.",
         items: [
-          "/ticketsetup — Post the ticket panel.",
-          "/ticketdelete — Delete closed channel.",
-          "/memberadd <member> — Add user to ticket.",
-          "/memberremove <member> — Remove user.",
-          "/ticketrename <name> — Rename ticket.",
-          "/ticket_search <query> — Search archives.",
-          "/ticket_stats — View performance metrics."
+          { cmd: "/ticketsetup", desc: "Post the ticket panel in a channel." },
+          { cmd: "/ticketdelete", desc: "Delete a closed ticket channel." },
+          { cmd: "/memberadd <member>", desc: "Add a user to the ticket channel." },
+          { cmd: "/memberremove <member>", desc: "Remove a user from the ticket channel." },
+          { cmd: "/ticketrename <new_name>", desc: "Rename an open ticket channel." },
+          { cmd: "/my_tickets", desc: "View your open & recent tickets." },
+          { cmd: "/ticket_search <query>", desc: "Search tickets by name/topic." },
+          { cmd: "/ticket_stats", desc: "View ticket metrics (staff-only)." }
         ]
       },
       safety: {
-        title: "Safety & Moderation",
+        title: "Safety / Moderation",
+        meta: "Control spam and protect staff workflows.",
         items: [
-          "/blacklist <user> — Block from tickets.",
-          "/unblacklist <user> — Unblock user.",
-          "/blacklist_list — View blocked users."
+          { cmd: "/blacklist <user>", desc: "Block a user from opening tickets." },
+          { cmd: "/unblacklist <user>", desc: "Remove a user from blacklist." },
+          { cmd: "/blacklist_list", desc: "List currently blacklisted users." }
         ]
       },
       workflow: {
-        title: "Workflow Utilities",
+        title: "Workflow",
+        meta: "Utilities used while handling tickets.",
         items: [
-          "/transcript — Manual transcript generation.",
-          "/move — Transfer ticket between departments.",
-          "/anonymous <message> — Reply as the bot."
+          { cmd: "/transcript", desc: "Generate transcript for current ticket channel." },
+          { cmd: "/move", desc: "Move ticket to a department route + sync perms." },
+          { cmd: "/anonymous <message>", desc: "Send a staff reply anonymously via bot identity." }
         ]
       }
     };
@@ -422,16 +661,28 @@ python Main.py</code></pre>
     const panelEl = document.getElementById("panel");
     const navButtons = document.querySelectorAll(".cmd-nav button");
 
+    function escapeHtml(str){
+      return String(str)
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'","&#039;");
+    }
+
     function renderPanel(key) {
       const data = PANELS[key];
       panelEl.innerHTML = `
-        <h3>${data.title}</h3>
-        <ul style="list-style: none; padding: 0; margin-top: 20px;">
+        <h3>${escapeHtml(data.title)}</h3>
+        <div class="cmd-meta">${escapeHtml(data.meta)}</div>
+
+        <ul class="cmd-list">
           ${data.items.map(item => `
-            <li style="padding: 12px; margin-bottom: 10px; background: var(--card); border: 1px solid var(--border); border-radius: 12px; font-weight: 600;">
-              ${item}
+            <li class="cmd-item">
+              <span class="cmd-code">${escapeHtml(item.cmd)}</span>
+              <span class="cmd-desc">${escapeHtml(item.desc)}</span>
             </li>
-          `).join('')}
+          `).join("")}
         </ul>
       `;
     }
