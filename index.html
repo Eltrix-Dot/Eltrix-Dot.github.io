@@ -1,564 +1,559 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>Eltrix-Dot | Official Website & Discord Automation Projects</title>
+    <title>Eltrix-Dot | Official Website & Discord Automation Projects</title>
 
-  <!-- SEO -->
-  <meta name="title" content="Eltrix-Dot | Official Website & Discord Automation Projects">
-  <meta name="description" content="Official hub of Eltrix-Dot. Discover open-source Discord tools like Ticketer/Eltrix bot, automation projects, and 2D pixel art games. Built by a young developer for a safer internet.">
-  <meta name="keywords" content="Eltrix-Dot, Eltrix, Discord Bot, Ticketer, Swimpely, Automation, Pixel Art, Game Dev, Eltrix, eltrix, Eltrixbot, Eltrixbot, Eltrix HomePage, HomePage">
-  <meta name="author" content="Eltrix-Dot">
-  <link rel="canonical" href="https://eltrix-dot.github.io/" />
+    <meta name="title" content="Eltrix-Dot | Official Website & Discord Automation Projects">
+    <meta name="description" content="Official hub of Eltrix-Dot. Discover open-source Discord tools like Ticketer, Eltrix bot, and 2D pixel art games like Swimpely. Built by a young developer for a safer internet.">
+    <meta name="keywords" content="Eltrix-Dot, Eltrix, Discord Bot, Ticketer, Swimpely, Automation, Pixel Art, Game Dev, Eltrixbot">
+    <meta name="author" content="Eltrix-Dot">
+    <link rel="canonical" href="https://eltrix-dot.github.io/" />
+    <meta name="theme-color" content="#f8f9fa">
 
-  <!-- Favicons (IMPORTANT: use small files hosted on your site, not raw.githubusercontent.com) -->
-  <link rel="icon" type="image/png" href="https://github.com/Eltrix-Dot/Eltrix-Dot.github.io/blob/main/Eltrix-Dot.png?raw=true">
-  <link rel="apple-touch-icon" href="https://github.com/Eltrix-Dot/Eltrix-Dot.github.io/blob/main/Eltrix-Dot.png?raw=true">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://eltrix-dot.github.io/">
+    <meta property="og:title" content="Eltrix-Dot | Official Website">
+    <meta property="og:description" content="Discover the latest Discord utilities and automation tools by Eltrix-Dot.">
+    <meta property="og:image" content="https://eltrix-dot.github.io/og-image.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
 
-  <!-- Optional PWA icons (safe even if you don't use a manifest yet) -->
-  <meta name="theme-color" content="#f8f9fa">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Eltrix-Dot | Official Website">
+    <meta name="twitter:description" content="Discover the latest Discord utilities and automation tools by Eltrix-Dot.">
+    <meta name="twitter:image" content="https://eltrix-dot.github.io/og-image.jpg">
 
-  <!-- Open Graph (use a dedicated 1200x630 JPG/WEBP to avoid huge RAM decodes) -->
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://eltrix-dot.github.io/">
-  <meta property="og:title" content="Eltrix-Dot | Official Website">
-  <meta property="og:description" content="Discover the latest Discord utilities and automation tools by Eltrix-Dot.">
-  <meta property="og:image" content="https://eltrix-dot.github.io/og-image.jpg">
-  <meta property="og:image:width" content="1200">
-  <meta property="og:image:height" content="630">
+    <link rel="icon" type="image/png" href="https://github.com/Eltrix-Dot/Eltrix-Dot.github.io/blob/main/Eltrix-Dot.png?raw=true">
+    <link rel="apple-touch-icon" href="https://github.com/Eltrix-Dot/Eltrix-Dot.github.io/blob/main/Eltrix-Dot.png?raw=true">
 
-  <!-- Twitter (optional but nice) -->
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Eltrix-Dot | Official Website">
-  <meta name="twitter:description" content="Discover the latest Discord utilities and automation tools by Eltrix-Dot.">
-  <meta name="twitter:image" content="https://eltrix-dot.github.io/og-image.jpg">
-
-  <!-- Structured data: keep images SMALL to avoid heavy memory usage -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "Person",
-    "name": "Eltrix-Dot",
-    "url": "https://eltrix-dot.github.io/",
-    "logo": "https://eltrix-dot.github.io/profile-512.png",
-    "image": "https://eltrix-dot.github.io/profile-512.png",
-    "jobTitle": "Developer",
-    "knowsAbout": ["Discord Bots", "Automation", "Game Development", "Pixel Art"],
-    "sameAs": [
-      "https://github.com/Eltrix-Dot",
-      "https://discord.gg/kEj6UDdQvb"
-    ]
-  }
-  </script>
-
-  <style>
-    :root{
-      --bg: #f8f9fa;
-      --text: #1a1a1a;
-      --muted: #666;
-      --card: #ffffff;
-      --border: #f0f0f0;
-      --blue: #007bff;
-      --discord: #5865F2;
-      --green: #20c997;
-      --shadow: 0 10px 30px rgba(0,0,0,0.12);
-      --radius: 14px;
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Eltrix-Dot",
+      "url": "https://eltrix-dot.github.io/",
+      "logo": "https://eltrix-dot.github.io/profile-512.png",
+      "image": "https://eltrix-dot.github.io/profile-512.png",
+      "jobTitle": "Developer",
+      "knowsAbout": ["Discord Bots", "Automation", "Game Development", "Pixel Art"],
+      "sameAs": [
+        "https://github.com/Eltrix-Dot",
+        "https://discord.gg/kEj6UDdQvb"
+      ]
     }
+    </script>
 
-    * { box-sizing: border-box; }
+    <style>
+        :root {
+            --bg: #f8f9fa;
+            --text: #1a1a1a;
+            --muted: #666;
+            --card: #ffffff;
+            --border: #f0f0f0;
+            --blue: #007bff;
+            --discord: #5865F2;
+            --green: #20c997;
+            --shadow: 0 10px 30px rgba(0,0,0,0.12);
+            --radius: 14px;
+        }
 
-    body{
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      margin: 0;
-      line-height: 1.6;
-    }
+        * { box-sizing: border-box; }
 
-    /* Top Navigation */
-    .top-nav-bar{
-      background: var(--card);
-      padding: 14px 40px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-    }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            margin: 0;
+            line-height: 1.6;
+        }
 
-    .site-title{
-      color: var(--text);
-      font-size: 26px;
-      font-weight: 900;
-      text-decoration: none;
-      letter-spacing: -1px;
-    }
+        /* Top Navigation */
+        .top-nav-bar {
+            background: var(--card);
+            padding: 14px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
 
-    .nav-right{
-      display: flex;
-      gap: 12px;
-      align-items: center;
-      position: relative;
-    }
+        .site-title {
+            color: var(--text);
+            font-size: 26px;
+            font-weight: 900;
+            text-decoration: none;
+            letter-spacing: -1px;
+        }
 
-    .nav-btn{
-      padding: 10px 16px;
-      text-decoration: none;
-      font-weight: 800;
-      border-radius: 12px;
-      transition: 0.2s ease;
-      font-size: 14px;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      user-select: none;
-      white-space: nowrap;
-    }
+        .nav-right {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            position: relative;
+        }
 
-    .nav-privacy{
-      background: #ffffff;
-      color: var(--blue) !important;
-      border: 2px solid var(--blue);
-    }
-    .nav-privacy:hover{ transform: translateY(-1px); }
+        .nav-btn {
+            padding: 10px 16px;
+            text-decoration: none;
+            font-weight: 800;
+            border-radius: 12px;
+            transition: 0.2s ease;
+            font-size: 14px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            user-select: none;
+            white-space: nowrap;
+        }
 
-    .social-icons{
-      display: flex;
-      gap: 10px;
-      align-items: center;
-      margin-left: 2px;
-    }
+        .nav-privacy {
+            background: #ffffff;
+            color: var(--blue) !important;
+            border: 2px solid var(--blue);
+        }
+        .nav-privacy:hover { transform: translateY(-1px); }
 
-    .social-icon{
-      width: 40px;
-      height: 40px;
-      border-radius: 12px;
-      background: #f1f3f5;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      color: #333;
-      text-decoration: none;
-      transition: 0.2s ease;
-    }
+        .social-icons {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            margin-left: 2px;
+        }
 
-    .social-icon:hover{
-      background: #e9ecef;
-      transform: translateY(-1px);
-    }
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            background: #f1f3f5;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            color: #333;
+            text-decoration: none;
+            transition: 0.2s ease;
+        }
 
-    .social-icon svg{
-      width: 18px;
-      height: 18px;
-      fill: currentColor;
-    }
+        .social-icon:hover {
+            background: #e9ecef;
+            transform: translateY(-1px);
+        }
 
-    .menu-toggle{
-      background: #f1f3f5;
-      border: none;
-      width: 40px;
-      height: 40px;
-      border-radius: 12px;
-      cursor: pointer;
-      display: inline-flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      gap: 5px;
-      transition: 0.2s ease;
-    }
+        .social-icon svg {
+            width: 18px;
+            height: 18px;
+            fill: currentColor;
+        }
 
-    .menu-toggle:hover{ background: #e9ecef; transform: translateY(-1px); }
+        .menu-toggle {
+            background: #f1f3f5;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            cursor: pointer;
+            display: inline-flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 5px;
+            transition: 0.2s ease;
+        }
 
-    .menu-toggle span{
-      display:block;
-      width: 20px;
-      height: 2px;
-      background-color: #333;
-      transition: transform 0.25s ease, opacity 0.2s ease;
-      border-radius: 2px;
-    }
+        .menu-toggle:hover { background: #e9ecef; transform: translateY(-1px); }
 
-    .menu-toggle[aria-expanded="true"] span:nth-child(1){ transform: translateY(7px) rotate(45deg); }
-    .menu-toggle[aria-expanded="true"] span:nth-child(2){ opacity: 0; }
-    .menu-toggle[aria-expanded="true"] span:nth-child(3){ transform: translateY(-7px) rotate(-45deg); }
+        .menu-toggle span {
+            display: block;
+            width: 20px;
+            height: 2px;
+            background-color: #333;
+            transition: transform 0.25s ease, opacity 0.2s ease;
+            border-radius: 2px;
+        }
 
-    .mobile-menu{
-      position: absolute;
-      top: 56px;
-      right: 0;
-      background: white;
-      min-width: 240px;
-      border-radius: 14px;
-      box-shadow: var(--shadow);
-      padding: 10px 0;
-      border: 1px solid #eee;
-      opacity: 0;
-      transform: translateY(-6px) scale(0.98);
-      pointer-events: none;
-      transition: opacity 0.18s ease, transform 0.18s ease;
-    }
+        .menu-toggle[aria-expanded="true"] span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+        .menu-toggle[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
+        .menu-toggle[aria-expanded="true"] span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
-    .mobile-menu.active{
-      opacity: 1;
-      transform: translateY(0) scale(1);
-      pointer-events: auto;
-    }
+        .mobile-menu {
+            position: absolute;
+            top: 56px;
+            right: 0;
+            background: white;
+            min-width: 240px;
+            border-radius: 14px;
+            box-shadow: var(--shadow);
+            padding: 10px 0;
+            border: 1px solid #eee;
+            opacity: 0;
+            transform: translateY(-6px) scale(0.98);
+            pointer-events: none;
+            transition: opacity 0.18s ease, transform 0.18s ease;
+        }
 
-    .menu-item{
-      padding: 12px 18px;
-      text-decoration: none;
-      color: #333;
-      font-weight: 700;
-      font-size: 14px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      transition: 0.15s ease;
-    }
+        .mobile-menu.active {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            pointer-events: auto;
+        }
 
-    .menu-item:hover{
-      background: #f8f9fa;
-      color: var(--blue);
-    }
+        .menu-item {
+            padding: 12px 18px;
+            text-decoration: none;
+            color: #333;
+            font-weight: 700;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: 0.15s ease;
+        }
 
-    .menu-divider{
-      height: 1px;
-      background: #eee;
-      margin: 8px 0;
-    }
+        .menu-item:hover {
+            background: #f8f9fa;
+            color: var(--blue);
+        }
 
-    .main-content{
-      padding: 70px 20px;
-      max-width: 900px;
-      margin: 0 auto;
-    }
+        .menu-divider {
+            height: 1px;
+            background: #eee;
+            margin: 8px 0;
+        }
 
-    .big-title{
-      font-size: 3rem;
-      font-weight: 950;
-      line-height: 1.08;
-      margin: 0 0 20px 0;
-      letter-spacing: -2px;
-    }
+        .main-content {
+            padding: 70px 20px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
 
-    .subtitle{
-      color: var(--muted);
-      font-weight: 650;
-      max-width: 70ch;
-      margin-bottom: 30px;
-    }
+        .big-title {
+            font-size: 3rem;
+            font-weight: 950;
+            line-height: 1.08;
+            margin: 0 0 20px 0;
+            letter-spacing: -2px;
+        }
 
-    .section{
-      background: var(--card);
-      padding: 26px;
-      border-radius: 16px;
-      margin-bottom: 18px;
-      border: 1px solid var(--border);
-    }
+        .subtitle {
+            color: var(--muted);
+            font-weight: 650;
+            max-width: 70ch;
+            margin-bottom: 30px;
+        }
 
-    .grid{
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 18px;
-    }
+        .section {
+            background: var(--card);
+            padding: 26px;
+            border-radius: 16px;
+            margin-bottom: 18px;
+            border: 1px solid var(--border);
+        }
 
-    .pill{
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      font-weight: 900;
-      font-size: 12px;
-      letter-spacing: 0.5px;
-      text-transform: uppercase;
-      margin-bottom: 10px;
-    }
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 18px;
+        }
 
-    .btn-row{
-      display:flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 12px;
-    }
+        .pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 900;
+            font-size: 12px;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
 
-    .btn-primary{
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      padding: 10px 16px;
-      border-radius: 12px;
-      font-weight: 900;
-      text-decoration: none;
-      color: white;
-      transition: 0.2s ease;
-      border: 0;
-    }
-    .btn-primary:hover{ transform: translateY(-1px); }
+        .btn-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 12px;
+        }
 
-    .btn-ghost{
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      padding: 10px 16px;
-      border-radius: 12px;
-      font-weight: 900;
-      text-decoration: none;
-      color: var(--blue);
-      background: transparent;
-      border: 2px solid #dbe7ff;
-      transition: 0.2s ease;
-    }
-    .btn-ghost:hover{ transform: translateY(-1px); background: #f2f7ff; }
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 10px 16px;
+            border-radius: 12px;
+            font-weight: 900;
+            text-decoration: none;
+            color: white;
+            transition: 0.2s ease;
+            border: 0;
+        }
+        .btn-primary:hover { transform: translateY(-1px); }
 
-    .muted{ color: var(--muted); }
+        .btn-ghost {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 10px 16px;
+            border-radius: 12px;
+            font-weight: 900;
+            text-decoration: none;
+            color: var(--blue);
+            background: transparent;
+            border: 2px solid #dbe7ff;
+            transition: 0.2s ease;
+        }
+        .btn-ghost:hover { transform: translateY(-1px); background: #f2f7ff; }
 
-    .logo-footer{
-      text-align: center;
-      padding: 55px 0 18px 0;
-      font-size: 5rem;
-      font-weight: 950;
-      color: #e9ecef;
-      letter-spacing: -3px;
-    }
+        .muted { color: var(--muted); }
 
-    .site-footer{
-      background: #ffffff;
-      padding: 38px 20px;
-      border-top: 1px solid #e9ecef;
-      text-align: center;
-    }
+        .logo-footer {
+            text-align: center;
+            padding: 55px 0 18px 0;
+            font-size: 5rem;
+            font-weight: 950;
+            color: #e9ecef;
+            letter-spacing: -3px;
+        }
 
-    .footer-content{
-      max-width: 900px;
-      margin: 0 auto;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 18px;
-    }
+        .site-footer {
+            background: #ffffff;
+            padding: 38px 20px;
+            border-top: 1px solid #e9ecef;
+            text-align: center;
+        }
 
-    .footer-links{
-      display: flex;
-      gap: 18px;
-      flex-wrap: wrap;
-      justify-content: center;
-      align-items: center;
-    }
+        .footer-content {
+            max-width: 900px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 18px;
+        }
 
-    .footer-link{
-      color: #666;
-      text-decoration: none;
-      font-weight: 700;
-      font-size: 14px;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-    }
+        .footer-links {
+            display: flex;
+            gap: 18px;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+        }
 
-    .footer-email{
-      background: #f1f3f5;
-      padding: 8px 14px;
-      border-radius: 10px;
-      color: #444;
-      font-size: 14px;
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      font-weight: 650;
-    }
+        .footer-link {
+            color: #666;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 14px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
 
-    @media (max-width: 860px){
-      .grid{ grid-template-columns: 1fr; }
-    }
+        .footer-email {
+            background: #f1f3f5;
+            padding: 8px 14px;
+            border-radius: 10px;
+            color: #444;
+            font-size: 14px;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 650;
+        }
 
-    @media (max-width: 750px){
-      .top-nav-bar{ padding: 14px 18px; }
-      .social-icons{ display:none; }
-      .mobile-menu{ right: 0; width: min(92vw, 320px); }
-      .big-title{ font-size: 2.4rem; }
-    }
+        @media (max-width: 860px) {
+            .grid { grid-template-columns: 1fr; }
+        }
 
-    /* Accessibility: reduce motion */
-    @media (prefers-reduced-motion: reduce){
-      * { transition: none !important; scroll-behavior: auto !important; }
-    }
-  </style>
+        @media (max-width: 750px) {
+            .top-nav-bar { padding: 14px 18px; }
+            .social-icons { display: none; }
+            .mobile-menu { right: 0; width: min(92vw, 320px); }
+            .big-title { font-size: 2.4rem; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            * { transition: none !important; scroll-behavior: auto !important; }
+        }
+    </style>
 </head>
 
 <body>
-  <header class="top-nav-bar">
-    <a href="index.html" class="site-title">ELTRIX ©</a>
+    <header style="display:none;">
+        <h1>Eltrix-Dot Projects: Discord Bots and 2D Pixel Art Games</h1>
+        <p>Official homepage of Eltrix-Dot. Discover open-source Discord utilities like Ticketer, Eltrix bot, and pixel-style games like Swimpely. Built for privacy and transparency.</p>
+    </header>
 
-    <nav class="nav-right" aria-label="Primary">
-      <a href="https://eltrix-dot.github.io/privacymain" class="nav-btn nav-privacy">PRIVACY</a>
+    <header class="top-nav-bar">
+        <a href="index.html" class="site-title">ELTRIX ©</a>
 
-      <div class="social-icons" aria-label="Social links">
-        <a class="social-icon" href="https://discord.gg/kEj6UDdQvb" target="_blank" rel="noopener noreferrer" aria-label="Discord">
-          <svg viewBox="0 0 245 240" aria-hidden="true">
-            <path d="M104.4 104.6c-5.7 0-10.2 5-10.2 11.1s4.6 11.1 10.2 11.1c5.7 0 10.3-5 10.2-11.1 0-6.1-4.6-11.1-10.2-11.1zm36.2 0c-5.7 0-10.2 5-10.2 11.1s4.6 11.1 10.2 11.1c5.7 0 10.3-5 10.2-11.1 0-6.1-4.6-11.1-10.2-11.1z"/>
-            <path d="M189.5 20h-134C24.9 20 20 24.9 20 31.1v140.4c0 6.2 4.9 11.1 11.1 11.1h113.6l-5.3-18.4 12.8 11.9 12.1 11.2 21.5 19V31.1c0-6.2-4.9-11.1-11.1-11.1zm-39.6 135.6s-3.7-4.4-6.8-8.3c13.5-3.8 18.6-12.1 18.6-12.1-4.2 2.8-8.2 4.8-11.8 6.1-5.1 2.1-10 3.5-14.8 4.3-9.8 1.8-18.8 1.3-26.5-.1-5.8-1.1-10.8-2.6-14.9-4.3-2.3-.9-4.8-2-7.3-3.4-.3-.2-.6-.3-.9-.5-.2-.1-.3-.2-.5-.3-2.2-1.2-3.4-2-3.4-2s4.9 8.1 17.9 12c-3.1 3.9-6.9 8.6-6.9 8.6-22.8-.7-31.4-15.7-31.4-15.7 0-33.2 14.8-60.1 14.8-60.1 14.8-11.1 28.8-10.8 28.8-10.8l1 1.2c-18.5 5.3-27 13.3-27 13.3s2.3-1.3 6.2-3.1c11.2-4.9 20.1-6.2 23.8-6.5.6-.1 1.1-.2 1.7-.2 6.1-.8 13-.9 20.2-.1 9.5 1.1 19.7 4 30.2 9.6 0 0-8.1-7.7-25.6-13l1.4-1.6s14-.3 28.8 10.8c0 0 14.8 26.9 14.8 60.1 0 0-8.7 15-31.5 15.7z"/>
-          </svg>
-        </a>
+        <nav class="nav-right" aria-label="Primary" data-nosnippet>
+            <a href="https://eltrix-dot.github.io/privacymain" class="nav-btn nav-privacy">PRIVACY</a>
 
-        <a class="social-icon" href="https://github.com/Eltrix-Dot" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
-          <svg viewBox="0 0 16 16" aria-hidden="true">
-            <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"/>
-          </svg>
-        </a>
-      </div>
+            <div class="social-icons" aria-label="Social links">
+                <a class="social-icon" href="https://discord.gg/kEj6UDdQvb" target="_blank" rel="noopener noreferrer" aria-label="Discord">
+                    <svg viewBox="0 0 245 240" aria-hidden="true">
+                        <path d="M104.4 104.6c-5.7 0-10.2 5-10.2 11.1s4.6 11.1 10.2 11.1c5.7 0 10.3-5 10.2-11.1 0-6.1-4.6-11.1-10.2-11.1zm36.2 0c-5.7 0-10.2 5-10.2 11.1s4.6 11.1 10.2 11.1c5.7 0 10.3-5 10.2-11.1 0-6.1-4.6-11.1-10.2-11.1z"/>
+                        <path d="M189.5 20h-134C24.9 20 20 24.9 20 31.1v140.4c0 6.2 4.9 11.1 11.1 11.1h113.6l-5.3-18.4 12.8 11.9 12.1 11.2 21.5 19V31.1c0-6.2-4.9-11.1-11.1-11.1zm-39.6 135.6s-3.7-4.4-6.8-8.3c13.5-3.8 18.6-12.1 18.6-12.1-4.2 2.8-8.2 4.8-11.8 6.1-5.1 2.1-10 3.5-14.8 4.3-9.8 1.8-18.8 1.3-26.5-.1-5.8-1.1-10.8-2.6-14.9-4.3-2.3-.9-4.8-2-7.3-3.4-.3-.2-.6-.3-.9-.5-.2-.1-.3-.2-.5-.3-2.2-1.2-3.4-2-3.4-2s4.9 8.1 17.9 12c-3.1 3.9-6.9 8.6-6.9 8.6-22.8-.7-31.4-15.7-31.4-15.7 0-33.2 14.8-60.1 14.8-60.1 14.8-11.1 28.8-10.8 28.8-10.8l1 1.2c-18.5 5.3-27 13.3-27 13.3s2.3-1.3 6.2-3.1c11.2-4.9 20.1-6.2 23.8-6.5.6-.1 1.1-.2 1.7-.2 6.1-.8 13-.9 20.2-.1 9.5 1.1 19.7 4 30.2 9.6 0 0-8.1-7.7-25.6-13l1.4-1.6s14-.3 28.8 10.8c0 0 14.8 26.9 14.8 60.1 0 0-8.7 15-31.5 15.7z"/>
+                    </svg>
+                </a>
 
-      <button class="menu-toggle" id="menuToggle" aria-label="Menu" aria-expanded="false" aria-controls="dropdownMenu">
-        <span></span><span></span><span></span>
-      </button>
+                <a class="social-icon" href="https://github.com/Eltrix-Dot" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+                    <svg viewBox="0 0 16 16" aria-hidden="true">
+                        <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"/>
+                    </svg>
+                </a>
+            </div>
 
-      <div class="mobile-menu" id="dropdownMenu" role="menu" aria-label="Quick links">
-        <a href="Eltrix.Discord-Bot.html" class="menu-item" role="menuitem">🤖 Eltrix Discord Bot</a>
-        <a href="ticketer.html" class="menu-item" role="menuitem">🎫 Ticketer (Page)</a>
-        <a href="https://github.com/Eltrix-Dot/Ticketer" target="_blank" rel="noopener noreferrer" class="menu-item" role="menuitem">🎫 Ticketer (GitHub)</a>
-        <div class="menu-divider"></div>
-        <a href="https://discord.gg/kEj6UDdQvb" target="_blank" rel="noopener noreferrer" class="menu-item" role="menuitem">💬 Discord Server</a>
-        <a href="https://github.com/Eltrix-Dot/Eltrix-Discord.bot" target="_blank" rel="noopener noreferrer" class="menu-item" role="menuitem">💻 Bot Source Code</a>
-        <div class="menu-divider"></div>
-        <a href="shield.html" class="menu-item" role="menuitem">🛡️ Project Shield</a>
-        <a href="https://eltrix-dot.github.io/Breakcheck" class="menu-item" role="menuitem">🔍 BreachCheck</a>
-        <a href="https://eltrix-dot.github.io/ecopulse" class="menu-item" role="menuitem">🌿 Ecopulse</a>
-        <div class="menu-divider"></div>
-        <a href="https://eltrix-dot.github.io/dashboard" target="_blank" rel="noopener noreferrer" class="menu-item" role="menuitem">📊 Dashboard</a>
-      </div>
-    </nav>
-  </header>
+            <button class="menu-toggle" id="menuToggle" aria-label="Menu" aria-expanded="false" aria-controls="dropdownMenu">
+                <span></span><span></span><span></span>
+            </button>
 
-  <main class="main-content">
-    <h1 class="big-title">ELTRIX-DOT: DISCORD BOTS & AUTOMATION</h1>
-    <div class="subtitle">
-      Projects focused on Discord utilities, community tooling, and automation — built with privacy and transparency at the core.
-    </div>
+            <div class="mobile-menu" id="dropdownMenu" role="menu" aria-label="Quick links">
+                <a href="Eltrix.Discord-Bot.html" class="menu-item" role="menuitem">🤖 Eltrix Discord Bot</a>
+                <a href="ticketer.html" class="menu-item" role="menuitem">🎫 Ticketer (Page)</a>
+                <a href="https://github.com/Eltrix-Dot/Ticketer" target="_blank" rel="noopener noreferrer" class="menu-item" role="menuitem">🎫 Ticketer (GitHub)</a>
+                <div class="menu-divider"></div>
+                <a href="https://discord.gg/kEj6UDdQvb" target="_blank" rel="noopener noreferrer" class="menu-item" role="menuitem">💬 Discord Server</a>
+                <a href="https://github.com/Eltrix-Dot/Eltrix-Discord.bot" target="_blank" rel="noopener noreferrer" class="menu-item" role="menuitem">💻 Bot Source Code</a>
+                <div class="menu-divider"></div>
+                <a href="shield.html" class="menu-item" role="menuitem">🛡️ Project Shield</a>
+                <a href="https://eltrix-dot.github.io/Breakcheck" class="menu-item" role="menuitem">🔍 BreachCheck</a>
+                <a href="https://eltrix-dot.github.io/ecopulse" class="menu-item" role="menuitem">🌿 Ecopulse</a>
+                <div class="menu-divider"></div>
+                <a href="https://eltrix-dot.github.io/dashboard" target="_blank" rel="noopener noreferrer" class="menu-item" role="menuitem">📊 Dashboard</a>
+            </div>
+        </nav>
+    </header>
 
-    <div class="grid">
-      <section class="section" style="border: 2px solid var(--discord);">
-        <div class="pill" style="color: var(--discord);">Featured Discord Bot</div>
-        <h2 style="margin:0;">Eltrix Discord Bot</h2>
-        <p class="muted" style="margin-top:10px;">
-          Powerful utilities, automation, and helpful commands for your Discord community.
-        </p>
-
-        <div class="btn-row">
-          <a class="btn-primary" style="background: var(--discord);" href="Eltrix.Discord-Bot.html">
-            View Bot Page →
-          </a>
-          <a class="btn-ghost" href="https://github.com/Eltrix-Dot/Eltrix-Discord.bot" target="_blank" rel="noopener noreferrer">
-            Source Code
-          </a>
-          <a class="btn-ghost" href="https://discord.gg/kEj6UDdQvb" target="_blank" rel="noopener noreferrer">
-            Join Discord
-          </a>
+    <main class="main-content">
+        <h1 class="big-title">ELTRIX-DOT: DISCORD BOTS & AUTOMATION</h1>
+        <div class="subtitle">
+            Projects focused on Discord utilities, community tooling, and automation — built with privacy and transparency at the core.
         </div>
-      </section>
 
-      <section class="section" style="border: 2px solid var(--green);">
-        <div class="pill" style="color: var(--green);">Featured Project | Releasing Soon</div>
-        <h2 style="margin:0;">Ticketer</h2>
-        <p class="muted" style="margin-top:10px;">
-          A ticketing system designed to keep support clean, fast, and organized.
-        </p>
+        <div class="grid">
+            <section class="section" style="border: 2px solid var(--discord);">
+                <div class="pill" style="color: var(--discord);">Featured Discord Bot</div>
+                <h2 style="margin:0;">Eltrix Discord Bot</h2>
+                <p class="muted" style="margin-top:10px;">
+                    Powerful utilities, automation, and helpful commands for your Discord community.
+                </p>
 
-        <div class="btn-row">
-          <a class="btn-primary" style="background: var(--green);" href="ticketer.html">
-            View Ticketer Page →
-          </a>
-          <a class="btn-ghost" href="https://github.com/Eltrix-Dot/Ticketer" target="_blank" rel="noopener noreferrer">
-            Source Code →
-          </a>
-          <a class="btn-ghost" href="https://discord.gg/xkygDEcZxm" target="_blank" rel="noopener noreferrer">
-            Join Discord
-          </a>
+                <div class="btn-row" data-nosnippet>
+                    <a class="btn-primary" style="background: var(--discord);" href="Eltrix.Discord-Bot.html">
+                        View Bot Page →
+                    </a>
+                    <a class="btn-ghost" href="https://github.com/Eltrix-Dot/Eltrix-Discord.bot" target="_blank" rel="noopener noreferrer">
+                        Source Code
+                    </a>
+                    <a class="btn-ghost" href="https://discord.gg/kEj6UDdQvb" target="_blank" rel="noopener noreferrer">
+                        Join Discord
+                    </a>
+                </div>
+            </section>
+
+            <section class="section" style="border: 2px solid var(--green);">
+                <div class="pill" style="color: var(--green);">Featured Project | Releasing Soon</div>
+                <h2 style="margin:0;">Ticketer</h2>
+                <p class="muted" style="margin-top:10px;">
+                    A ticketing system designed to keep support clean, fast, and organized.
+                </p>
+
+                <div class="btn-row" data-nosnippet>
+                    <a class="btn-primary" style="background: var(--green);" href="ticketer.html">
+                        View Ticketer Page →
+                    </a>
+                    <a class="btn-ghost" href="https://github.com/Eltrix-Dot/Ticketer" target="_blank" rel="noopener noreferrer">
+                        Source Code →
+                    </a>
+                    <a class="btn-ghost" href="https://discord.gg/xkygDEcZxm" target="_blank" rel="noopener noreferrer">
+                        Join Discord
+                    </a>
+                </div>
+            </section>
         </div>
-      </section>
-    </div>
 
-    <section class="section">
-      <h2 style="margin:0;">Other Projects</h2>
-      <p class="muted" style="margin-top:10px;">
-        Small tools, experiments, and ongoing development documentation.
-      </p>
+        <section class="section">
+            <h2 style="margin:0;">Other Projects</h2>
+            <p class="muted" style="margin-top:10px;">
+                Small tools, experiments, and ongoing development documentation.
+            </p>
 
-      <div style="margin-top:12px; display:flex; flex-direction:column; gap:10px;">
-        <a href="shield.html" class="btn-ghost" style="justify-content:flex-start;">Project Shield 🛡️ →</a>
-        <a href="https://eltrix-dot.github.io/Breakcheck" class="btn-ghost" style="justify-content:flex-start;">BreachCheck 🔍 →</a>
-        <a href="https://eltrix-dot.github.io/ecopulse" class="btn-ghost" style="justify-content:flex-start;">Ecopulse 🌿 →</a>
-      </div>
-    </section>
-  </main>
+            <div style="margin-top:12px; display:flex; flex-direction:column; gap:10px;" data-nosnippet>
+                <a href="shield.html" class="btn-ghost" style="justify-content:flex-start;">Project Shield 🛡️ →</a>
+                <a href="https://eltrix-dot.github.io/Breakcheck" class="btn-ghost" style="justify-content:flex-start;">BreachCheck 🔍 →</a>
+                <a href="https://eltrix-dot.github.io/ecopulse" class="btn-ghost" style="justify-content:flex-start;">Ecopulse 🌿 →</a>
+            </div>
+        </section>
+    </main>
 
-  <div class="logo-footer">ELTRIX</div>
+    <div class="logo-footer">ELTRIX</div>
 
-  <footer class="site-footer">
-    <div class="footer-content">
-      <div class="footer-links">
-        <a href="https://eltrix-dot.github.io/ToS" class="footer-link">Terms of Service</a>
-        <a href="https://discord.gg/kEj6UDdQvb" class="footer-link" target="_blank" rel="noopener noreferrer" aria-label="Discord">
-          <span style="font-weight:900; color: var(--discord);">●</span> Discord
-        </a>
-        <a href="https://github.com/Eltrix-Dot" class="footer-link" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
-          <svg height="18" viewBox="0 0 16 16" width="18" style="fill: currentColor;" aria-hidden="true">
-            <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"/>
-          </svg>
-          GitHub
-        </a>
-      </div>
+    <footer class="site-footer">
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="https://eltrix-dot.github.io/ToS" class="footer-link">Terms of Service</a>
+                <a href="https://discord.gg/kEj6UDdQvb" class="footer-link" target="_blank" rel="noopener noreferrer" aria-label="Discord">
+                    <span style="font-weight:900; color: var(--discord);">●</span> Discord
+                </a>
+                <a href="https://github.com/Eltrix-Dot" class="footer-link" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+                    <svg height="18" viewBox="0 0 16 16" width="18" style="fill: currentColor;" aria-hidden="true">
+                        <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"/>
+                    </svg>
+                    GitHub
+                </a>
+            </div>
 
-      <a href="mailto:Eltrix.public@protonmail.com" class="footer-email">
-        <span aria-hidden="true">✉</span>
-        Contact: Eltrix.public@protonmail.com
-      </a>
+            <a href="mailto:Eltrix.public@protonmail.com" class="footer-email">
+                <span aria-hidden="true">✉</span>
+                Contact: Eltrix.public@protonmail.com
+            </a>
 
-      <div class="muted" style="font-weight:700;">
-        © 2026 Eltrix Group. Built for a safer internet.
-      </div>
-    </div>
-  </footer>
+            <div class="muted" style="font-weight:700;">
+                © 2026 Eltrix Group. Built for a safer internet.
+            </div>
+        </div>
+    </footer>
 
-  <script>
-    const menuToggle = document.getElementById("menuToggle");
-    const dropdownMenu = document.getElementById("dropdownMenu");
+    <script>
+        const menuToggle = document.getElementById("menuToggle");
+        const dropdownMenu = document.getElementById("dropdownMenu");
 
-    function openMenu(){
-      dropdownMenu.classList.add("active");
-      menuToggle.setAttribute("aria-expanded", "true");
-    }
+        function openMenu(){
+            dropdownMenu.classList.add("active");
+            menuToggle.setAttribute("aria-expanded", "true");
+        }
 
-    function closeMenu(){
-      dropdownMenu.classList.remove("active");
-      menuToggle.setAttribute("aria-expanded", "false");
-    }
+        function closeMenu(){
+            dropdownMenu.classList.remove("active");
+            menuToggle.setAttribute("aria-expanded", "false");
+        }
 
-    function isMenuOpen(){
-      return dropdownMenu.classList.contains("active");
-    }
+        function isMenuOpen(){
+            return dropdownMenu.classList.contains("active");
+        }
 
-    menuToggle.addEventListener("click", (e) => {
-      e.stopPropagation();
-      isMenuOpen() ? closeMenu() : openMenu();
-    });
+        menuToggle.addEventListener("click", (e) => {
+            e.stopPropagation();
+            isMenuOpen() ? closeMenu() : openMenu();
+        });
 
-    // Close when clicking outside
-    window.addEventListener("click", (e) => {
-      if (!dropdownMenu.contains(e.target) && !menuToggle.contains(e.target)) {
-        closeMenu();
-      }
-    });
+        window.addEventListener("click", (e) => {
+            if (!dropdownMenu.contains(e.target) && !menuToggle.contains(e.target)) {
+                closeMenu();
+            }
+        });
 
-    // Close on Escape
-    window.addEventListener("keydown", (e) => {
-      if (e.key === "Escape") closeMenu();
-    });
-  </script>
+        window.addEventListener("keydown", (e) => {
+            if (e.key === "Escape") closeMenu();
+        });
+    </script>
 </body>
 </html>
