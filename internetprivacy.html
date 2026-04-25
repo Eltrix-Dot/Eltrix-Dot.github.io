@@ -130,7 +130,17 @@
         .tool-logo svg { width: 22px; height: 22px; }
 
         .tool-name { display: block; font-weight: 800; font-size: 1.2rem; color: #fff; margin: 0; }
-        .tag { font-size: 0.65rem; background: rgba(16, 185, 129, 0.1); color: var(--primary); padding: 3px 10px; border-radius: 20px; text-transform: uppercase; font-weight: 700; display: inline-block; margin-top: 0.4rem; }
+        .tag {
+            font-size: 0.65rem;
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--primary);
+            padding: 3px 10px;
+            border-radius: 20px;
+            text-transform: uppercase;
+            font-weight: 700;
+            display: inline-block;
+            margin-top: 6px;
+        }
 
         .description { font-size: 0.95rem; color: var(--text-dim); margin-top: 12px; }
 
@@ -521,6 +531,299 @@
             </div>
         </div>
 
+        <!-- ===================== NEW: PROTON SECTION ===================== -->
+        <div class="category-title">🧪 Proton Ecosystem (Private by Design)</div>
+        <div class="tool-grid">
+            <div class="tool-card">
+                <div class="tool-header">
+                    <span class="tool-logo" aria-hidden="true" title="Proton Mail">
+                        <!-- envelope -->
+                        <svg viewBox="0 0 24 24" fill="none">
+                            <rect x="4" y="6" width="16" height="12" rx="2" fill="#00f2ff" opacity="0.18"/>
+                            <path d="M5.5 8l6.5 5 6.5-5" stroke="#00f2ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M6.5 17l5.5-4.3L17.5 17" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" opacity="0.9"/>
+                        </svg>
+                    </span>
+                    <div>
+                        <p class="tool-name">Proton Mail</p>
+                        <span class="tag">Encrypted Inbox</span>
+                    </div>
+                </div>
+                <p class="description">
+                    Use Proton Mail as your “vault inbox”: stable identity, less shared, and a strong baseline against provider-level scanning.
+                    Combine it with aliases (SimpleLogin) to keep your real address out of breaches.
+                </p>
+                <div class="tool-actions">
+                    <a class="btn small neon" href="https://proton.me/mail" target="_blank" rel="noopener">Official</a>
+                    <a class="btn small green" href="https://proton.me/mail/pricing" target="_blank" rel="noopener">Plans</a>
+                </div>
+            </div>
+
+            <div class="tool-card">
+                <div class="tool-header">
+                    <span class="tool-logo" aria-hidden="true" title="Proton VPN">
+                        <!-- shield -->
+                        <svg viewBox="0 0 24 24" fill="none">
+                            <path d="M12 2l8 4v7c0 5-3.4 9-8 9s-8-4-8-9V6l8-4z" fill="#10b981" opacity="0.22"/>
+                            <path d="M12 4.5l6 3v5.1c0 3.8-2.6 7.1-6 7.8-3.4-.7-6-4-6-7.8V7.5l6-3z" stroke="#00f2ff" stroke-width="1.8" opacity="0.9"/>
+                            <path d="M9 12.3l2 2 4-4" stroke="#00f2ff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </span>
+                    <div>
+                        <p class="tool-name">Proton VPN</p>
+                        <span class="tag">Network Privacy</span>
+                    </div>
+                </div>
+                <p class="description">
+                    VPNs reduce ISP-level visibility and help against local network snooping.
+                    Use it as a privacy baseline — but remember: a VPN is not the same as anonymity (for that: Tor).
+                </p>
+                <div class="tool-actions">
+                    <a class="btn small neon" href="https://protonvpn.com" target="_blank" rel="noopener">Official</a>
+                    <a class="btn small green" href="https://protonvpn.com/download" target="_blank" rel="noopener">Download</a>
+                </div>
+            </div>
+
+            <div class="tool-card">
+                <div class="tool-header">
+                    <span class="tool-logo" aria-hidden="true" title="SimpleLogin (Proton)">
+                        <!-- mask -->
+                        <svg viewBox="0 0 24 24" fill="none">
+                            <path d="M12 3c5 0 9 3.5 9 8.2 0 5.4-5.2 9.8-9 9.8s-9-4.4-9-9.8C3 6.5 7 3 12 3z" fill="#00f2ff" opacity="0.14"/>
+                            <path d="M7 11.2c1.5 1.1 3.2 1.7 5 1.7s3.5-.6 5-1.7" stroke="#00f2ff" stroke-width="2" stroke-linecap="round"/>
+                            <circle cx="9.3" cy="11" r="1" fill="#10b981"/>
+                            <circle cx="14.7" cy="11" r="1" fill="#10b981"/>
+                        </svg>
+                    </span>
+                    <div>
+                        <p class="tool-name">SimpleLogin</p>
+                        <span class="tag">Alias Firewall</span>
+                    </div>
+                </div>
+                <p class="description">
+                    One alias per service. If a service lekt of verkoopt: alias uit = probleem klaar.
+                    Dit is één van de hoogste “ROI” privacy-moves die je kunt doen.
+                </p>
+                <div class="tool-actions">
+                    <a class="btn small neon" href="https://simplelogin.io" target="_blank" rel="noopener">Official</a>
+                    <a class="btn small green" href="https://simplelogin.io/docs/" target="_blank" rel="noopener">Docs</a>
+                </div>
+            </div>
+
+            <div class="tool-card">
+                <div class="tool-header">
+                    <span class="tool-logo" aria-hidden="true" title="Proton Pass">
+                        <!-- key -->
+                        <svg viewBox="0 0 24 24" fill="none">
+                            <circle cx="9.2" cy="12.5" r="3.2" stroke="#00f2ff" stroke-width="2"/>
+                            <path d="M12.4 12.5H21" stroke="#10b981" stroke-width="2.2" stroke-linecap="round"/>
+                            <path d="M17 12.5v2.4" stroke="#00f2ff" stroke-width="2.2" stroke-linecap="round" opacity="0.9"/>
+                            <path d="M19 12.5v1.6" stroke="#00f2ff" stroke-width="2.2" stroke-linecap="round" opacity="0.7"/>
+                        </svg>
+                    </span>
+                    <div>
+                        <p class="tool-name">Proton Pass</p>
+                        <span class="tag">Password Manager</span>
+                    </div>
+                </div>
+                <p class="description">
+                    Use a password manager to enforce unique, long passwords everywhere.
+                    Combine with aliases: unique email + unique password = breach damage becomes minimal.
+                </p>
+                <div class="tool-actions">
+                    <a class="btn small neon" href="https://proton.me/pass" target="_blank" rel="noopener">Official</a>
+                    <a class="btn small green" href="https://proton.me/pass/download" target="_blank" rel="noopener">Download</a>
+                </div>
+            </div>
+
+            <div class="tool-card">
+                <div class="tool-header">
+                    <span class="tool-logo" aria-hidden="true" title="Proton Authenticator">
+                        <!-- 2FA / lock -->
+                        <svg viewBox="0 0 24 24" fill="none">
+                            <rect x="6" y="11" width="12" height="10" rx="2" fill="#10b981" opacity="0.18"/>
+                            <path d="M8 11V9a4 4 0 0 1 8 0v2" stroke="#00f2ff" stroke-width="2.2" stroke-linecap="round"/>
+                            <path d="M12 16v2" stroke="#00f2ff" stroke-width="2.2" stroke-linecap="round"/>
+                            <circle cx="12" cy="16" r="1.2" fill="#00f2ff"/>
+                        </svg>
+                    </span>
+                    <div>
+                        <p class="tool-name">Proton Authenticator (2FA)</p>
+                        <span class="tag">Account Shield</span>
+                    </div>
+                </div>
+                <p class="description">
+                    Turn on 2FA for your email and critical accounts. Prefer authenticator-app codes over SMS where possible.
+                    Store backup codes offline.
+                </p>
+                <div class="tool-actions">
+                    <a class="btn small neon" href="https://proton.me/authenticator" target="_blank" rel="noopener">Official</a>
+                    <a class="btn small green" href="https://proton.me/support/two-factor-authentication-2fa" target="_blank" rel="noopener">2FA Guide</a>
+                </div>
+            </div>
+
+            <div class="tool-card">
+                <div class="tool-header">
+                    <span class="tool-logo" aria-hidden="true" title="Proton Drive">
+                        <!-- cloud -->
+                        <svg viewBox="0 0 24 24" fill="none">
+                            <path d="M8.5 18.5h9a3.5 3.5 0 0 0 .2-7A5.5 5.5 0 0 0 7.1 9.8a3.8 3.8 0 0 0 1.4 8.7z" fill="#00f2ff" opacity="0.16"/>
+                            <path d="M7.2 18.5h10.4" stroke="#00f2ff" stroke-width="2" stroke-linecap="round" opacity="0.9"/>
+                            <path d="M9 16.2l3-3 3 3" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </span>
+                    <div>
+                        <p class="tool-name">Proton Drive</p>
+                        <span class="tag">Cloud Storage</span>
+                    </div>
+                </div>
+                <p class="description">
+                    For cloud files: keep sensitive documents in a privacy-focused storage stack.
+                    If something is “too sensitive to lose”, keep an offline encrypted backup too.
+                </p>
+                <div class="tool-actions">
+                    <a class="btn small neon" href="https://proton.me/drive" target="_blank" rel="noopener">Official</a>
+                    <a class="btn small green" href="https://proton.me/drive/download" target="_blank" rel="noopener">Download</a>
+                </div>
+            </div>
+
+            <div class="tool-card" style="grid-column: 1 / -1;">
+                <div class="tool-header">
+                    <span class="tool-logo" aria-hidden="true" title="Proton AI (Scribe)">
+                        <!-- spark -->
+                        <svg viewBox="0 0 24 24" fill="none">
+                            <path d="M12 2l1.2 5.2L18 9l-4.8 1.8L12 16l-1.2-5.2L6 9l4.8-1.8L12 2z" fill="#00f2ff" opacity="0.22"/>
+                            <path d="M5 14l.7 3 3 .7-3 .7-.7 3-.7-3-3-.7 3-.7.7-3z" fill="#10b981" opacity="0.35"/>
+                            <path d="M14.5 14.5l.6 2.2 2.2.6-2.2.6-.6 2.2-.6-2.2-2.2-.6 2.2-.6.6-2.2z" fill="#10b981" opacity="0.25"/>
+                        </svg>
+                    </span>
+                    <div>
+                        <p class="tool-name">Proton Scribe (AI)</p>
+                        <span class="tag">Privacy-Aware Writing</span>
+                    </div>
+                </div>
+                <p class="description">
+                    If you use AI writing assistance: prefer options that are designed to reduce data exposure.
+                    <strong>Rule:</strong> never paste secrets (passwords, recovery codes, IDs, private keys) into any AI tool.
+                </p>
+
+                <details class="accordion">
+                    <summary>
+                        Quick setup: Proton stack in 10 minutes
+                        <span class="accordion-chevron" aria-hidden="true"></span>
+                    </summary>
+                    <div class="accordion-body">
+                        <ol class="steps">
+                            <li>Create a Proton Mail account and enable 2FA.</li>
+                            <li>Install Proton Pass and migrate your most-used accounts first.</li>
+                            <li>Turn on aliases in SimpleLogin: one alias per service.</li>
+                            <li>Enable Proton VPN on public Wi‑Fi (cafés, school, travel).</li>
+                            <li>Store important docs in Proton Drive + keep an offline encrypted backup.</li>
+                        </ol>
+                        <div class="tip">
+                            <strong>Mindset:</strong> make the “private default” easy, so you actually keep doing it.
+                        </div>
+                    </div>
+                </details>
+
+                <div class="tool-actions" style="margin-top: 16px;">
+                    <a class="btn small neon" href="https://proton.me" target="_blank" rel="noopener">Proton Home</a>
+                    <a class="btn small green" href="https://proton.me/pricing" target="_blank" rel="noopener">Bundle / Plans</a>
+                </div>
+            </div>
+        </div>
+        <!-- =================== /NEW: PROTON SECTION =================== -->
+
+        <!-- ===================== NEW: TOR SECTION ===================== -->
+        <div class="category-title">🧅 Tor & Anonymity (When VPN isn’t enough)</div>
+        <div class="tool-grid">
+            <div class="tool-card" style="grid-column: 1 / -1;">
+                <div class="tool-header">
+                    <span class="tool-logo" aria-hidden="true" title="Tor">
+                        <!-- onion -->
+                        <svg viewBox="0 0 24 24" fill="none">
+                            <path d="M12 3c3.8 2.2 6.2 5.2 6.2 8.4 0 5-3.1 9.6-6.2 9.6S5.8 16.4 5.8 11.4C5.8 8.2 8.2 5.2 12 3z" fill="#10b981" opacity="0.16"/>
+                            <path d="M12 4.7c2.9 1.8 4.7 4.1 4.7 6.6 0 3.9-2.4 7.7-4.7 7.7S7.3 15.2 7.3 11.3c0-2.5 1.8-4.8 4.7-6.6z" stroke="#00f2ff" stroke-width="1.8" opacity="0.9"/>
+                            <path d="M12 7.3c1.7 1.2 2.8 2.7 2.8 4.3 0 2.6-1.4 5.1-2.8 5.1s-2.8-2.5-2.8-5.1c0-1.6 1.1-3.1 2.8-4.3z" stroke="#00f2ff" stroke-width="1.4" opacity="0.6"/>
+                        </svg>
+                    </span>
+                    <div>
+                        <p class="tool-name">Tor: what it is (and what it isn’t)</p>
+                        <span class="tag">Anonymity Layer</span>
+                    </div>
+                </div>
+                <p class="description">
+                    A VPN helps with <strong>privacy</strong> (hiding traffic from your ISP), but Tor is built for <strong>anonymity</strong> (hiding who you are / where you are).
+                    Tor routes your traffic through multiple relays so the destination doesn’t see your real IP.
+                </p>
+
+                <details class="accordion">
+                    <summary>
+                        When should you use Tor?
+                        <span class="accordion-chevron" aria-hidden="true"></span>
+                    </summary>
+                    <div class="accordion-body">
+                        <ul class="steps">
+                            <li>When you need to hide your IP/location from the site you visit.</li>
+                            <li>When you’re researching sensitive topics.</li>
+                            <li>When you want strong anti-tracking + anti-fingerprinting defaults.</li>
+                        </ul>
+                        <div class="tip">
+                            <strong>Reality check:</strong> Tor is slower by design. That’s the trade-off for anonymity.
+                        </div>
+                    </div>
+                </details>
+
+                <details class="accordion">
+                    <summary>
+                        Tor safety rules (do this to avoid self-doxxing)
+                        <span class="accordion-chevron" aria-hidden="true"></span>
+                    </summary>
+                    <div class="accordion-body">
+                        <ul class="steps">
+                            <li>Don’t log into your real accounts (Google, personal email) in Tor.</li>
+                            <li>Don’t install extra extensions (fingerprinting risk).</li>
+                            <li>Don’t open downloaded documents while online (they can leak network info).</li>
+                            <li>Keep Tor Browser updated.</li>
+                        </ul>
+                        <div class="tip">
+                            <strong>Rule:</strong> anonymity breaks when you bring your real identity into the Tor session.
+                        </div>
+                    </div>
+                </details>
+
+                <div class="tool-actions" style="margin-top: 16px;">
+                    <a class="btn small neon" href="https://www.torproject.org/" target="_blank" rel="noopener">Tor Project</a>
+                    <a class="btn small green" href="https://www.torproject.org/download/" target="_blank" rel="noopener">Download Tor Browser</a>
+                </div>
+            </div>
+
+            <div class="tool-card">
+                <div class="tool-header">
+                    <span class="tool-logo" aria-hidden="true" title="Tor Browser">
+                        <!-- compass -->
+                        <svg viewBox="0 0 24 24" fill="none">
+                            <circle cx="12" cy="12" r="9" stroke="#00f2ff" stroke-width="2" opacity="0.8"/>
+                            <path d="M10 14l5-5-2 6-3-1z" fill="#10b981" opacity="0.7"/>
+                            <path d="M9 15l6-6" stroke="#00f2ff" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                    </span>
+                    <div>
+                        <p class="tool-name">Tor Browser</p>
+                        <span class="tag">Default Hardening</span>
+                    </div>
+                </div>
+                <p class="description">
+                    The easiest and safest way to use Tor. It ships with strong anti-fingerprinting defaults and privacy-oriented settings.
+                </p>
+                <div class="tool-actions">
+                    <a class="btn small neon" href="https://www.torproject.org/download/" target="_blank" rel="noopener">Download</a>
+                    <a class="btn small green" href="https://support.torproject.org/" target="_blank" rel="noopener">Support</a>
+                </div>
+            </div>
+        </div>
+        <!-- =================== /NEW: TOR SECTION =================== -->
+
         <!-- Financial Privacy -->
         <div class="category-title">💸 Financial Privacy</div>
         <div class="tool-grid">
@@ -658,7 +961,7 @@
                         </svg>
                     </span>
                     <div>
-                        <p class="tool-name">If you’re on Windows</p>
+                        <p class="tool-name">If you’re on Windows (Acer Nitro etc.)</p>
                         <span class="tag">Know the Limit</span>
                     </div>
                 </div>
@@ -786,7 +1089,7 @@
                 Make privacy measurable: run your audit, change one thing, run it again.
             </p>
             <ol class="steps">
-                <li><strong>Step 1:</strong> Perform the audit on the <a href="https://eltrix-dot.github.io/Webcheck" target="_blank" rel="noopener" style="color: var(--blue); text-decoration: none;">Webcheck</a> page.</li>
+                <li><strong>Step 1:</strong> Perform the audit on the <a href="https://eltrix-dot.github.io/Webcheck" target="_blank" rel="noopener" style="color: var(--blue); text-decoration: none;">Webcheck</a>.</li>
                 <li><strong>Step 2:</strong> Implement one tool from this guide (VPN, browser hardening, aliases, etc.).</li>
                 <li><strong>Step 3:</strong> Perform the audit again and watch your score rise.</li>
             </ol>
