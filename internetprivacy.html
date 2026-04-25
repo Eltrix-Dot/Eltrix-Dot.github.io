@@ -1,18 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Privacy Manifesto | Eltrix Digital</title>
     <style>
         :root {
-            --primary: #10b981;
-            --blue: #00f2ff;
+            --primary: #10b981;   /* neon green */
+            --blue: #00f2ff;      /* neon cyan */
             --bg: #05070a;
             --card: #111827;
             --text: #f1f5f9;
             --text-dim: #94a3b8;
             --border: #1f2937;
+
+            --neon-green-glow: 0 0 10px rgba(16, 185, 129, 0.35), 0 0 25px rgba(16, 185, 129, 0.20);
+            --neon-blue-glow: 0 0 10px rgba(0, 242, 255, 0.30), 0 0 25px rgba(0, 242, 255, 0.18);
         }
 
         body {
@@ -38,10 +41,10 @@
         .logo { font-weight: 800; color: var(--blue); text-decoration: none; letter-spacing: 1px; }
 
         .nav-links { display: flex; gap: 20px; }
-        .nav-links a { 
-            color: var(--text-dim); 
-            text-decoration: none; 
-            font-size: 0.9rem; 
+        .nav-links a {
+            color: var(--text-dim);
+            text-decoration: none;
+            font-size: 0.9rem;
             font-weight: 600;
             transition: 0.3s;
         }
@@ -50,9 +53,32 @@
 
         .container { max-width: 1000px; margin: 3rem auto; padding: 0 1.5rem; }
 
-        .hero { text-align: center; margin-bottom: 4rem; }
+        .hero { text-align: center; margin-bottom: 3rem; }
         h1 { font-size: 3rem; margin-bottom: 0.5rem; }
         .hero p { color: var(--text-dim); font-size: 1.2rem; }
+
+        /* Why Privacy quote */
+        .quote {
+            margin: 1.25rem auto 0;
+            max-width: 860px;
+            border: 1px solid rgba(0, 242, 255, 0.25);
+            background: linear-gradient(135deg, rgba(0,242,255,0.08), rgba(16,185,129,0.04));
+            padding: 1rem 1.1rem;
+            border-radius: 1rem;
+            color: var(--text);
+            box-shadow: var(--neon-blue-glow);
+        }
+        .quote blockquote {
+            margin: 0;
+            font-size: 1.05rem;
+            color: rgba(241,245,249,0.95);
+        }
+        .quote blockquote span {
+            color: var(--text-dim);
+            font-size: 0.9rem;
+            display: block;
+            margin-top: 0.35rem;
+        }
 
         .category-title {
             display: flex;
@@ -69,7 +95,7 @@
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 1.5rem;
-            margin-bottom: 3rem;
+            margin-bottom: 2.2rem;
         }
 
         .tool-card {
@@ -78,23 +104,42 @@
             border-radius: 1.2rem;
             border: 1px solid var(--border);
             transition: 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        .tool-card:hover { border-color: var(--primary); transform: translateY(-5px); box-shadow: var(--neon-green-glow); }
+
+        /* Card header with logo */
+        .tool-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
         }
 
-        .tool-card:hover { border-color: var(--primary); transform: translateY(-5px); }
+        .tool-logo {
+            width: 34px;
+            height: 34px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            border: 1px solid rgba(148,163,184,0.18);
+            background: rgba(5, 7, 10, 0.35);
+            flex: 0 0 auto;
+        }
+        .tool-logo svg { width: 22px; height: 22px; }
 
-        .tool-name { display: block; font-weight: 800; font-size: 1.2rem; color: #fff; margin-bottom: 0.5rem; }
-        .tag { font-size: 0.65rem; background: rgba(16, 185, 129, 0.1); color: var(--primary); padding: 3px 10px; border-radius: 20px; text-transform: uppercase; font-weight: 700; }
+        .tool-name { display: block; font-weight: 800; font-size: 1.2rem; color: #fff; margin: 0; }
+        .tag { font-size: 0.65rem; background: rgba(16, 185, 129, 0.1); color: var(--primary); padding: 3px 10px; border-radius: 20px; text-transform: uppercase; font-weight: 700; display: inline-block; margin-top: 0.4rem; }
 
-        .description { font-size: 0.95rem; color: var(--text-dim); margin-top: 15px; }
+        .description { font-size: 0.95rem; color: var(--text-dim); margin-top: 12px; }
 
-        /* Lab Section CTA */
-        .lab-cta {
-            background: linear-gradient(135deg, #064e3b 0%, #05070a 100%);
-            padding: 3rem;
-            border-radius: 1.5rem;
-            text-align: center;
-            border: 1px solid var(--primary);
-            margin-top: 4rem;
+        /* Quick action buttons inside cards */
+        .tool-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 14px;
         }
 
         .btn {
@@ -108,12 +153,133 @@
             margin-top: 1.5rem;
             transition: 0.3s;
         }
+        .btn:hover { background: var(--blue); transform: scale(1.05); box-shadow: var(--neon-blue-glow); }
 
-        .btn:hover { background: var(--blue); transform: scale(1.05); }
+        .btn.small {
+            margin-top: 0;
+            padding: 0.55rem 0.9rem;
+            font-size: 0.78rem;
+            border-radius: 0.75rem;
+            letter-spacing: 0.2px;
+        }
 
-        footer { text-align: center; padding: 4rem 0; color: var(--text-dim); font-size: 0.85rem; border-top: 1px solid var(--border); }
+        .btn.neon {
+            background: transparent;
+            color: var(--text);
+            border: 1px solid rgba(0,242,255,0.55);
+            box-shadow: var(--neon-blue-glow);
+        }
+        .btn.neon:hover {
+            background: rgba(0,242,255,0.12);
+            transform: translateY(-1px);
+        }
 
-        @media (max-width: 600px) { .nav-links { display: none; } }
+        .btn.green {
+            background: transparent;
+            color: var(--text);
+            border: 1px solid rgba(16,185,129,0.55);
+            box-shadow: var(--neon-green-glow);
+        }
+        .btn.green:hover {
+            background: rgba(16,185,129,0.10);
+            transform: translateY(-1px);
+        }
+
+        /* Accordions */
+        details.accordion {
+            border: 1px solid var(--border);
+            border-radius: 1rem;
+            background: rgba(17, 24, 39, 0.65);
+            padding: 0.9rem 1rem;
+        }
+        details.accordion + details.accordion { margin-top: 12px; }
+
+        details.accordion summary {
+            cursor: pointer;
+            font-weight: 800;
+            color: #fff;
+            list-style: none;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+        }
+        details.accordion summary::-webkit-details-marker { display: none; }
+        .accordion-chevron {
+            width: 10px; height: 10px;
+            border-right: 2px solid var(--blue);
+            border-bottom: 2px solid var(--blue);
+            transform: rotate(-45deg);
+            transition: 0.2s ease;
+            opacity: 0.9;
+        }
+        details[open] .accordion-chevron { transform: rotate(45deg); }
+        details.accordion .accordion-body {
+            margin-top: 10px;
+            color: var(--text-dim);
+            font-size: 0.95rem;
+        }
+        .tip {
+            margin: 10px 0 0;
+            padding: 0.75rem 0.9rem;
+            border-radius: 0.9rem;
+            background: rgba(5, 7, 10, 0.35);
+            border: 1px dashed rgba(148,163,184,0.25);
+            color: rgba(241,245,249,0.9);
+        }
+        .tip strong { color: var(--blue); }
+
+        /* Lab Section CTA */
+        .lab-cta {
+            background: linear-gradient(135deg, #064e3b 0%, #05070a 100%);
+            padding: 3rem;
+            border-radius: 1.5rem;
+            text-align: center;
+            border: 1px solid var(--primary);
+            margin-top: 3.2rem;
+            box-shadow: var(--neon-green-glow);
+        }
+
+        /* Score tracker */
+        .score-cta {
+            margin-top: 2.8rem;
+            border: 1px solid rgba(0,242,255,0.35);
+            background: linear-gradient(135deg, rgba(0,242,255,0.08), rgba(5,7,10,0.55));
+            padding: 2rem;
+            border-radius: 1.5rem;
+            box-shadow: var(--neon-blue-glow);
+        }
+        .score-cta h3 { margin: 0 0 0.6rem; }
+        .steps {
+            margin: 0.75rem 0 0;
+            padding-left: 1.2rem;
+            color: var(--text-dim);
+        }
+        .steps li { margin: 0.35rem 0; }
+
+        footer {
+            text-align: center;
+            padding: 4rem 0;
+            color: var(--text-dim);
+            font-size: 0.85rem;
+            border-top: 1px solid var(--border);
+            margin-top: 3rem;
+        }
+        .last-updated {
+            display: inline-block;
+            margin-top: 0.8rem;
+            font-size: 0.8rem;
+            color: rgba(148,163,184,0.95);
+            border: 1px solid rgba(148,163,184,0.22);
+            padding: 0.4rem 0.7rem;
+            border-radius: 999px;
+            background: rgba(5,7,10,0.35);
+        }
+
+        @media (max-width: 600px) {
+            .nav-links { display: none; }
+            h1 { font-size: 2.25rem; }
+        }
     </style>
 </head>
 <body>
@@ -132,48 +298,501 @@
         <div class="hero">
             <h1>The Privacy Stack</h1>
             <p>Battle-tested tools and configurations to reclaim your digital sovereignty.</p>
+
+            <div class="quote">
+                <blockquote>
+                    “Privacy is not about having something to hide, it’s about having something to protect.”
+                    <span>— the mindset behind this guide</span>
+                </blockquote>
+            </div>
         </div>
 
+        <!-- Browsing & VPN -->
         <div class="category-title">🌐 Browsing & VPN</div>
         <div class="tool-grid">
             <div class="tool-card">
-                <span class="tool-name">Mullvad Browser</span>
-                <span class="tag">Anti-Fingerprint</span>
+                <div class="tool-header">
+                    <span class="tool-logo" aria-hidden="true" title="Mullvad">
+                        <!-- Simple Mullvad-style "mole" mark (inline SVG placeholder-style) -->
+                        <svg viewBox="0 0 24 24" fill="none">
+                            <path d="M12 3c3.3 0 6 2.7 6 6v5.5c0 3-2.7 5.5-6 5.5s-6-2.5-6-5.5V9c0-3.3 2.7-6 6-6z" fill="#10b981" opacity="0.95"/>
+                            <path d="M7.2 11.2c1.2-1.8 2.9-2.7 4.8-2.7s3.6.9 4.8 2.7" stroke="#05070a" stroke-width="2" stroke-linecap="round" opacity="0.8"/>
+                            <circle cx="9.5" cy="12.5" r="1.2" fill="#05070a"/>
+                            <circle cx="14.5" cy="12.5" r="1.2" fill="#05070a"/>
+                        </svg>
+                    </span>
+                    <div>
+                        <p class="tool-name">Mullvad Browser</p>
+                        <span class="tag">Anti-Fingerprint</span>
+                    </div>
+                </div>
                 <p class="description">Developed with the Tor Project to combat browser fingerprinting without the speed cost of the Tor network.</p>
+                <div class="tool-actions">
+                    <a class="btn small neon" href="https://mullvad.net/browser" target="_blank" rel="noopener">Official Site</a>
+                    <a class="btn small green" href="https://mullvad.net/download/browser" target="_blank" rel="noopener">Download</a>
+                </div>
             </div>
+
             <div class="tool-card">
-                <span class="tool-name">Mullvad VPN</span>
-                <span class="tag">Sweden Based</span>
-                <p class="description">Open-source VPN with Secure Core technology and a strict no-logs policy under Sweden jurisdiction.</p>
+                <div class="tool-header">
+                    <span class="tool-logo" aria-hidden="true" title="Mullvad VPN">
+                        <!-- Shield-ish icon -->
+                        <svg viewBox="0 0 24 24" fill="none">
+                            <path d="M12 2l8 4v7c0 5-3.4 9-8 9s-8-4-8-9V6l8-4z" fill="#10b981" opacity="0.9"/>
+                            <path d="M8.2 11.8l2.2 2.2 5.4-5.4" stroke="#05070a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" opacity="0.9"/>
+                        </svg>
+                    </span>
+                    <div>
+                        <p class="tool-name">Mullvad VPN</p>
+                        <span class="tag">No-Logs</span>
+                    </div>
+                </div>
+                <p class="description">Open-source VPN with a strict no-logs policy. A solid baseline to reduce ISP-level tracking.</p>
+                <div class="tool-actions">
+                    <a class="btn small neon" href="https://mullvad.net" target="_blank" rel="noopener">Official Site</a>
+                    <a class="btn small green" href="https://mullvad.net/download" target="_blank" rel="noopener">Download</a>
+                </div>
             </div>
         </div>
 
+        <!-- Communication -->
+        <div class="category-title">💬 Communication (Signal vs. Noise)</div>
+        <div class="tool-grid">
+            <div class="tool-card">
+                <div class="tool-header">
+                    <span class="tool-logo" aria-hidden="true" title="Signal">
+                        <!-- speech bubble -->
+                        <svg viewBox="0 0 24 24" fill="none">
+                            <path d="M4 5.5C4 4.1 5.1 3 6.5 3h11C18.9 3 20 4.1 20 5.5v7C20 13.9 18.9 15 17.5 15H10l-4.8 4.2c-.4.35-1.2.1-1.2-.55V15.1C4 14.7 4 6.9 4 5.5z" fill="#00f2ff" opacity="0.9"/>
+                            <path d="M7.2 7.5h9.6M7.2 10.2h7.2" stroke="#05070a" stroke-width="2" stroke-linecap="round" opacity="0.85"/>
+                        </svg>
+                    </span>
+                    <div>
+                        <p class="tool-name">Signal</p>
+                        <span class="tag">Gold Standard</span>
+                    </div>
+                </div>
+                <p class="description">The default recommendation for secure, end-to-end encrypted messaging. Great usability, strong security model.</p>
+                <div class="tool-actions">
+                    <a class="btn small neon" href="https://signal.org" target="_blank" rel="noopener">Official Site</a>
+                    <a class="btn small green" href="https://signal.org/download/" target="_blank" rel="noopener">Download</a>
+                </div>
+            </div>
+
+            <div class="tool-card">
+                <div class="tool-header">
+                    <span class="tool-logo" aria-hidden="true" title="Session">
+                        <!-- onion-ish network node -->
+                        <svg viewBox="0 0 24 24" fill="none">
+                            <circle cx="12" cy="12" r="8" fill="#10b981" opacity="0.18"/>
+                            <circle cx="12" cy="12" r="5" fill="#10b981" opacity="0.35"/>
+                            <circle cx="12" cy="12" r="2.2" fill="#10b981" opacity="0.95"/>
+                            <path d="M12 4v3M12 17v3M4 12h3M17 12h3" stroke="#00f2ff" stroke-width="2" stroke-linecap="round" opacity="0.8"/>
+                        </svg>
+                    </span>
+                    <div>
+                        <p class="tool-name">Session</p>
+                        <span class="tag">No Phone #</span>
+                    </div>
+                </div>
+                <p class="description">A hidden gem for anonymity: runs on the Oxen network and does not require a phone number.</p>
+                <div class="tool-actions">
+                    <a class="btn small neon" href="https://getsession.org" target="_blank" rel="noopener">Official Site</a>
+                    <a class="btn small green" href="https://getsession.org/download" target="_blank" rel="noopener">Download</a>
+                </div>
+            </div>
+
+            <div class="tool-card">
+                <div class="tool-header">
+                    <span class="tool-logo" aria-hidden="true" title="SimpleX">
+                        <!-- X mark -->
+                        <svg viewBox="0 0 24 24" fill="none">
+                            <path d="M6 6l12 12M18 6L6 18" stroke="#00f2ff" stroke-width="2.8" stroke-linecap="round"/>
+                            <path d="M12 3c4.95 0 9 4.05 9 9s-4.05 9-9 9-9-4.05-9-9 4.05-9 9-9z" stroke="#10b981" stroke-width="1.5" opacity="0.55"/>
+                        </svg>
+                    </span>
+                    <div>
+                        <p class="tool-name">SimpleX Chat</p>
+                        <span class="tag">Hardcore</span>
+                    </div>
+                </div>
+                <p class="description">For users who want maximum metadata resistance: no user IDs. You can be reachable without being “discoverable.”</p>
+                <div class="tool-actions">
+                    <a class="btn small neon" href="https://simplex.chat" target="_blank" rel="noopener">Official Site</a>
+                    <a class="btn small green" href="https://simplex.chat/downloads/" target="_blank" rel="noopener">Download</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Identity & Storage -->
         <div class="category-title">🔑 Identity & Storage</div>
         <div class="tool-grid">
             <div class="tool-card">
-                <span class="tool-name">KeePassXC</span>
-                <span class="tag">Local Vault</span>
+                <div class="tool-header">
+                    <span class="tool-logo" aria-hidden="true" title="KeePassXC">
+                        <!-- lock icon (blue) -->
+                        <svg viewBox="0 0 24 24" fill="none">
+                            <rect x="6" y="11" width="12" height="10" rx="2" fill="#00f2ff" opacity="0.9"/>
+                            <path d="M8 11V9a4 4 0 0 1 8 0v2" stroke="#00f2ff" stroke-width="2.2" stroke-linecap="round"/>
+                            <circle cx="12" cy="16" r="1.4" fill="#05070a" opacity="0.9"/>
+                        </svg>
+                    </span>
+                    <div>
+                        <p class="tool-name">KeePassXC</p>
+                        <span class="tag">Local Vault</span>
+                    </div>
+                </div>
                 <p class="description">Full control over your passwords. Your database stays on your hardware, never touching a cloud server.</p>
+                <div class="tool-actions">
+                    <a class="btn small neon" href="https://keepassxc.org" target="_blank" rel="noopener">Official Site</a>
+                    <a class="btn small green" href="https://keepassxc.org/download/" target="_blank" rel="noopener">Download</a>
+                </div>
             </div>
+
             <div class="tool-card">
-                <span class="tool-name">SimpleLogin</span>
-                <span class="tag">Alias Engine</span>
+                <div class="tool-header">
+                    <span class="tool-logo" aria-hidden="true" title="SimpleLogin">
+                        <!-- mask icon -->
+                        <svg viewBox="0 0 24 24" fill="none">
+                            <path d="M12 3c5 0 9 3.5 9 8.2 0 5.4-5.2 9.8-9 9.8s-9-4.4-9-9.8C3 6.5 7 3 12 3z" fill="#10b981" opacity="0.18"/>
+                            <path d="M6.7 11.2c1.6 1.2 3.4 1.8 5.3 1.8s3.7-.6 5.3-1.8" stroke="#00f2ff" stroke-width="2" stroke-linecap="round"/>
+                            <circle cx="9" cy="11" r="1" fill="#00f2ff"/>
+                            <circle cx="15" cy="11" r="1" fill="#00f2ff"/>
+                        </svg>
+                    </span>
+                    <div>
+                        <p class="tool-name">SimpleLogin</p>
+                        <span class="tag">Alias Engine</span>
+                    </div>
+                </div>
                 <p class="description">Create unique email aliases for every service to prevent cross-site tracking and spam leaks.</p>
+                <div class="tool-actions">
+                    <a class="btn small neon" href="https://simplelogin.io" target="_blank" rel="noopener">Official Site</a>
+                    <a class="btn small green" href="https://simplelogin.io/download/" target="_blank" rel="noopener">Download</a>
+                </div>
             </div>
         </div>
 
+        <!-- Email Masking tutorial -->
+        <div class="category-title">📧 Email Masking (The Power of Aliases)</div>
+        <div class="tool-grid">
+            <div class="tool-card" style="grid-column: 1 / -1;">
+                <div class="tool-header">
+                    <span class="tool-logo" aria-hidden="true" title="Email Aliases">
+                        <!-- @ icon -->
+                        <svg viewBox="0 0 24 24" fill="none">
+                            <path d="M12 21c-5 0-9-4-9-9s4-9 9-9 9 4 9 9c0 2.2-.9 3.8-2.8 3.8-1.3 0-2.2-.9-2.2-2.2V12a4 4 0 1 0-2 3.5" stroke="#00f2ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <circle cx="12" cy="12" r="2.5" stroke="#10b981" stroke-width="2"/>
+                        </svg>
+                    </span>
+                    <div>
+                        <p class="tool-name">Never give your real email</p>
+                        <span class="tag">Anti-Breach</span>
+                    </div>
+                </div>
+
+                <p class="description">
+                    Your “main” inbox (for example Proton Mail) should be a vault: private, stable, and rarely shared.
+                    For everything else, use aliases (SimpleLogin).
+                </p>
+
+                <details class="accordion">
+                    <summary>
+                        Tuto: how aliases protect you
+                        <span class="accordion-chevron" aria-hidden="true"></span>
+                    </summary>
+                    <div class="accordion-body">
+                        <ol class="steps">
+                            <li>Create one alias per site (ex: <code>discord-9f3@yourdomain</code>).</li>
+                            <li>Use that alias only for that one service.</li>
+                            <li>If the service is hacked or sells your address, disable/delete that alias.</li>
+                            <li>Your real inbox stays safe; the spam stops instantly.</li>
+                        </ol>
+                        <div class="tip">
+                            <strong>Rule:</strong> one service = one alias. This prevents cross-site tracking and makes breaches painless.
+                        </div>
+                    </div>
+                </details>
+
+                <div class="tool-actions" style="margin-top: 16px;">
+                    <a class="btn small neon" href="https://simplelogin.io" target="_blank" rel="noopener">SimpleLogin Official</a>
+                    <a class="btn small green" href="https://proton.me/mail" target="_blank" rel="noopener">Proton Mail</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Financial Privacy -->
+        <div class="category-title">💸 Financial Privacy</div>
+        <div class="tool-grid">
+            <div class="tool-card">
+                <div class="tool-header">
+                    <span class="tool-logo" aria-hidden="true" title="Monero">
+                        <!-- coin -->
+                        <svg viewBox="0 0 24 24" fill="none">
+                            <circle cx="12" cy="12" r="9" fill="#10b981" opacity="0.18"/>
+                            <path d="M7 16V9l5 5 5-5v7" stroke="#10b981" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M7 16h3l2-2 2 2h3" stroke="#00f2ff" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                    </span>
+                    <div>
+                        <p class="tool-name">Monero (XMR)</p>
+                        <span class="tag">Private by Default</span>
+                    </div>
+                </div>
+                <p class="description">
+                    Monero is the only mainstream coin that is <strong>invisible by default</strong>: sender, receiver, and amount are not publicly traceable like transparent chains.
+                </p>
+                <div class="tool-actions">
+                    <a class="btn small neon" href="https://www.getmonero.org" target="_blank" rel="noopener">Official Site</a>
+                    <a class="btn small green" href="https://www.getmonero.org/downloads/" target="_blank" rel="noopener">Download</a>
+                </div>
+            </div>
+
+            <div class="tool-card">
+                <div class="tool-header">
+                    <span class="tool-logo" aria-hidden="true" title="Cake Wallet">
+                        <!-- cake-ish -->
+                        <svg viewBox="0 0 24 24" fill="none">
+                            <path d="M6 10c0-2.8 2.7-5 6-5s6 2.2 6 5" stroke="#00f2ff" stroke-width="2.2" stroke-linecap="round"/>
+                            <path d="M6 10h12v9a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2v-9z" fill="#00f2ff" opacity="0.18"/>
+                            <path d="M8 14h8" stroke="#10b981" stroke-width="2" stroke-linecap="round"/>
+                            <path d="M10 12c.2-1 .9-1.7 2-1.7s1.8.7 2 1.7" stroke="#10b981" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                    </span>
+                    <div>
+                        <p class="tool-name">Cake Wallet</p>
+                        <span class="tag">Mobile Go-To</span>
+                    </div>
+                </div>
+                <p class="description">
+                    Recommended “go-to” wallet on mobile for Monero. Simple UI, solid privacy focus, and widely used in the community.
+                </p>
+                <div class="tool-actions">
+                    <a class="btn small neon" href="https://cakewallet.com" target="_blank" rel="noopener">Official Site</a>
+                    <a class="btn small green" href="https://cakewallet.com/#download" target="_blank" rel="noopener">Download</a>
+                </div>
+            </div>
+
+            <div class="tool-card" style="grid-column: 1 / -1;">
+                <div class="tool-header">
+                    <span class="tool-logo" aria-hidden="true" title="Bitcoin">
+                        <!-- Bitcoin B -->
+                        <svg viewBox="0 0 24 24" fill="none">
+                            <circle cx="12" cy="12" r="9" stroke="#00f2ff" stroke-width="2" opacity="0.8"/>
+                            <path d="M10 7h3.2a2.2 2.2 0 0 1 0 4.4H10V7z" fill="#10b981" opacity="0.22"/>
+                            <path d="M10 11.4h3.6a2.3 2.3 0 0 1 0 4.6H10v-4.6z" fill="#10b981" opacity="0.35"/>
+                            <path d="M9 7v10M12 7v10" stroke="#10b981" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                    </span>
+                    <div>
+                        <p class="tool-name">Bitcoin Donations: Silent Payments</p>
+                        <span class="tag">Modern Donations</span>
+                    </div>
+                </div>
+                <p class="description">
+                    If you accept Bitcoin donations, look into <strong>Silent Payments</strong>: a modern approach to receiving donations with improved privacy and less address reuse.
+                </p>
+                <div class="tip">
+                    <strong>Practical tip:</strong> avoid posting static BTC addresses publicly. Donation patterns create metadata trails.
+                </div>
+            </div>
+        </div>
+
+        <!-- OS & Hardware -->
+        <div class="category-title">🧱 OS & Hardware (The Foundation)</div>
+        <div class="tool-grid">
+            <div class="tool-card">
+                <div class="tool-header">
+                    <span class="tool-logo" aria-hidden="true" title="GrapheneOS">
+                        <!-- phone icon -->
+                        <svg viewBox="0 0 24 24" fill="none">
+                            <rect x="8" y="3" width="8" height="18" rx="2" fill="#10b981" opacity="0.2"/>
+                            <rect x="9.5" y="5" width="5" height="13" rx="1" stroke="#00f2ff" stroke-width="2"/>
+                            <circle cx="12" cy="19" r="1" fill="#00f2ff"/>
+                        </svg>
+                    </span>
+                    <div>
+                        <p class="tool-name">GrapheneOS</p>
+                        <span class="tag">Lock Down Your Phone</span>
+                    </div>
+                </div>
+                <p class="description">For people who really want to harden their phone security and privacy (best fit on supported Pixel devices).</p>
+                <div class="tool-actions">
+                    <a class="btn small neon" href="https://grapheneos.org" target="_blank" rel="noopener">Official Site</a>
+                    <a class="btn small green" href="https://grapheneos.org/install/" target="_blank" rel="noopener">Install Guide</a>
+                </div>
+            </div>
+
+            <div class="tool-card">
+                <div class="tool-header">
+                    <span class="tool-logo" aria-hidden="true" title="Linux">
+                        <!-- penguin-ish -->
+                        <svg viewBox="0 0 24 24" fill="none">
+                            <path d="M12 4c3 0 5 2.4 5 6.2 0 5-2 9.8-5 9.8s-5-4.8-5-9.8C7 6.4 9 4 12 4z" fill="#00f2ff" opacity="0.18"/>
+                            <circle cx="10.2" cy="10" r="1" fill="#00f2ff"/>
+                            <circle cx="13.8" cy="10" r="1" fill="#00f2ff"/>
+                            <path d="M10.2 13.2c.8.7 2.8.7 3.6 0" stroke="#10b981" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                    </span>
+                    <div>
+                        <p class="tool-name">Linux (Fedora / Tails)</p>
+                        <span class="tag">Escape Telemetry</span>
+                    </div>
+                </div>
+                <p class="description">
+                    For desktop users who want to get away from Windows telemetry. Fedora is a great daily driver; Tails is for high-anonymity sessions.
+                </p>
+                <div class="tool-actions">
+                    <a class="btn small neon" href="https://fedoraproject.org" target="_blank" rel="noopener">Fedora</a>
+                    <a class="btn small neon" href="https://tails.net" target="_blank" rel="noopener">Tails</a>
+                </div>
+            </div>
+
+            <div class="tool-card">
+                <div class="tool-header">
+                    <span class="tool-logo" aria-hidden="true" title="Switching from Windows">
+                        <!-- laptop -->
+                        <svg viewBox="0 0 24 24" fill="none">
+                            <rect x="5" y="6" width="14" height="10" rx="2" stroke="#00f2ff" stroke-width="2"/>
+                            <path d="M4 18h16" stroke="#10b981" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                    </span>
+                    <div>
+                        <p class="tool-name">If you’re on Windows (Acer Nitro etc.)</p>
+                        <span class="tag">Know the Limit</span>
+                    </div>
+                </div>
+                <p class="description">
+                    Privacy on Windows has hard limits due to built-in telemetry. For switching users, <strong>Linux Mint</strong> or <strong>Pop!_OS</strong> are friendly on-ramp distros.
+                </p>
+                <div class="tool-actions">
+                    <a class="btn small neon" href="https://linuxmint.com" target="_blank" rel="noopener">Linux Mint</a>
+                    <a class="btn small neon" href="https://pop.system76.com" target="_blank" rel="noopener">Pop!_OS</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Metadata / EXIF -->
+        <div class="category-title">🧼 Metadata (Don’t Leak Your GPS)</div>
+        <div class="tool-grid">
+            <div class="tool-card" style="grid-column: 1 / -1;">
+                <div class="tool-header">
+                    <span class="tool-logo" aria-hidden="true" title="ExifCleaner">
+                        <!-- broom icon -->
+                        <svg viewBox="0 0 24 24" fill="none">
+                            <path d="M14 4l6 6" stroke="#00f2ff" stroke-width="2.2" stroke-linecap="round"/>
+                            <path d="M4 20l10-10 4 4L8 24" stroke="#10b981" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M3 21h10" stroke="#00f2ff" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                    </span>
+                    <div>
+                        <p class="tool-name">ExifCleaner</p>
+                        <span class="tag">Remove EXIF</span>
+                    </div>
+                </div>
+                <p class="description">
+                    Photos you share (even on Discord) often include EXIF metadata like GPS location, device model, and timestamps.
+                    Strip metadata before sharing screenshots/photos.
+                </p>
+                <div class="tool-actions">
+                    <a class="btn small neon" href="https://exifcleaner.com" target="_blank" rel="noopener">Official Site</a>
+                    <a class="btn small green" href="https://exifcleaner.com/#download" target="_blank" rel="noopener">Download</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Interactive Hardening Guides -->
+        <div class="category-title">🛡️ Interactive Hardening Guides</div>
+        <div class="tool-grid">
+            <div class="tool-card" style="grid-column: 1 / -1;">
+                <div class="tool-header">
+                    <span class="tool-logo" aria-hidden="true" title="Hardening">
+                        <!-- wrench -->
+                        <svg viewBox="0 0 24 24" fill="none">
+                            <path d="M14 7a4 4 0 0 0 5 5l-6 6-3-3 6-6a4 4 0 0 0-2-2z" fill="#00f2ff" opacity="0.18"/>
+                            <path d="M7 21l4-4" stroke="#10b981" stroke-width="2.2" stroke-linecap="round"/>
+                            <path d="M14 7a4 4 0 0 0 5 5" stroke="#00f2ff" stroke-width="2.2" stroke-linecap="round"/>
+                            <path d="M3 21l6-6" stroke="#10b981" stroke-width="2.2" stroke-linecap="round"/>
+                        </svg>
+                    </span>
+                    <div>
+                        <p class="tool-name">Quick Tips (click to expand)</p>
+                        <span class="tag">10-Min Hardening</span>
+                    </div>
+                </div>
+
+                <details class="accordion">
+                    <summary>
+                        Browser: enable stronger tracking protection
+                        <span class="accordion-chevron" aria-hidden="true"></span>
+                    </summary>
+                    <div class="accordion-body">
+                        Turn on <strong>Strict</strong> tracking protection (Firefox-based browsers) and disable unnecessary extensions.
+                        <div class="tip"><strong>Rule:</strong> fewer extensions = less fingerprint surface.</div>
+                    </div>
+                </details>
+
+                <details class="accordion">
+                    <summary>
+                        Search: replace Google
+                        <span class="accordion-chevron" aria-hidden="true"></span>
+                    </summary>
+                    <div class="accordion-body">
+                        Switch to <strong>DuckDuckGo</strong> or (even better) <strong>SearXNG</strong> for metasearch without the same tracking incentives.
+                    </div>
+                </details>
+
+                <details class="accordion">
+                    <summary>
+                        DNS: stop using your ISP DNS
+                        <span class="accordion-chevron" aria-hidden="true"></span>
+                    </summary>
+                    <div class="accordion-body">
+                        Use privacy-respecting resolvers like <strong>Quad9</strong> or <strong>NextDNS</strong> instead of your provider DNS.
+                        <div class="tip"><strong>Why:</strong> DNS is metadata. It reveals which domains you try to reach.</div>
+                    </div>
+                </details>
+            </div>
+        </div>
+
+        <!-- Behavioral Lab (existing) -->
         <div class="category-title">🔬 Behavioral Lab</div>
         <div class="tool-grid">
             <div class="tool-card" style="grid-column: 1 / -1; display: flex; align-items: center; gap: 2rem;">
                 <div>
-                    <span class="tool-name">Phantom Trace Simulation</span>
-                    <span class="tag">Educational</span>
+                    <div class="tool-header">
+                        <span class="tool-logo" aria-hidden="true" title="Phantom Trace">
+                            <!-- eye -->
+                            <svg viewBox="0 0 24 24" fill="none">
+                                <path d="M2.5 12s3.5-6.5 9.5-6.5S21.5 12 21.5 12s-3.5 6.5-9.5 6.5S2.5 12 2.5 12z" stroke="#00f2ff" stroke-width="2" opacity="0.95"/>
+                                <circle cx="12" cy="12" r="2.7" fill="#10b981" opacity="0.85"/>
+                            </svg>
+                        </span>
+                        <div>
+                            <p class="tool-name">Phantom Trace Simulation</p>
+                            <span class="tag">Educational</span>
+                        </div>
+                    </div>
                     <p class="description">Experience how trackers see you. This interactive lab demonstrates kinetic mouse tracking, keystroke monitoring, and behavioral profiling in real-time.</p>
                     <a href="https://eltrix-dot.github.io/Honeypot" class="btn">Enter the Lab</a>
                 </div>
             </div>
         </div>
 
+        <!-- Satoshi Status tracker -->
+        <div class="score-cta">
+            <h3>Reclaim your Score (Satoshi Status)</h3>
+            <p style="color: var(--text-dim); margin-top: 0.25rem;">
+                Make privacy measurable: run your audit, change one thing, run it again.
+            </p>
+            <ol class="steps">
+                <li><strong>Step 1:</strong> Perform the audit on the <a href="https://eltrix-dot.github.io/Webcheck" target="_blank" rel="noopener" style="color: var(--blue); text-decoration: none;">Webcheck</a> page.</li>
+                <li><strong>Step 2:</strong> Implement one tool from this guide (VPN, browser hardening, aliases, etc.).</li>
+                <li><strong>Step 3:</strong> Perform the audit again and watch your score rise.</li>
+            </ol>
+        </div>
+
+        <!-- Existing CTA -->
         <div class="lab-cta">
             <h3>Ready to test your security?</h3>
             <p>Use the Eltrix Webcheck to see if your current VPN and browser settings are leaking information.</p>
@@ -182,6 +801,7 @@
 
         <footer>
             &copy; 2026 Eltrix Digital Systems • Dedicated to a Free and Private Internet.
+            <div class="last-updated">Last Updated: 2026-04-25</div>
         </footer>
     </div>
 
