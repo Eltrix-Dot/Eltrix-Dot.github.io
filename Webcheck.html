@@ -269,6 +269,24 @@
     }
     .warn-note strong{ color: #fff; }
 
+    /* Privacy score progress */
+    .score-wrap{ margin-top: 10px; }
+    .score-bar{
+      width: 100%;
+      height: 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.10);
+      overflow: hidden;
+    }
+    .score-fill{
+      height: 100%;
+      width: 10%;
+      border-radius: 999px;
+      background: linear-gradient(90deg, rgba(255,71,87,0.95), rgba(0,242,255,0.85), rgba(16,185,129,0.95));
+      transition: width 0.5s ease;
+    }
+
     @media (max-width: 900px){
       .navbar{ padding: 1.05rem 1.2rem; }
       .two-col{ grid-template-columns: 1fr; }
@@ -319,6 +337,14 @@
         <div id="vpn-detail" class="small-dim"></div>
       </div>
 
+      <!-- NEW: Provider / Tor detection box -->
+      <div class="tool-card">
+        <span class="card-label">VPN Provider / TOR Browser (Detection)</span>
+        <span id="vpn-provider" class="card-value">Analyzing…</span>
+        <div id="tor-status" class="small-dim"></div>
+        <div id="vpn-provider-detail" class="small-dim"></div>
+      </div>
+
       <div class="tool-card">
         <span class="card-label">WebRTC Leak Test</span>
         <span id="webrtc" class="card-value">Testing…</span>
@@ -337,6 +363,23 @@
         <div class="warn-note">
           <strong>Note:</strong> this hash is local-only and not a “real” unique identifier. It’s just a compact summary of signals.
         </div>
+      </div>
+
+      <!-- NEW: Privacy Score -->
+      <div class="tool-card">
+        <span class="card-label">Privacy Score (Best-effort)</span>
+        <span id="privacy-score" class="card-value">Calculating…</span>
+        <div class="score-wrap">
+          <div class="score-bar"><div id="privacy-fill" class="score-fill"></div></div>
+        </div>
+        <div id="privacy-reason" class="small-dim"></div>
+      </div>
+
+      <!-- NEW: Tip -->
+      <div class="tool-card">
+        <span class="card-label">Privacy Tip</span>
+        <span id="privacy-tip" class="card-value">Loading…</span>
+        <div id="privacy-tip-detail" class="small-dim"></div>
       </div>
     </div>
 
@@ -396,6 +439,8 @@
      * - Uses best-effort VPN/proxy/hosting heuristics (NOT guaranteed)
      * - WebRTC: collects candidates for a short window and then decides
      * - Adds proper browser/device details + safer fingerprint creation
+     * - Adds VPN provider + Tor Browser best-effort detection
+     * - Adds Privacy Score (10%..100%) + small privacy tip
      */
 
     const SUPPORT_APIS = [
@@ -406,11 +451,17 @@
 
     const VPN_KEYWORDS = [
       // common VPN/hosting org strings seen in free ASN/org outputs
-      "mullvad", "nord", "expressvpn", "proton", "surfshark", "pia", "private internet access",
+      "mullvad", "nord", "expressvpn", "proton", "protonvpn", "surfshark", "pia", "private internet access",
       "cyberghost", "windscribe", "tunnelbear", "ivpn",
       "digitalocean", "linode", "ovh", "hetzner", "amazon", "aws", "google", "microsoft", "azure",
       "oracle", "alibaba", "vultr", "leaseweb", "contabo", "cloudflare", "fastly",
       "m247", "choopa", "lumen", "cogent", "gcore", "datacamp", "hostinger"
+    ];
+
+    // Explicit provider brand matches (requested)
+    const VPN_PROVIDER_BRANDS = [
+      { name: "Mullvad VPN", keywords: ["mullvad"] },
+      { name: "Proton VPN",  keywords: ["proton", "protonvpn", "proton vpn"] }
     ];
 
     function el(id){ return document.getElementById(id); }
@@ -569,7 +620,56 @@
         providerGuess = safeText(net.org || net.isp || "Unknown");
       }
 
-      return { level, label, detail, providerGuess, flags: { flagProxy, flagVpn, flagTor, hasFlags } };
+      return { level, label, detail, providerGuess, flags: { flagProxy, flagVpn, flagTor, hasFlags }, keyword };
+    }
+
+    // NEW: detect specific providers requested (Proton / Mullvad) best-effort
+    function detectVpnProvider(net){
+      const combo = `${net.org || ""} ${net.isp || ""} ${net.asn || ""}`.toLowerCase();
+
+      for(const p of VPN_PROVIDER_BRANDS){
+        if(p.keywords.some(k => combo.includes(k.toLowerCase()))){
+          return { level: "warn", provider: p.name, detail: `Matched provider keyword in ISP/ORG/ASN.` };
+        }
+      }
+
+      // If generic VPN was detected but not the exact brand:
+      return { level: "info", provider: "Unknown / Not detected", detail: `No explicit Proton/Mullvad keyword match.` };
+    }
+
+    // NEW: Tor Browser best-effort detection
+    function detectTorBrowser(){
+      const ua = navigator.userAgent || "";
+      const platform = navigator.userAgentData?.platform || navigator.platform || "";
+      const hasUAData = !!navigator.userAgentData;
+
+      // Tor Browser often has "Firefox" UA (not "TorBrowser"), so we use multiple weak signals.
+      // These are NOT guaranteed and can be spoofed.
+      const signals = {
+        looksLikeFirefox: /Firefox\/\d+/i.test(ua),
+        hasTorInUA: /TorBrowser|Tor/i.test(ua),
+        noUAData: !hasUAData, // Chromium tends to have UA-CH; Firefox/Tor often not
+        dntEnabled: (navigator.doNotTrack === "1" || navigator.doNotTrack === "yes"),
+        platform,
+      };
+
+      // A very conservative score:
+      let confidence = 0;
+      if(signals.hasTorInUA) confidence += 4;
+      if(signals.looksLikeFirefox) confidence += 1;
+      if(signals.noUAData) confidence += 1;
+      if(signals.dntEnabled) confidence += 1;
+
+      const likely = confidence >= 4;     // strong only if explicit UA match
+      const possible = !likely && confidence >= 3;
+
+      if(likely){
+        return { level: "warn", label: "Tor Browser: Likely", detail: "User-Agent contains Tor signal (best-effort)." };
+      }
+      if(possible){
+        return { level: "info", label: "Tor Browser: Possible", detail: "Some Tor-like privacy signals detected (not conclusive)." };
+      }
+      return { level: "safe", label: "Tor Browser: Not detected", detail: "No Tor-specific signals found (best-effort)." };
     }
 
     function getBrowserDevice(){
@@ -644,6 +744,13 @@
       el("pw-output").innerText = p;
     }
 
+    // NEW: webrtc state for privacy scoring
+    const webrtcState = {
+      status: "unknown",        // "leak" | "safe" | "blocked" | "error" | "unsupported" | "unknown"
+      privateIps: [],
+      detail: ""
+    };
+
     async function runWebRTCTest(){
       const webrtcEl = el("webrtc");
       const detailEl = el("webrtc-detail");
@@ -651,6 +758,8 @@
       if(!window.RTCPeerConnection){
         webrtcEl.innerText = "Unsupported";
         detailEl.innerText = "RTCPeerConnection is not available in this browser.";
+        webrtcState.status = "unsupported";
+        webrtcState.detail = "RTCPeerConnection not available.";
         return;
       }
 
@@ -692,6 +801,9 @@
         webrtcEl.innerText = "Error";
         detailEl.innerText = String(e);
         try{ pc?.close(); } catch {}
+
+        webrtcState.status = "error";
+        webrtcState.detail = String(e);
         return;
       }
 
@@ -700,12 +812,22 @@
       if(localIps.size > 0){
         setBadge(webrtcEl, "warn", "LEAK (private IP seen)");
         detailEl.innerText = `Private IP(s): ${Array.from(localIps).join(", ")}`;
+
+        webrtcState.status = "leak";
+        webrtcState.privateIps = Array.from(localIps);
+        webrtcState.detail = "Private IP seen in ICE candidates.";
       } else if(candidates.length > 0){
         setBadge(webrtcEl, "safe", "No leak detected");
         detailEl.innerText = "Candidates found, but no private/local IP surfaced.";
+
+        webrtcState.status = "safe";
+        webrtcState.detail = "Candidates found; no private IP surfaced.";
       } else {
         setBadge(webrtcEl, "info", "Blocked / Protected");
         detailEl.innerText = "No ICE candidates returned (often due to browser privacy settings).";
+
+        webrtcState.status = "blocked";
+        webrtcState.detail = "No ICE candidates returned.";
       }
     }
 
@@ -801,6 +923,116 @@
       }
     }
 
+    // NEW: privacy score (best-effort, simple model)
+    function clamp(n, min, max){ return Math.max(min, Math.min(max, n)); }
+
+    function computePrivacyScore({ net, vpnVerdict, providerVerdict, torVerdict, webrtc, gpuInfo, browserInfo }){
+      // Start at a neutral baseline (not too high)
+      let score = 55;
+      const reasons = [];
+
+      // Tor increases privacy score a lot (but usability tradeoffs)
+      if(torVerdict?.label?.includes("Likely")){
+        score += 30;
+        reasons.push("Tor Browser likely detected (+30)");
+      } else if(torVerdict?.label?.includes("Possible")){
+        score += 15;
+        reasons.push("Tor Browser possible (+15)");
+      }
+
+      // VPN increases privacy score (network privacy). If VPN flagged/likely.
+      if(vpnVerdict?.flags?.flagVpn){
+        score += 18;
+        reasons.push("VPN flagged by provider (+18)");
+      } else if(vpnVerdict?.level === "warn" && vpnVerdict?.label?.includes("Likely VPN/Hosting")){
+        score += 10;
+        reasons.push("VPN/Hosting network likely (+10)");
+      }
+
+      // Specific provider brand match
+      if(providerVerdict?.provider && providerVerdict.provider !== "Unknown / Not detected"){
+        score += 6;
+        reasons.push(`${providerVerdict.provider} keyword match (+6)`);
+      }
+
+      // WebRTC leak hurts privacy score
+      if(webrtc?.status === "leak"){
+        score -= 25;
+        reasons.push("WebRTC private IP leak detected (-25)");
+      } else if(webrtc?.status === "blocked"){
+        score += 5;
+        reasons.push("WebRTC candidates blocked/protected (+5)");
+      } else if(webrtc?.status === "safe"){
+        score += 2;
+        reasons.push("No WebRTC private leak (+2)");
+      }
+
+      // DNT is a weak signal (many sites ignore), but still privacy-friendly
+      const dnt = browserInfo?.doNotTrack;
+      if(dnt === "1" || dnt === "yes"){
+        score += 3;
+        reasons.push("Do Not Track enabled (+3)");
+      }
+
+      // WebGL masked is privacy-friendly; unmasked is more fingerprintable
+      const renderer = (gpuInfo?.renderer || "").toLowerCase();
+      if(renderer.includes("masked")){
+        score += 6;
+        reasons.push("WebGL renderer masked (+6)");
+      } else if(renderer.includes("unavailable")){
+        score += 3;
+        reasons.push("WebGL unavailable (+3)");
+      } else if(renderer && renderer !== "unknown"){
+        score -= 4;
+        reasons.push("WebGL renderer exposed (-4)");
+      }
+
+      // If we have almost no network info, confidence is lower; nudge down slightly
+      if(!net?.ip){
+        score -= 8;
+        reasons.push("Network info unavailable (-8)");
+      }
+
+      score = clamp(score, 10, 100);
+
+      // Keep reason list short in UI
+      const shortReasons = reasons.slice(0, 4);
+      return { score, reasons: shortReasons };
+    }
+
+    // NEW: privacy tips
+    function pickPrivacyTip(ctx){
+      const tips = [
+        {
+          title: "Use a VPN when transfering crypto for privacy!",
+          detail: "Prefer a reputable no-logs VPN + consider a separate browser profile for finance/crypto activity."
+        },
+        {
+          title: "Disable WebRTC leaks",
+          detail: "In many browsers you can restrict WebRTC IP handling (or use an extension / hardened settings)."
+        },
+        {
+          title: "Use separate browser profiles",
+          detail: "Keep work, personal and finance separated to reduce cross-site tracking."
+        },
+        {
+          title: "Enable DNS over HTTPS (DoH)",
+          detail: "If available, it can reduce DNS-level tracking by local networks (still depends on provider)."
+        }
+      ];
+
+      // Contextual pick: if leak -> suggest WebRTC tip; else show your crypto tip sometimes
+      if(ctx?.webrtc?.status === "leak"){
+        return tips[1];
+      }
+      if(ctx?.tor?.label?.includes("Likely")){
+        return { title: "Keep Tor Browser clean", detail: "Avoid installing extra extensions and don't resize the window too often (fingerprinting)." };
+      }
+
+      // default: your requested tip first
+      return tips[0];
+    }
+
     async function runAudit(){
       // initial UI
       el("ip").innerText = "Initializing uplink…";
@@ -812,24 +1044,69 @@
       el("device").innerText = "Collecting…";
       el("fp").innerText = "Generating…";
 
+      // NEW UI init
+      el("vpn-provider").innerText = "Analyzing…";
+      el("tor-status").innerText = "";
+      el("vpn-provider-detail").innerText = "";
+      el("privacy-score").innerText = "Calculating…";
+      el("privacy-reason").innerText = "";
+      el("privacy-fill").style.width = "10%";
+      el("privacy-tip").innerText = "Loading…";
+      el("privacy-tip-detail").innerText = "";
+
       // do these in parallel where possible
       const webrtcPromise = runWebRTCTest();
+
+      // Tor detection can run immediately (no API needed)
+      const torVerdict = detectTorBrowser();
+      setBadge(el("vpn-provider"), torVerdict.level, torVerdict.label);
+      el("tor-status").innerText = torVerdict.detail;
 
       let net;
       try{
         net = await fetchIPData();
         renderNetwork(net);
 
-        const verdict = detectVpnProxyBestEffort(net);
-        setBadge(el("vpn-status"), verdict.level, verdict.label);
+        const vpnVerdict = detectVpnProxyBestEffort(net);
+        setBadge(el("vpn-status"), vpnVerdict.level, vpnVerdict.label);
 
-        if(verdict.providerGuess && verdict.level !== "safe"){
-          el("vpn-detail").innerText = `Provider guess (best-effort): ${verdict.providerGuess}. ${verdict.detail}`;
+        if(vpnVerdict.providerGuess && vpnVerdict.level !== "safe"){
+          el("vpn-detail").innerText = `Provider guess (best-effort): ${vpnVerdict.providerGuess}. ${vpnVerdict.detail}`;
         } else {
-          el("vpn-detail").innerText = verdict.detail;
+          el("vpn-detail").innerText = vpnVerdict.detail;
         }
 
+        // Provider-specific detection requested (Proton/Mullvad)
+        const providerVerdict = detectVpnProvider(net);
+        // If Tor box is currently used for Tor status badge, show provider in details
+        el("vpn-provider-detail").innerText = `VPN Provider: ${providerVerdict.provider}. ${providerVerdict.detail}`;
+
         await renderFingerprint(net);
+
+        // Wait for webrtc result, then compute score with more accurate signals
+        await webrtcPromise;
+
+        const browserInfo = getBrowserDevice();
+        const gpuInfo = getGpuRenderer();
+
+        const { score, reasons } = computePrivacyScore({
+          net,
+          vpnVerdict,
+          providerVerdict,
+          torVerdict,
+          webrtc: webrtcState,
+          gpuInfo,
+          browserInfo
+        });
+
+        el("privacy-score").innerText = `${score}%`;
+        el("privacy-fill").style.width = `${score}%`;
+        el("privacy-reason").innerText = reasons.length ? reasons.join(" • ") : "No signals available.";
+
+        const tip = pickPrivacyTip({ net, vpnVerdict, providerVerdict, tor: torVerdict, webrtc: webrtcState });
+        el("privacy-tip").innerText = tip.title;
+        el("privacy-tip-detail").innerText = tip.detail;
+
       } catch (e){
         el("ip").innerText = "All APIs blocked";
         el("isp").innerText = "Unknown";
@@ -837,12 +1114,34 @@
         el("vpn-detail").innerText = "Network data could not be fetched.";
         el("whois-raw").textContent = `Error: ${String(e)}`;
         await renderFingerprint({ source: "none" });
+
+        await webrtcPromise;
+
+        // Score with limited info
+        const browserInfo = getBrowserDevice();
+        const gpuInfo = getGpuRenderer();
+
+        const { score, reasons } = computePrivacyScore({
+          net: { ip: null },
+          vpnVerdict: { level: "info", flags: {} },
+          providerVerdict: { provider: "Unknown / Not detected" },
+          torVerdict,
+          webrtc: webrtcState,
+          gpuInfo,
+          browserInfo
+        });
+
+        el("privacy-score").innerText = `${score}%`;
+        el("privacy-fill").style.width = `${score}%`;
+        el("privacy-reason").innerText = reasons.length ? reasons.join(" • ") : "Limited data (APIs blocked).";
+
+        const tip = pickPrivacyTip({ tor: torVerdict, webrtc: webrtcState });
+        el("privacy-tip").innerText = tip.title;
+        el("privacy-tip-detail").innerText = tip.detail;
       }
 
       // key generation
       genPass();
-
-      await webrtcPromise;
     }
 
     window.addEventListener("load", runAudit);
