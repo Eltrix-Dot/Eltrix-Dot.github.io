@@ -1,278 +1,287 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Eltrix Digital | Intelligence Suite</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Eltrix-Dot | Intelligence Suite</title>
 
-  <style>
-    :root {
-      /* Minimalist Dark Theme (Identiek aan index.html) */
-      --bg: #07070a;
-      --bg2: #07070a;
+    <style>
+        :root {
+            /* Exact dezelfde CSS variabelen uit jouw index.html */
+            --bg: #f8f9fa;
+            --text: #1a1a1a;
+            --muted: #666;
+            --card: #ffffff;
+            --border: #f0f0f0;
+            --blue: #007bff;
+            --shadow: 0 10px 30px rgba(0,0,0,0.12);
+            --radius: 14px;
+        }
 
-      --text: #f5f5f5;
-      --muted: rgba(245, 245, 245, 0.70);
+        * { box-sizing: border-box; }
 
-      --card: #0d0d12;
-      --card2: #14141a;
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            margin: 0;
+            line-height: 1.6;
+        }
 
-      --border: rgba(255, 255, 255, 0.10);
-      --shadow: 0 14px 45px rgba(0, 0, 0, 0.50);
+        a { color: inherit; text-decoration: none; }
 
-      --topbar-bg: rgba(7, 7, 10, 0.85);
+        /* Top Navigation (Identiek aan index.html) */
+        .top-nav-bar {
+            background: var(--card);
+            padding: 14px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
 
-      --btn-ghost-bg: rgba(255, 255, 255, 0.04);
-      --radius: 18px;
+        .site-title {
+            color: var(--text);
+            font-size: 26px;
+            font-weight: 900;
+            text-decoration: none;
+            letter-spacing: -1px;
+        }
 
-      --sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
-      --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-    }
+        .nav-right {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
 
-    @media (prefers-color-scheme: light) {
-      :root {
-        --bg: #ffffff;
-        --bg2: #fcfcfc;
+        .nav-btn {
+            padding: 10px 16px;
+            text-decoration: none;
+            font-weight: 800;
+            border-radius: 12px;
+            transition: 0.2s ease;
+            font-size: 14px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            user-select: none;
+            white-space: nowrap;
+        }
 
-        --text: #111111;
-        --muted: rgba(0, 0, 0, 0.62);
+        .nav-back {
+            background: #ffffff;
+            color: var(--muted) !important;
+            border: 2px solid var(--border);
+        }
+        .nav-back:hover { transform: translateY(-1px); background: #f8f9fa; }
 
-        --card: #ffffff;
-        --card2: #f6f6f6;
+        /* Main Content Layout */
+        .main-content {
+            padding: 70px 20px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
 
-        --border: rgba(0, 0, 0, 0.10);
-        --shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+        .big-title {
+            font-size: 3rem;
+            font-weight: 950;
+            line-height: 1.08;
+            margin: 0 0 20px 0;
+            letter-spacing: -2px;
+        }
 
-        --topbar-bg: rgba(255, 255, 255, 0.85);
+        .subtitle {
+            color: var(--muted);
+            font-weight: 650;
+            max-width: 70ch;
+            margin-bottom: 40px;
+        }
 
-        --btn-ghost-bg: rgba(0, 0, 0, 0.04);
-      }
-    }
+        /* Suite Grid & Cards (Gebaseerd op jouw secties) */
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 18px;
+            margin-bottom: 40px;
+        }
 
-    * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
+        .section {
+            background: var(--card);
+            padding: 26px;
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            transition: 0.2s ease;
+        }
 
-    body {
-      margin: 0;
-      font-family: var(--sans);
-      color: var(--text);
-      background: var(--bg);
-      line-height: 1.6;
-    }
+        .section:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
 
-    a { color: inherit; text-decoration: none; }
+        .pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 900;
+            font-size: 11px;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+            color: var(--blue);
+        }
 
-    .wrap {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 0 20px;
-    }
+        .card-desc {
+            color: var(--muted);
+            font-size: 14px;
+            margin-top: 10px;
+            margin-bottom: 24px;
+            flex-grow: 1;
+        }
 
-    /* Topbar */
-    .topbar {
-      position: sticky;
-      top: 0;
-      z-index: 50;
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      background: var(--topbar-bg);
-      border-bottom: 1px solid var(--border);
-    }
+        /* Buttons (Identiek aan index.html) */
+        .btn-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
 
-    .topbar-inner {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 14px 0;
-    }
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 10px 16px;
+            border-radius: 12px;
+            font-weight: 900;
+            text-decoration: none;
+            color: white;
+            background: var(--blue);
+            transition: 0.2s ease;
+            border: 0;
+            font-size: 14px;
+        }
+        .btn-primary:hover { transform: translateY(-1px); }
 
-    .brand {
-      color: var(--text);
-      font-weight: 950;
-      font-size: 22px;
-      letter-spacing: -0.8px;
-      white-space: nowrap;
-    }
+        /* Footer Elementen */
+        .logo-footer {
+            text-align: center;
+            padding: 55px 0 18px 0;
+            font-size: 5rem;
+            font-weight: 950;
+            color: #e9ecef;
+            letter-spacing: -3px;
+        }
 
-    .back-btn {
-      color: var(--muted);
-      font-weight: 850;
-      font-size: 14px;
-      padding: 10px 14px;
-      border-radius: 12px;
-      transition: 0.18s ease;
-      border: 1px solid var(--border);
-      background: transparent;
-    }
+        .site-footer {
+            background: #ffffff;
+            padding: 38px 20px;
+            border-top: 1px solid #e9ecef;
+            text-align: center;
+        }
 
-    .back-btn:hover {
-      color: var(--text);
-      background: var(--btn-ghost-bg);
-    }
+        .footer-content {
+            max-width: 900px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 18px;
+        }
 
-    /* Hero */
-    .hero {
-      padding: 80px 0 50px 0;
-      text-align: center;
-    }
+        .muted-text { color: var(--muted); font-weight: 700; font-size: 14px; }
 
-    .title {
-      font-size: clamp(2.5rem, 5vw, 3.8rem);
-      line-height: 1.05;
-      letter-spacing: -2px;
-      font-weight: 1000;
-      margin: 0 0 18px 0;
-    }
+        /* Responsive Design */
+        @media (max-width: 860px) {
+            .grid { grid-template-columns: 1fr; }
+        }
 
-    .subtitle {
-      max-width: 600px;
-      margin: 0 auto;
-      color: var(--muted);
-      font-weight: 650;
-      font-size: 1.15rem;
-    }
+        @media (max-width: 750px) {
+            .top-nav-bar { padding: 14px 18px; }
+            .big-title { font-size: 2.4rem; }
+        }
 
-    /* Suite Grid */
-    .suite-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 18px;
-      margin-bottom: 80px;
-    }
-
-    .suite-card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      padding: 30px;
-      border-radius: var(--radius);
-      transition: 0.18s ease;
-      display: flex;
-      flex-direction: column;
-      position: relative;
-    }
-
-    .suite-card:hover {
-      background: var(--card2);
-      border-color: var(--text);
-    }
-
-    .icon {
-      font-size: 1.6rem;
-      margin-bottom: 16px;
-      display: block;
-    }
-
-    .card-title {
-      margin: 0 0 10px 0;
-      font-size: 1.35rem;
-      font-weight: 950;
-      letter-spacing: -0.5px;
-    }
-
-    .desc {
-      margin: 0 0 24px 0;
-      color: var(--muted);
-      font-weight: 650;
-      font-size: 14px;
-      flex-grow: 1;
-    }
-
-    .launch-btn {
-      font-size: 14px;
-      font-weight: 950;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      color: var(--text);
-    }
-
-    .launch-btn::after {
-      content: '→';
-      transition: transform 0.18s ease;
-    }
-
-    .suite-card:hover .launch-btn::after {
-      transform: translateX(4px);
-    }
-
-    .status-badge {
-      position: absolute;
-      top: 30px;
-      right: 30px;
-      font-size: 11px;
-      font-family: var(--mono);
-      font-weight: 700;
-      color: var(--muted);
-      letter-spacing: 0.5px;
-      text-transform: uppercase;
-    }
-
-    /* Footer */
-    footer {
-      padding: 60px 0;
-      text-align: center;
-      border-top: 1px solid var(--border);
-      color: var(--muted);
-      font-weight: 750;
-      font-size: 14px;
-    }
-  </style>
+        @media (prefers-reduced-motion: reduce) {
+            * { transition: none !important; scroll-behavior: auto !important; }
+        }
+    </style>
 </head>
 <body>
 
-  <header class="topbar">
-    <div class="wrap">
-      <div class="topbar-inner">
-        <a href="https://eltrix-dot.github.io/" class="brand">ELTRIX ©</a>
-        <a href="https://eltrix-dot.github.io/index.html" class="back-btn">← Back Home</a>
-      </div>
-    </div>
-  </header>
+    <header class="top-nav-bar">
+        <a href="index.html" class="site-title">ELTRIX ©</a>
+        <nav class="nav-right" aria-label="Primary">
+            <a href="index.html" class="nav-btn nav-back">← BACK HOME</a>
+        </nav>
+    </header>
 
-  <div class="wrap">
-    <section class="hero">
-      <h1 class="title">Intelligence Suite</h1>
-      <p class="subtitle">Advanced digital forensic and privacy tools designed for web sovereignty.</p>
-    </section>
+    <main class="main-content">
+        <h1 class="big-title">INTELLIGENCE SUITE</h1>
+        <div class="subtitle">
+            Advanced digital forensic and privacy tools designed for web sovereignty. Built to ensure security, encryption, and telemetry control.
+        </div>
 
-    <main class="suite-grid">
-      <a href="internetprivacy.html" class="suite-card">
-        <span class="status-badge">Docs</span>
-        <div class="icon">📖</div>
-        <h3 class="card-title">Privacy Manifesto</h3>
-        <p class="desc">A curated guide to reclaiming your digital sovereignty. Practical, open-source configurations to stay secure.</p>
-        <span class="launch-btn">Explore Guide</span>
-      </a>
+        <div class="grid">
+            <section class="section">
+                <div class="pill">Docs & Configs</div>
+                <h2 style="margin:0; font-size: 1.5rem; font-weight: 900;">Privacy Manifesto</h2>
+                <p class="card-desc">
+                    A curated guide to reclaiming your digital sovereignty. Practical, open-source configurations to stay secure online.
+                </p>
+                <div class="btn-row">
+                    <a class="btn-primary" href="internetprivacy.html">Explore Guide →</a>
+                </div>
+            </section>
 
-      <a href="Webcheck.html" class="suite-card">
-        <span class="status-badge">Live Tool</span>
-        <div class="icon">🔍</div>
-        <h3 class="card-title">Web Audit Scan</h3>
-        <p class="desc">Analyze your browser and network connection. Detect potential leaks, metadata exposure, and hardware fingerprints.</p>
-        <span class="launch-btn">Start Audit</span>
-      </a>
+            <section class="section">
+                <div class="pill">Live Tool</div>
+                <h2 style="margin:0; font-size: 1.5rem; font-weight: 900;">Web Audit Scan</h2>
+                <p class="card-desc">
+                    Analyze your browser and network connection. Detect potential leaks, tracker metadata exposure, and canvas fingerprints.
+                </p>
+                <div class="btn-row">
+                    <a class="btn-primary" href="Webcheck.html">Start Audit →</a>
+                </div>
+            </section>
 
-      <a href="honeypot.html" class="suite-card">
-        <span class="status-badge">Lab</span>
-        <div class="icon">🔬</div>
-        <h3 class="card-title">Behavioral Lab</h3>
-        <p class="desc">An interactive demonstration showing how scripts record human input, telemetry, and biometric mouse tracking.</p>
-        <span class="launch-btn">Enter Lab</span>
-      </a>
+            <section class="section">
+                <div class="pill">Lab Experiment</div>
+                <h2 style="margin:0; font-size: 1.5rem; font-weight: 900;">Behavioral Lab</h2>
+                <p class="card-desc">
+                    An interactive environment showing how script telemetry records human input, typing speed, and biometric mouse tracking.
+                </p>
+                <div class="btn-row">
+                    <a class="btn-primary" href="honeypot.html">Enter Lab →</a>
+                </div>
+            </section>
 
-      <a href="fortress.html" class="suite-card">
-        <span class="status-badge">Security</span>
-        <div class="icon">🛡️</div>
-        <h3 class="card-title">Fortress Protection</h3>
-        <p class="desc">Core configurations covering secure networking architecture, manual data cleanup, and strict metadata isolation.</p>
-        <span class="launch-btn">Enter Fortress</span>
-      </a>
+            <section class="section">
+                <div class="pill">Security Core</div>
+                <h2 style="margin:0; font-size: 1.5rem; font-weight: 900;">Fortress Protection</h2>
+                <p class="card-desc">
+                    Core documentation covering secure networking architecture, local data protection layers, and metadata isolation.
+                </p>
+                <div class="btn-row">
+                    <a class="btn-primary" href="fortress.html">Enter Fortress →</a>
+                </div>
+            </section>
+        </div>
     </main>
 
-    <footer>
-      © 2026 Eltrix Group • Powered by Eltrix OS
+    <div class="logo-footer">ELTRIX</div>
+
+    <footer class="site-footer">
+        <div class="footer-content">
+            <div class="muted-text">
+                © 2026 Eltrix Group. Built for a safer internet.
+            </div>
+        </div>
     </footer>
-  </div>
 
 </body>
 </html>
