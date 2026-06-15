@@ -6,660 +6,828 @@
     <title>Eltrix Discord Bot | Advanced Server Bot</title>
 
     <meta name="title" content="Eltrix Discord Bot | Advanced Server Bot">
-    <meta name="description" content="Explore the official Eltrix Discord Bot. Featuring over 100 advanced commands for modular moderation, ticketing, economy, and leveling systems.">
+    <meta name="description" content="Explore the official Eltrix Discord Bot. Featuring 70+ advanced commands for moderation, ticketing, economy, and leveling systems.">
     <meta name="keywords" content="Eltrix, Discord Bot, Moderation Bot, Tickets, Economy, Leveling, discord.py, Automation">
     <meta name="author" content="Eltrix-Dot">
     <link rel="canonical" href="https://eltrix-dot.github.io/Eltrix.Discord-Bot.html" />
-    <meta name="theme-color" content="#07070a">
 
     <link rel="icon" type="image/png" href="https://github.com/Eltrix-Dot/Eltrix-Dot.github.io/blob/main/Eltrix-Dot.png?raw=true">
-    <link rel="apple-touch-icon" href="https://github.com/Eltrix-Dot/Eltrix-Dot.github.io/blob/main/Eltrix-Dot.png?raw=true">
 
     <style>
         :root {
-            /* Light Theme */
-            --bg: #ffffff;
-            --bg2: #fcfcfc;
-            --text: #111111;
-            --muted: rgba(0, 0, 0, 0.62);
+            --bg: #f8f9fa;
+            --text: #1a1a1a;
+            --muted: #666;
             --card: #ffffff;
-            --card2: #f6f6f6;
-            --border: rgba(0, 0, 0, 0.10);
-            --shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-            --radius: 18px;
-            --topbar-bg: rgba(255, 255, 255, 0.85);
-
-            /* Accents */
+            --border: #f0f0f0;
             --blue: #007bff;
             --discord: #5865F2;
-            --btn-solid-bg: #111111;
-            --btn-solid-text: #ffffff;
-            --btn-ghost-bg: rgba(0, 0, 0, 0.04);
-            --btn-ghost-border: rgba(0, 0, 0, 0.12);
-
-            --sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
-            --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-        }
-
-        @media (prefers-color-scheme: dark) {
-            :root {
-                --bg: #07070a;
-                --bg2: #07070a;
-                --text: #f5f5f5;
-                --muted: rgba(245, 245, 245, 0.70);
-                --card: #0d0d12;
-                --card2: #14141a;
-                --border: rgba(255, 255, 255, 0.10);
-                --shadow: 0 14px 45px rgba(0, 0, 0, 0.50);
-                --topbar-bg: rgba(7, 7, 10, 0.85);
-                --btn-solid-bg: #f5f5f5;
-                --btn-solid-text: #07070a;
-                --btn-ghost-bg: rgba(255, 255, 255, 0.04);
-                --btn-ghost-border: rgba(255, 255, 255, 0.12);
-            }
+            --shadow: 0 10px 30px rgba(0,0,0,0.12);
+            --radius: 14px;
         }
 
         * { box-sizing: border-box; }
-        html { scroll-behavior: smooth; }
 
         body {
-            margin: 0;
-            font-family: var(--sans);
-            color: var(--text);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
             background: var(--bg);
+            color: var(--text);
+            margin: 0;
             line-height: 1.6;
         }
 
-        a { color: inherit; }
-
-        .wrap {
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        /* Topbar Nav */
-        .topbar {
+        /* Top Navigation */
+        .top-nav-bar {
+            background: var(--card);
+            padding: 14px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
             position: sticky;
             top: 0;
-            z-index: 50;
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            background: var(--topbar-bg);
-            border-bottom: 1px solid var(--border);
+            z-index: 1000;
         }
 
-        .topbar-inner {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 14px 0;
-            gap: 16px;
-        }
-
-        .brand {
+        .site-title {
+            color: var(--text);
+            font-size: 26px;
+            font-weight: 900;
             text-decoration: none;
-            color: var(--text);
-            font-weight: 950;
-            font-size: 22px;
-            letter-spacing: -0.8px;
-            white-space: nowrap;
+            letter-spacing: -1px;
         }
 
-        .nav {
+        .nav-right {
             display: flex;
-            gap: 6px;
+            gap: 12px;
             align-items: center;
-            flex-wrap: wrap;
-            justify-content: flex-end;
+            position: relative;
         }
 
-        .nav a, .dropdown-btn {
-            color: var(--muted);
+        .nav-btn {
+            padding: 10px 16px;
             text-decoration: none;
-            font-weight: 850;
-            font-size: 14px;
-            padding: 10px 14px;
-            border-radius: 12px;
-            transition: 0.18s ease;
-            background: transparent;
-            border: none;
-            cursor: pointer;
-            white-space: nowrap;
-        }
-
-        .nav a:hover, .dropdown-btn:hover {
-            color: var(--text);
-            background: var(--btn-ghost-bg);
-        }
-
-        /* Dropdown Setup */
-        .dropdown { position: relative; }
-        .dropdown-content {
-            position: absolute;
-            right: 0;
-            top: 120%;
-            background: var(--card);
-            min-width: 220px;
-            border-radius: 14px;
-            border: 1px solid var(--border);
-            box-shadow: var(--shadow);
-            display: none;
-            overflow: hidden;
-        }
-        .dropdown.active .dropdown-content { display: block; }
-
-        .dropdown-content a {
-            display: block;
-            width: 100%;
-            padding: 12px 14px;
-            border-radius: 0;
-            color: var(--text);
             font-weight: 800;
-        }
-        .dropdown-content a:hover {
-            background: var(--btn-ghost-bg);
+            border-radius: 12px;
+            transition: 0.2s ease;
+            font-size: 14px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            user-select: none;
+            white-space: nowrap;
         }
 
-        /* Hero Container */
-        .hero {
-            padding: 80px 0 60px 0;
-            text-align: center;
+        .nav-back {
+            background: #ffffff;
+            color: var(--blue) !important;
+            border: 2px solid var(--blue);
+        }
+        .nav-back:hover { transform: translateY(-1px); }
+
+        .nav-github {
+            background: var(--discord);
+            color: white !important;
+        }
+        .nav-github:hover { transform: translateY(-1px); opacity: 0.9; }
+
+        .social-icons {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            margin-left: 2px;
+        }
+
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            background: #f1f3f5;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            color: #333;
+            text-decoration: none;
+            transition: 0.2s ease;
+        }
+
+        .social-icon:hover {
+            background: #e9ecef;
+            transform: translateY(-1px);
+        }
+
+        .social-icon svg {
+            width: 18px;
+            height: 18px;
+            fill: currentColor;
+        }
+
+        .menu-toggle {
+            background: #f1f3f5;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            cursor: pointer;
+            display: inline-flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 5px;
+            transition: 0.2s ease;
+        }
+
+        .menu-toggle:hover { background: #e9ecef; transform: translateY(-1px); }
+
+        .menu-toggle span {
+            display: block;
+            width: 20px;
+            height: 2px;
+            background-color: #333;
+            transition: transform 0.25s ease, opacity 0.2s ease;
+            border-radius: 2px;
+        }
+
+        .menu-toggle[aria-expanded="true"] span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+        .menu-toggle[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
+        .menu-toggle[aria-expanded="true"] span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+        .mobile-menu {
+            position: absolute;
+            top: 56px;
+            right: 0;
+            background: white;
+            min-width: 240px;
+            border-radius: 14px;
+            box-shadow: var(--shadow);
+            padding: 10px 0;
+            border: 1px solid #eee;
+            opacity: 0;
+            transform: translateY(-6px) scale(0.98);
+            pointer-events: none;
+            transition: opacity 0.18s ease, transform 0.18s ease;
+        }
+
+        .mobile-menu.active {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            pointer-events: auto;
+        }
+
+        .menu-item {
+            padding: 12px 18px;
+            text-decoration: none;
+            color: #333;
+            font-weight: 700;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: 0.15s ease;
+        }
+
+        .menu-item:hover {
+            background: #f8f9fa;
+            color: var(--blue);
+        }
+
+        .menu-divider {
+            height: 1px;
+            background: #eee;
+            margin: 8px 0;
+        }
+
+        .main-content {
+            padding: 50px 20px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .page-title {
+            font-size: 2.8rem;
+            font-weight: 950;
+            line-height: 1.1;
+            margin: 0 0 15px 0;
+            letter-spacing: -1.5px;
+        }
+
+        .page-subtitle {
+            color: var(--muted);
+            font-weight: 650;
+            font-size: 1.1rem;
+            max-width: 70ch;
+            margin-bottom: 20px;
         }
 
         .hero-img {
             width: 100%;
-            max-width: 920px;
-            border-radius: var(--radius);
+            max-width: 100%;
+            border-radius: 16px;
             box-shadow: var(--shadow);
-            margin: 28px auto 40px auto;
+            margin: 20px 0 30px 0;
             border: 1px solid var(--border);
             display: block;
+        }
+
+        .section {
             background: var(--card);
-        }
-
-        .kicker {
-            display: inline-flex;
-            padding: 8px 16px;
-            border-radius: 99px;
-            background: var(--card2);
+            padding: 26px;
+            border-radius: 16px;
+            margin-bottom: 24px;
             border: 1px solid var(--border);
+        }
+
+        .section h2 {
+            margin: 0 0 12px 0;
+            font-size: 1.6rem;
+            color: var(--text);
+        }
+
+        .section-subtitle {
             color: var(--muted);
+            margin: 0 0 20px 0;
+            font-size: 0.95rem;
+            font-weight: 650;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+
+        .feature-card {
+            background: #f8f9fa;
+            padding: 22px;
+            border-radius: 14px;
+            border: 1px solid var(--border);
+            transition: 0.2s ease;
+        }
+
+        .feature-card:hover {
+            border-color: var(--blue);
+            box-shadow: var(--shadow);
+            transform: translateY(-2px);
+        }
+
+        .feature-card h3 {
+            margin: 0 0 8px 0;
+            font-size: 1.1rem;
+            color: var(--text);
+        }
+
+        .feature-card p {
+            margin: 0;
+            color: var(--muted);
+            font-size: 0.95rem;
+        }
+
+        /* Command Explorer */
+        .commands-container {
+            display: grid;
+            grid-template-columns: 200px 1fr;
+            gap: 18px;
+            align-items: start;
+        }
+
+        .cmd-nav {
+            position: sticky;
+            top: 80px;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .cmd-nav button {
+            width: 100%;
+            text-align: left;
+            padding: 12px 12px;
+            margin-bottom: 8px;
+            border-radius: 12px;
+            border: 1px solid transparent;
+            background: transparent;
+            color: var(--muted);
+            font-weight: 800;
+            cursor: pointer;
+            font-size: 13px;
+            transition: 0.15s ease;
+        }
+
+        .cmd-nav button:hover {
+            background: #f8f9fa;
+            color: var(--text);
+            transform: translateY(-1px);
+        }
+
+        .cmd-nav button.active {
+            background: #f0f0f0;
+            border-color: var(--blue);
+            color: var(--blue);
             font-weight: 900;
-            font-size: 12px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            gap: 10px;
+        }
+
+        .cmd-display {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 22px;
+            min-height: 340px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .cmd-display h3 {
+            margin: 0 0 12px 0;
+            font-size: 1.3rem;
+            color: var(--text);
+        }
+
+        .cmd-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .cmd-item {
+            background: #f8f9fa;
+            padding: 14px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            display: flex;
             align-items: center;
-            justify-content: center;
-            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 12px;
+            transition: 0.2s ease;
         }
 
-        .title {
-            font-size: clamp(2.5rem, 5vw, 3.8rem);
-            line-height: 1.05;
-            letter-spacing: -2px;
-            font-weight: 1000;
-            margin: 0 0 18px 0;
+        .cmd-item:hover {
+            background: #f0f0f0;
+            border-color: var(--blue);
+            transform: translateY(-1px);
         }
 
-        .subtitle {
-            max-width: 720px;
-            margin: 0 auto 30px auto;
+        .cmd-item code {
+            font-family: 'Courier New', monospace;
+            font-weight: 800;
+            font-size: 13px;
+            color: var(--blue);
+        }
+
+        .cmd-item .desc {
             color: var(--muted);
             font-weight: 650;
-            font-size: 1.15rem;
+            font-size: 0.9rem;
+            flex: 1;
+            text-align: right;
+        }
+
+        .badge {
+            display: inline-block;
+            background: #f0f0f0;
+            color: var(--text);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            border: 1px solid var(--border);
+        }
+
+        .badges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 16px 0;
+        }
+
+        .setup-box {
+            background: #1a1a1a;
+            color: #e0e0e0;
+            padding: 18px;
+            border-radius: 14px;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            overflow-x: auto;
+            border: 1px solid var(--border);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .setup-box .comment {
+            color: #999;
         }
 
         .btn-row {
             display: flex;
-            justify-content: center;
-            gap: 12px;
             flex-wrap: wrap;
-            margin-top: 6px;
+            gap: 10px;
+            margin-top: 12px;
         }
 
         .btn {
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            padding: 14px 22px;
-            border-radius: 14px;
+            gap: 8px;
+            padding: 10px 16px;
+            border-radius: 12px;
+            font-weight: 900;
             text-decoration: none;
-            font-weight: 950;
-            font-size: 15px;
-            transition: 0.18s ease;
-            border: 1px solid var(--btn-ghost-border);
-            background: var(--btn-ghost-bg);
-            color: var(--text);
-            gap: 10px;
-            user-select: none;
-        }
-
-        .btn.primary {
-            background: var(--btn-solid-bg);
-            color: var(--btn-solid-text);
+            font-size: 13px;
+            transition: 0.2s ease;
             border: none;
+            cursor: pointer;
         }
 
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: var(--shadow);
+        .btn-primary {
+            background: var(--discord);
+            color: white;
         }
+        .btn-primary:hover { transform: translateY(-1px); opacity: 0.9; }
 
-        /* Sections Layout */
-        section {
-            padding: 80px 0;
-            border-top: 1px solid var(--border);
+        .btn-ghost {
+            background: transparent;
+            color: var(--blue);
+            border: 2px solid #dbe7ff;
         }
+        .btn-ghost:hover { background: #f2f7ff; transform: translateY(-1px); }
 
-        .section-title {
-            font-size: 2.2rem;
-            letter-spacing: -1px;
-            font-weight: 1000;
-            margin: 0 0 18px 0;
-        }
-
-        .section-subtitle {
-            margin: 0 0 28px 0;
-            color: var(--muted);
+        .notice {
+            margin: 16px 0 0 0;
+            padding: 12px 16px;
+            background: #f0f0f0;
+            border-left: 4px solid var(--blue);
+            border-radius: 8px;
+            color: var(--text);
+            font-size: 0.9rem;
             font-weight: 650;
-            max-width: 80ch;
         }
 
-        /* Features */
-        .grid-features {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 18px;
-            margin-top: 18px;
+        .notice strong {
+            color: var(--text);
         }
 
-        .feature-card {
-            background: var(--card);
-            border: 1px solid var(--border);
-            padding: 26px;
-            border-radius: var(--radius);
-            transition: 0.18s ease;
-        }
-        .feature-card:hover { border-color: var(--text); }
-
-        .feature-card h3 {
-            margin: 0 0 10px 0;
-            font-size: 1.35rem;
+        .logo-footer {
+            text-align: center;
+            padding: 55px 0 18px 0;
+            font-size: 5rem;
             font-weight: 950;
-            letter-spacing: -0.5px;
-        }
-        .feature-card p {
-            margin: 0;
-            color: var(--muted);
-            font-weight: 650;
+            color: #e9ecef;
+            letter-spacing: -3px;
         }
 
-        /* Command Engine Layout */
-        .commands-container {
-            display: grid;
-            grid-template-columns: 280px 1fr;
-            gap: 26px;
-            margin-top: 26px;
-            align-items: start;
+        .site-footer {
+            background: #ffffff;
+            padding: 38px 20px;
+            border-top: 1px solid #e9ecef;
+            text-align: center;
         }
 
-        .cmd-nav {
+        .footer-content {
+            max-width: 900px;
+            margin: 0 auto;
             display: flex;
             flex-direction: column;
-            gap: 10px;
-            position: sticky;
-            top: 82px;
+            align-items: center;
+            gap: 18px;
         }
 
-        .cmd-nav button {
-            text-align: left;
-            padding: 14px;
-            border-radius: 14px;
-            background: transparent;
-            border: 1px solid transparent;
-            color: var(--muted);
-            font-weight: 900;
-            cursor: pointer;
-            transition: 0.15s ease;
-        }
-        .cmd-nav button:hover {
-            background: var(--btn-ghost-bg);
-            color: var(--text);
-        }
-        .cmd-nav button.active {
-            background: var(--card2);
-            border-color: var(--border);
-            color: var(--text);
-        }
-
-        .cmd-display {
-            background: var(--card2);
-            border: 1px solid var(--border);
-            border-radius: 20px;
-            padding: 34px;
-            min-height: 260px;
-        }
-
-        .cmd-title {
-            margin: 0 0 14px 0;
-            font-size: 1.7rem;
-            font-weight: 1000;
-            letter-spacing: -0.8px;
-        }
-
-        .cmd-list { display: grid; gap: 10px; }
-        .cmd-item {
-            padding: 14px;
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: 14px;
-            font-weight: 750;
-            display: grid;
-            grid-template-columns: 160px 1fr;
-            gap: 10px;
+        .footer-links {
+            display: flex;
+            gap: 18px;
+            flex-wrap: wrap;
+            justify-content: center;
             align-items: center;
         }
 
-        .cmd-item code {
-            color: var(--blue);
-            font-family: var(--mono);
-            font-weight: 900;
-            background: transparent;
-        }
-
-        .cmd-item .desc {
-            color: var(--muted);
-            font-weight: 650;
+        .footer-link {
+            color: #666;
+            text-decoration: none;
+            font-weight: 700;
             font-size: 14px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
         }
 
-        /* Console Box Setup */
-        .setup-box {
-            background: #111;
-            color: #fff;
-            padding: 26px;
-            border-radius: 20px;
-            font-family: var(--mono);
+        .footer-email {
+            background: #f1f3f5;
+            padding: 8px 14px;
+            border-radius: 10px;
+            color: #444;
             font-size: 14px;
-            overflow-x: auto;
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            box-shadow: var(--shadow);
-        }
-        .setup-box .comment { color: rgba(255,255,255,0.55); }
-        .setup-box .spacer { height: 14px; }
-
-        .notice {
-            margin: 18px auto 0 auto;
-            max-width: 900px;
-            text-align: left;
-            background: var(--card2);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            padding: 16px 18px;
-            color: var(--muted);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
             font-weight: 650;
         }
-        .notice strong { color: var(--text); }
 
-        footer {
-            padding: 60px 0;
-            text-align: center;
-            border-top: 1px solid var(--border);
-            color: var(--muted);
-            font-weight: 750;
-        }
-        footer a { text-decoration: none; border-bottom: 1px solid transparent; }
-        footer a:hover { border-bottom-color: currentColor; }
+        .muted { color: var(--muted); }
 
-        @media (max-width: 900px) {
-            .topbar-inner { flex-direction: column; align-items: flex-start; }
+        @media (max-width: 1024px) {
+            .grid { grid-template-columns: 1fr; }
             .commands-container { grid-template-columns: 1fr; }
-            .cmd-nav {
-                position: relative;
-                top: auto;
-                flex-direction: row;
-                overflow-x: auto;
-                padding-bottom: 10px;
-            }
-            .cmd-nav button { white-space: nowrap; }
-            .cmd-item { grid-template-columns: 1fr; }
-            .hero { padding: 58px 0 46px 0; }
+            .cmd-nav { position: relative; top: auto; }
+        }
+
+        @media (max-width: 768px) {
+            .top-nav-bar { padding: 14px 18px; }
+            .social-icons { display: none; }
+            .page-title { font-size: 2.2rem; }
+            .cmd-item { flex-direction: column; align-items: flex-start; }
+            .cmd-item .desc { text-align: left; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            * { transition: none !important; scroll-behavior: auto !important; }
         }
     </style>
 </head>
 
 <body>
-  <header class="topbar">
-    <div class="wrap">
-      <div class="topbar-inner">
-        <a href="https://eltrix-dot.github.io/" class="brand">ELTRIX ©</a>
+    <header class="top-nav-bar">
+        <a href="index.html" class="site-title">ELTRIX ©</a>
 
-        <nav class="nav" aria-label="Page links">
-          <a href="#features">Features</a>
-          <a href="#commands">Commands</a>
-          <a href="#setup">Setup</a>
+        <nav class="nav-right" aria-label="Primary">
+            <a href="index.html" class="nav-btn nav-back">← BACK</a>
+            <a href="https://github.com/Eltrix-Dot/Eltrix-Discord.bot" class="nav-btn nav-github" target="_blank" rel="noopener noreferrer">GitHub →</a>
 
-          <a href="https://github.com/Eltrix-Dot/Eltrix-Discord.bot" target="_blank" rel="noopener">Bot Repo</a>
-          <a href="https://discord.gg/kEj6UDdQvb" target="_blank" rel="noopener">Discord</a>
+            <div class="social-icons" aria-label="Social links">
+                <a class="social-icon" href="https://discord.gg/kEj6UDdQvb" target="_blank" rel="noopener noreferrer" aria-label="Discord">
+                    <svg viewBox="0 0 245 240" aria-hidden="true">
+                        <path d="M104.4 104.6c-5.7 0-10.2 5-10.2 11.1s4.6 11.1 10.2 11.1c5.7 0 10.3-5 10.2-11.1 0-6.1-4.6-11.1-10.2-11.1zm36.2 0c-5.7 0-10.2 5-10.2 11.1s4.6 11.1 10.2 11.1c5.7 0 10.3-5 10.2-11.1 0-6.1-4.6-11.1-10.2-11.1z"/>
+                        <path d="M189.5 20h-134C24.9 20 20 24.9 20 31.1v140.4c0 6.2 4.9 11.1 11.1 11.1h113.6l-5.3-18.4 12.8 11.9 12.1 11.2 21.5 19V31.1c0-6.2-4.9-11.1-11.1-11.1z"/>
+                    </svg>
+                </a>
 
-          <div class="dropdown" id="changelog-dropdown">
-            <button class="dropdown-btn" type="button">Changelog ▼</button>
-            <div class="dropdown-content" role="menu" aria-label="Changelog pages">
-              <a href="https://eltrix-dot.github.io/discord-changelog.html" target="_blank" rel="noopener">Discord Changelog</a>
-              <a href="https://eltrix-dot.github.io/game-changelog.html" target="_blank" rel="noopener">Game Changelog</a>
+                <a class="social-icon" href="https://github.com/Eltrix-Dot" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+                    <svg viewBox="0 0 16 16" aria-hidden="true">
+                        <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.63 1.23.9.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"/>
+                    </svg>
+                </a>
             </div>
-          </div>
+
+            <button class="menu-toggle" id="menuToggle" aria-label="Menu" aria-expanded="false" aria-controls="dropdownMenu">
+                <span></span><span></span><span></span>
+            </button>
+
+            <div class="mobile-menu" id="dropdownMenu" role="menu" aria-label="Quick links">
+                <a href="#features" class="menu-item" role="menuitem">✨ Features</a>
+                <a href="#commands" class="menu-item" role="menuitem">⚙️ Commands</a>
+                <a href="#setup" class="menu-item" role="menuitem">🚀 Setup</a>
+                <div class="menu-divider"></div>
+                <a href="https://discord.gg/kEj6UDdQvb" target="_blank" rel="noopener noreferrer" class="menu-item" role="menuitem">💬 Discord Server</a>
+                <a href="https://github.com/Eltrix-Dot/Eltrix-Discord.bot" target="_blank" rel="noopener noreferrer" class="menu-item" role="menuitem">🔗 GitHub Repo</a>
+            </div>
         </nav>
-      </div>
-    </div>
-  </header>
+    </header>
 
-  <div class="wrap">
-    <section class="hero">
-      <div class="kicker">Built with Python 3.11+ • v3.1 Active • 70+ Commands</div>
+    <main class="main-content">
+        <h1 class="page-title">Eltrix Discord Bot</h1>
+        <p class="page-subtitle">An all-in-one powerhouse for Discord. From advanced moderation to tickets, leveling, and economy — manage everything with one modular bot.</p>
 
-      <img
-        class="hero-img"
-        src="https://cdn.discordapp.com/attachments/1393265882280493069/1406691590013059123/DiscoHook-Banner.png"
-        alt="Eltrix Discord Bot Banner"
-      />
+        <img
+            class="hero-img"
+            src="https://cdn.discordapp.com/attachments/1393265882280493069/1406691590013059123/DiscoHook-Banner.png"
+            alt="Eltrix Discord Bot Banner"
+        />
 
-      <h1 class="title">The only bot your<br>server will ever need.</h1>
-      <p class="subtitle">
-        Eltrix is an all‑in‑one powerhouse for Discord. From advanced moderation to tickets,
-        leveling and economy — manage everything with one modular bot.
-      </p>
-
-      <div class="btn-row">
-        <a class="btn primary" href="https://github.com/Eltrix-Dot/Eltrix-Discord.bot" target="_blank" rel="noopener">
-          View on GitHub
-        </a>
-        <a class="btn" href="https://discord.gg/kEj6UDdQvb" target="_blank" rel="noopener">
-          Join Support
-        </a>
-        <a class="btn" href="#setup">Quick Setup</a>
-      </div>
-
-      <div class="notice">
-        <strong>Heads up:</strong> Version <strong>4</strong> is planned (coming soon). This page describes the current public version (<strong>v3.1</strong>).
-      </div>
-    </section>
-
-    <section id="features">
-      <h2 class="section-title">Core Modules</h2>
-      <p class="section-subtitle">
-        Everything you need to run a serious community — clean UI, modular systems, and practical slash commands.
-      </p>
-
-      <div class="grid-features">
-        <div class="feature-card">
-          <h3>🛡️ Moderation</h3>
-          <p>Warns, timeouts, kicks/bans, purges, slowmode, channel locks, and server lockdown tools.</p>
+        <div class="badges">
+            <span class="badge">Python 3.11+</span>
+            <span class="badge">v3.1 Active</span>
+            <span class="badge">70+ Commands</span>
+            <span class="badge">Modular System</span>
         </div>
-        <div class="feature-card">
-          <h3>🎟️ Tickets</h3>
-          <p>Professional ticket panels with categories, staff claim flows, and transcript support.</p>
+
+        <div class="btn-row">
+            <a class="btn btn-primary" href="https://github.com/Eltrix-Dot/Eltrix-Discord.bot" target="_blank" rel="noopener">View on GitHub →</a>
+            <a class="btn btn-ghost" href="https://discord.gg/kEj6UDdQvb" target="_blank" rel="noopener">Join Support</a>
+            <a class="btn btn-ghost" href="#setup">Quick Setup</a>
         </div>
-        <div class="feature-card">
-          <h3>💰 Economy</h3>
-          <p>Wallet + bank, daily rewards, gambling, investments, and leaderboards for engagement.</p>
+
+        <div class="notice">
+            <strong>Heads up:</strong> Version 4 is planned (coming soon). This page describes the current public version (<strong>v3.1</strong>).
         </div>
-        <div class="feature-card">
-          <h3>📈 Leveling</h3>
-          <p>XP system with rank cards, levelboards, and automatic role rewards.</p>
-        </div>
-      </div>
-    </section>
 
-    <section id="commands">
-      <h2 class="section-title">Command Explorer</h2>
-      <p class="section-subtitle">
-        Click a category to preview common commands. (All commands use Discord Slash Commands.)
-      </p>
+        <!-- Features Section -->
+        <section class="section" id="features">
+            <h2>✨ Core Modules</h2>
+            <p class="section-subtitle">Everything you need to run a serious community — modular systems and practical slash commands.</p>
 
-      <div class="commands-container">
-        <aside class="cmd-nav" id="cmd-nav" aria-label="Command categories">
-          <button class="active" data-cat="mod" type="button">Moderation</button>
-          <button data-cat="tickets" type="button">Tickets</button>
-          <button data-cat="eco" type="button">Economy</button>
-          <button data-cat="fun" type="button">Community & Fun</button>
-          <button data-cat="util" type="button">Utility</button>
-        </aside>
+            <div class="grid">
+                <div class="feature-card">
+                    <h3>🛡️ Moderation</h3>
+                    <p>Warns, timeouts, kicks/bans, purges, slowmode, channel locks, and server lockdown tools.</p>
+                </div>
 
-        <div class="cmd-display" id="cmd-display" aria-live="polite"></div>
-      </div>
-    </section>
+                <div class="feature-card">
+                    <h3>🎟️ Tickets</h3>
+                    <p>Professional ticket panels with categories, staff claim flows, and transcript support.</p>
+                </div>
 
-    <section id="setup">
-      <h2 class="section-title">Quick Installation</h2>
-      <p class="section-subtitle">
-        Minimal steps to run v3.1 locally. (Tip: enable Developer Mode in Discord to copy IDs.)
-      </p>
+                <div class="feature-card">
+                    <h3>💰 Economy</h3>
+                    <p>Wallet + bank, daily rewards, gambling, investments, and leaderboards for engagement.</p>
+                </div>
 
-      <div class="setup-box" role="region" aria-label="Setup commands">
-        <div class="comment"># Clone the bot</div>
-        <div>git clone https://github.com/Eltrix-Dot/Eltrix-Discord.bot</div>
-        <div>cd Eltrix-Discord.bot</div>
-
-        <div class="spacer"></div>
-
-        <div class="comment"># Install dependencies</div>
-        <div>pip install -r requirements.txt</div>
-
-        <div class="spacer"></div>
-
-        <div class="comment"># Configure your TOKEN in Eltrix-Bot_V3.1.py, then start</div>
-        <div>python Eltrix-Bot_V3.1.py</div>
-      </div>
-    </section>
-
-    <footer>
-       2026 Eltrix Group. Built for a safer internet.•
-      <a href="https://eltrix-dot.github.io/">Home</a>
-    </footer>
-  </div>
-
-  <script>
-    // Command database object
-    const COMMANDS = {
-      mod: {
-        title: "Moderation Tools",
-        list: [
-          { c: "/warn", d: "Add a warning to a member" },
-          { c: "/warnings", d: "View a user's warnings" },
-          { c: "/mute", d: "Timeout a member" },
-          { c: "/purge", d: "Bulk delete messages" },
-          { c: "/lock", d: "Lock a channel" },
-          { c: "/unlock", d: "Unlock a channel" },
-          { c: "/lockdown", d: "Lock the entire server (emergency)" }
-        ]
-      },
-      tickets: {
-        title: "Ticket System",
-        list: [
-          { c: "/ticketsetup", d: "Create a ticket panel" },
-          { c: "/ticketclaim", d: "Claim a ticket as staff" },
-          { c: "/ticketadd", d: "Add a user to a ticket" },
-          { c: "/ticketremove", d: "Remove a user from a ticket" },
-          { c: "/ticketdelete", d: "Delete a ticket channel" }
-        ]
-      },
-      eco: {
-        title: "Economy & Finance",
-        list: [
-          { c: "/balance", d: "Check your wallet and bank" },
-          { c: "/daily", d: "Claim your daily allowance" },
-          { c: "/invest", d: "Long term investments for profit" },
-          { c: "/gamble", d: "Double or nothing coin toss" },
-          { c: "/bank deposit", d: "Deposit coins to the bank" },
-          { c: "/bank withdraw", d: "Withdraw coins from the bank" }
-        ]
-      },
-      fun: {
-        title: "Community & Fun",
-        list: [
-          { c: "/meme", d: "Grab a random meme (Reddit)" },
-          { c: "/poll", d: "Create an interactive poll" },
-          { c: "/ship", d: "Test love compatibility" },
-          { c: "/rank", d: "Show your leveling progress" }
-        ]
-      },
-      util: {
-        title: "Utilities",
-        list: [
-          { c: "/ping", d: "Check bot and API latency" },
-          { c: "/serverinfo", d: "Detailed guild statistics" },
-          { c: "/userinfo", d: "Get user info" },
-          { c: "/remindme", d: "Set a personal reminder" },
-          { c: "/afk", d: "Set an AFK status" }
-        ]
-      }
-    };
-
-    const nav = document.getElementById("cmd-nav");
-    const display = document.getElementById("cmd-display");
-
-    function renderCommands(cat) {
-      const data = COMMANDS[cat];
-      display.innerHTML = `
-        <h3 class="cmd-title">${data.title}</h3>
-        <div class="cmd-list">
-          ${data.list.map(item => `
-            <div class="cmd-item">
-              <code>${item.c}</code>
-              <div class="desc">${item.d}</div>
+                <div class="feature-card">
+                    <h3>📈 Leveling</h3>
+                    <p>XP system with rank cards, levelboards, and automatic role rewards.</p>
+                </div>
             </div>
-          `).join("")}
+        </section>
+
+        <!-- Commands Section -->
+        <section class="section" id="commands">
+            <h2>⚙️ Command Explorer</h2>
+            <p class="section-subtitle">Click a category to preview common commands. All commands use Discord Slash Commands.</p>
+
+            <div class="commands-container">
+                <aside class="cmd-nav" id="cmd-nav" aria-label="Command categories">
+                    <button class="active" data-cat="mod" type="button">Moderation</button>
+                    <button data-cat="tickets" type="button">Tickets</button>
+                    <button data-cat="eco" type="button">Economy</button>
+                    <button data-cat="fun" type="button">Community</button>
+                    <button data-cat="util" type="button">Utility</button>
+                </aside>
+
+                <div class="cmd-display" id="cmd-display" aria-live="polite"></div>
+            </div>
+        </section>
+
+        <!-- Setup Section -->
+        <section class="section" id="setup">
+            <h2>🚀 Quick Installation</h2>
+            <p class="section-subtitle">Minimal steps to run v3.1 locally. (Tip: enable Developer Mode in Discord to copy IDs.)</p>
+
+            <div class="setup-box" role="region" aria-label="Setup commands">
+                <div class="comment"># Clone the repository</div>
+                <div>git clone https://github.com/Eltrix-Dot/Eltrix-Discord.bot</div>
+                <div>cd Eltrix-Discord.bot</div>
+                <br>
+                <div class="comment"># Install dependencies</div>
+                <div>pip install -r requirements.txt</div>
+                <br>
+                <div class="comment"># Configure your TOKEN in Eltrix-Bot_V3.1.py, then start</div>
+                <div>python Eltrix-Bot_V3.1.py</div>
+            </div>
+        </section>
+
+        <!-- Support CTA -->
+        <section class="section" style="background: linear-gradient(135deg, #5865F2 0%, #4752C4 100%); border: none; color: white; text-align: center;">
+            <h2 style="color: white; margin: 0 0 8px 0;">Need Help?</h2>
+            <p class="section-subtitle" style="color: rgba(255,255,255,0.9); margin: 0 0 16px 0;">Join our Discord server for support, bug reports, and updates from the community.</p>
+            <div class="btn-row" style="justify-content: center;">
+                <a class="btn btn-primary" href="https://discord.gg/kEj6UDdQvb" target="_blank" rel="noopener" style="background: white; color: var(--discord); border: none;">Join Discord Server →</a>
+                <a class="btn" href="index.html" style="background: rgba(255,255,255,0.2); color: white; border: 2px solid rgba(255,255,255,0.5);">Back to Home</a>
+            </div>
+        </section>
+    </main>
+
+    <div class="logo-footer">ELTRIX</div>
+
+    <footer class="site-footer">
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="index.html" class="footer-link">Home</a>
+                <a href="https://discord.gg/kEj6UDdQvb" class="footer-link" target="_blank" rel="noopener noreferrer">
+                    💬 Discord
+                </a>
+                <a href="https://github.com/Eltrix-Dot/Eltrix-Discord.bot" class="footer-link" target="_blank" rel="noopener noreferrer">
+                    <svg height="16" viewBox="0 0 16 16" width="16" style="fill: currentColor;" aria-hidden="true">
+                        <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.63 1.23.9.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"/>
+                    </svg>
+                    GitHub
+                </a>
+            </div>
+
+            <a href="mailto:Eltrix.public@protonmail.com" class="footer-email">
+                ✉️ Contact: Eltrix.public@protonmail.com
+            </a>
+
+            <div class="muted" style="font-weight:700;">
+                © 2026 Eltrix Group. Built for a safer internet.
+            </div>
         </div>
-      `;
-    }
+    </footer>
 
-    // Category navigation events
-    nav.addEventListener("click", (e) => {
-      if (e.target.tagName !== "BUTTON") return;
-      document.querySelectorAll("#cmd-nav button").forEach(b => b.classList.remove("active"));
-      e.target.classList.add("active");
-      renderCommands(e.target.dataset.cat);
-    });
+    <script>
+        /* Mobile Menu */
+        const menuToggle = document.getElementById("menuToggle");
+        const dropdownMenu = document.getElementById("dropdownMenu");
 
-    // Integrated Changelog Dropdown Engine
-    const dd = document.getElementById("changelog-dropdown");
-    const ddBtn = dd.querySelector(".dropdown-btn");
+        function openMenu(){
+            dropdownMenu.classList.add("active");
+            menuToggle.setAttribute("aria-expanded", "true");
+        }
 
-    ddBtn.addEventListener("click", (e) => {
-      e.stopPropagation();
-      dd.classList.toggle("active");
-    });
+        function closeMenu(){
+            dropdownMenu.classList.remove("active");
+            menuToggle.setAttribute("aria-expanded", "false");
+        }
 
-    window.addEventListener("click", () => dd.classList.remove("active"));
-    window.addEventListener("keydown", (e) => {
-      if (e.key === "Escape") dd.classList.remove("active");
-    });
+        function isMenuOpen(){
+            return dropdownMenu.classList.contains("active");
+        }
 
-    // Fire default category render
-    renderCommands("mod");
-  </script>
+        menuToggle.addEventListener("click", (e) => {
+            e.stopPropagation();
+            isMenuOpen() ? closeMenu() : openMenu();
+        });
+
+        window.addEventListener("click", (e) => {
+            if (!dropdownMenu.contains(e.target) && !menuToggle.contains(e.target)) {
+                closeMenu();
+            }
+        });
+
+        window.addEventListener("keydown", (e) => {
+            if (e.key === "Escape") closeMenu();
+        });
+
+        /* Command Database */
+        const COMMANDS = {
+            mod: {
+                title: "Moderation Tools",
+                list: [
+                    { c: "/warn", d: "Add a warning to a member" },
+                    { c: "/warnings", d: "View a user's warnings" },
+                    { c: "/mute", d: "Timeout a member" },
+                    { c: "/purge", d: "Bulk delete messages" },
+                    { c: "/lock", d: "Lock a channel" },
+                    { c: "/unlock", d: "Unlock a channel" },
+                    { c: "/lockdown", d: "Lock the entire server (emergency)" }
+                ]
+            },
+            tickets: {
+                title: "Ticket System",
+                list: [
+                    { c: "/ticketsetup", d: "Create a ticket panel" },
+                    { c: "/ticketclaim", d: "Claim a ticket as staff" },
+                    { c: "/ticketadd", d: "Add a user to a ticket" },
+                    { c: "/ticketremove", d: "Remove a user from a ticket" },
+                    { c: "/ticketdelete", d: "Delete a ticket channel" }
+                ]
+            },
+            eco: {
+                title: "Economy & Finance",
+                list: [
+                    { c: "/balance", d: "Check your wallet and bank" },
+                    { c: "/daily", d: "Claim your daily allowance" },
+                    { c: "/invest", d: "Long term investments for profit" },
+                    { c: "/gamble", d: "Double or nothing coin toss" },
+                    { c: "/bank deposit", d: "Deposit coins to the bank" },
+                    { c: "/bank withdraw", d: "Withdraw coins from the bank" }
+                ]
+            },
+            fun: {
+                title: "Community & Fun",
+                list: [
+                    { c: "/meme", d: "Grab a random meme (Reddit)" },
+                    { c: "/poll", d: "Create an interactive poll" },
+                    { c: "/ship", d: "Test love compatibility" },
+                    { c: "/rank", d: "Show your leveling progress" }
+                ]
+            },
+            util: {
+                title: "Utilities",
+                list: [
+                    { c: "/ping", d: "Check bot and API latency" },
+                    { c: "/serverinfo", d: "Detailed guild statistics" },
+                    { c: "/userinfo", d: "Get user info" },
+                    { c: "/remindme", d: "Set a personal reminder" },
+                    { c: "/afk", d: "Set an AFK status" }
+                ]
+            }
+        };
+
+        const nav = document.getElementById("cmd-nav");
+        const display = document.getElementById("cmd-display");
+
+        function renderCommands(cat) {
+            const data = COMMANDS[cat];
+            display.innerHTML = `
+                <h3>${data.title}</h3>
+                <div class="cmd-list">
+                    ${data.list.map(item => `
+                        <div class="cmd-item">
+                            <code>${item.c}</code>
+                            <div class="desc">${item.d}</div>
+                        </div>
+                    `).join("")}
+                </div>
+            `;
+        }
+
+        nav.addEventListener("click", (e) => {
+            if (e.target.tagName !== "BUTTON") return;
+            document.querySelectorAll("#cmd-nav button").forEach(b => b.classList.remove("active"));
+            e.target.classList.add("active");
+            renderCommands(e.target.dataset.cat);
+        });
+
+        renderCommands("mod");
+    </script>
 </body>
 </html>
