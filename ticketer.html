@@ -1,701 +1,873 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Ticketer — Open-source Discord Ticket Bot</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ticketer — Open-source Discord Ticket Bot</title>
 
-  <style>
-    :root{
-      /* Light (default) */
-      --bg: #ffffff;
-      --bg2:#f6f7f9;
+    <meta name="title" content="Ticketer — Open-source Discord Ticket Bot">
+    <meta name="description" content="A minimal, production-ready Discord ticket bot focused on privacy, control, and speed. Self-hosted, no paywalls.">
+    <meta name="keywords" content="Ticketer, Discord Bot, Ticket System, Open-source, Self-hosted">
+    <meta name="author" content="Eltrix-Dot">
+    <link rel="canonical" href="https://eltrix-dot.github.io/ticketer.html" />
 
-      --text: #0f1115;
-      --muted: rgba(15,17,21,0.62);
+    <style>
+        :root {
+            --bg: #f8f9fa;
+            --text: #1a1a1a;
+            --muted: #666;
+            --card: #ffffff;
+            --border: #f0f0f0;
+            --blue: #007bff;
+            --green: #20c997;
+            --shadow: 0 10px 30px rgba(0,0,0,0.12);
+            --radius: 14px;
+        }
 
-      --card: rgba(15,17,21,0.035);
-      --card2: rgba(15,17,21,0.055);
-      --border: rgba(15,17,21,0.10);
+        * { box-sizing: border-box; }
 
-      --shadow: 0 14px 45px rgba(15,17,21,0.10);
-      --shadow-soft: 0 10px 26px rgba(15,17,21,0.08);
-      --radius: 18px;
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            margin: 0;
+            line-height: 1.6;
+        }
 
-      --topbar-bg: rgba(255,255,255,0.72);
+        /* Top Navigation */
+        .top-nav-bar {
+            background: var(--card);
+            padding: 14px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
 
-      --btn-ghost-bg: rgba(15,17,21,0.04);
-      --btn-ghost-bg-hover: rgba(15,17,21,0.06);
-      --btn-ghost-border: rgba(15,17,21,0.12);
-      --btn-ghost-text: var(--text);
+        .site-title {
+            color: var(--text);
+            font-size: 26px;
+            font-weight: 900;
+            text-decoration: none;
+            letter-spacing: -1px;
+        }
 
-      --btn-solid-bg: #0f1115;
-      --btn-solid-text: #ffffff;
+        .nav-right {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            position: relative;
+        }
 
-      --ring: rgba(15,17,21,0.18);
+        .nav-btn {
+            padding: 10px 16px;
+            text-decoration: none;
+            font-weight: 800;
+            border-radius: 12px;
+            transition: 0.2s ease;
+            font-size: 14px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            user-select: none;
+            white-space: nowrap;
+        }
 
-      --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
-      --sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
-    }
+        .nav-back {
+            background: #ffffff;
+            color: var(--blue) !important;
+            border: 2px solid var(--blue);
+        }
+        .nav-back:hover { transform: translateY(-1px); }
 
-    @media (prefers-color-scheme: dark){
-      :root{
-        --bg: #07070a;
-        --bg2:#0b0c10;
+        .nav-github {
+            background: var(--blue);
+            color: white !important;
+        }
+        .nav-github:hover { transform: translateY(-1px); opacity: 0.9; }
 
-        --text: #f5f5f5;
-        --muted: rgba(245,245,245,0.70);
+        .social-icons {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            margin-left: 2px;
+        }
 
-        --card: rgba(255,255,255,0.04);
-        --card2: rgba(255,255,255,0.06);
-        --border: rgba(255,255,255,0.10);
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            background: #f1f3f5;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            color: #333;
+            text-decoration: none;
+            transition: 0.2s ease;
+        }
 
-        --shadow: 0 16px 55px rgba(0,0,0,0.55);
-        --shadow-soft: 0 12px 28px rgba(0,0,0,0.42);
+        .social-icon:hover {
+            background: #e9ecef;
+            transform: translateY(-1px);
+        }
 
-        --topbar-bg: rgba(7,7,10,0.72);
+        .social-icon svg {
+            width: 18px;
+            height: 18px;
+            fill: currentColor;
+        }
 
-        --btn-ghost-bg: rgba(255,255,255,0.04);
-        --btn-ghost-bg-hover: rgba(255,255,255,0.06);
-        --btn-ghost-border: rgba(255,255,255,0.12);
-        --btn-ghost-text: var(--text);
+        .menu-toggle {
+            background: #f1f3f5;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            cursor: pointer;
+            display: inline-flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 5px;
+            transition: 0.2s ease;
+        }
 
-        --btn-solid-bg: #f5f5f5;
-        --btn-solid-text: #07070a;
+        .menu-toggle:hover { background: #e9ecef; transform: translateY(-1px); }
 
-        --ring: rgba(245,245,245,0.18);
-      }
-    }
+        .menu-toggle span {
+            display: block;
+            width: 20px;
+            height: 2px;
+            background-color: #333;
+            transition: transform 0.25s ease, opacity 0.2s ease;
+            border-radius: 2px;
+        }
 
-    *{ box-sizing:border-box; }
-    html{ scroll-behavior:smooth; }
+        .menu-toggle[aria-expanded="true"] span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+        .menu-toggle[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
+        .menu-toggle[aria-expanded="true"] span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
-    body{
-      margin:0;
-      font-family: var(--sans);
-      color: var(--text);
-      background: radial-gradient(1200px 600px at 50% -100px, var(--card2), transparent 60%),
-                  linear-gradient(180deg, var(--bg), var(--bg2));
-      line-height:1.6;
-    }
+        .mobile-menu {
+            position: absolute;
+            top: 56px;
+            right: 0;
+            background: white;
+            min-width: 240px;
+            border-radius: 14px;
+            box-shadow: var(--shadow);
+            padding: 10px 0;
+            border: 1px solid #eee;
+            opacity: 0;
+            transform: translateY(-6px) scale(0.98);
+            pointer-events: none;
+            transition: opacity 0.18s ease, transform 0.18s ease;
+        }
 
-    a{ color: inherit; }
-    .wrap{
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 0 20px;
-    }
+        .mobile-menu.active {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            pointer-events: auto;
+        }
 
-    /* Topbar */
-    .topbar{
-      position: sticky;
-      top: 0;
-      z-index: 50;
-      backdrop-filter: blur(12px);
-      background: var(--topbar-bg);
-      border-bottom: 1px solid var(--border);
-    }
-    .topbar-inner{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      padding: 14px 0;
-      gap: 14px;
-    }
-    .brand{
-      display:inline-flex;
-      align-items:center;
-      text-decoration:none;
-      color: var(--text);
-      font-weight: 950;
-      font-size: 22px;
-      letter-spacing: -0.8px;
-      transition: 0.18s ease;
-    }
-    .brand:hover{
-      opacity: 0.75;
-      transform: translateY(-1px);
-    }
-    .nav{
-      display:flex;
-      align-items:center;
-      gap: 10px;
-      flex-wrap: wrap;
-      justify-content: flex-end;
-    }
-    .nav a{
-      color: var(--muted);
-      text-decoration:none;
-      font-weight: 850;
-      font-size: 14px;
-      padding: 10px 12px;
-      border-radius: 12px;
-      transition: 0.18s ease;
-    }
-    .nav a:hover{
-      color: var(--text);
-      background: var(--btn-ghost-bg);
-      transform: translateY(-1px);
-    }
-    .nav .cta{
-      color: var(--btn-solid-text);
-      background: var(--btn-solid-bg);
-      font-weight: 950;
-    }
-    .nav .cta:hover{
-      transform: translateY(-1px) scale(1.02);
-      box-shadow: var(--shadow-soft);
-      background: var(--btn-solid-bg);
-      color: var(--btn-solid-text);
-    }
+        .menu-item {
+            padding: 12px 18px;
+            text-decoration: none;
+            color: #333;
+            font-weight: 700;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: 0.15s ease;
+        }
 
-    /* Hero */
-    header.hero{
-      padding: 78px 0 40px 0;
-      text-align:center;
-    }
-    .kicker{
-      display:inline-flex;
-      padding: 8px 12px;
-      border-radius: 999px;
-      background: var(--card2);
-      border: 1px solid var(--border);
-      color: var(--muted);
-      font-weight: 900;
-      font-size: 12px;
-      text-transform: uppercase;
-      margin-bottom: 18px;
-    }
-    .title{
-      font-size: clamp(2.4rem, 5vw, 3.9rem);
-      line-height: 1.05;
-      letter-spacing: -2px;
-      font-weight: 1000;
-      margin: 0 0 14px 0;
-    }
-    .subtitle{
-      max-width: 72ch;
-      margin: 0 auto 18px auto;
-      color: var(--muted);
-      font-weight: 650;
-      font-size: 1.08rem;
-    }
+        .menu-item:hover {
+            background: #f8f9fa;
+            color: var(--blue);
+        }
 
-    .badges{
-      margin: 12px 0 0 0;
-      display:flex;
-      flex-wrap:wrap;
-      gap: 8px;
-      justify-content:center;
-      align-items:center;
-    }
-    .badge{
-      display:inline-flex;
-      align-items:center;
-      gap: 8px;
-      padding: 8px 12px;
-      border-radius: 999px;
-      font-weight: 900;
-      font-size: 12px;
-      border: 1px solid var(--border);
-      background: var(--card2);
-      color: var(--text);
-      text-decoration:none;
-      transition: 0.18s ease;
-    }
-    .badge:hover{
-      transform: translateY(-1px);
-      box-shadow: var(--shadow-soft);
-    }
+        .menu-divider {
+            height: 1px;
+            background: #eee;
+            margin: 8px 0;
+        }
 
-    .hero-actions{
-      display:flex;
-      justify-content:center;
-      gap: 10px;
-      flex-wrap:wrap;
-      margin-top: 18px;
-    }
+        .main-content {
+            padding: 50px 20px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
 
-    /* Buttons */
-    .btn{
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      gap: 10px;
-      padding: 12px 18px;
-      border-radius: 14px;
-      text-decoration:none;
-      font-weight: 950;
-      font-size: 14px;
-      border: 1px solid var(--btn-ghost-border);
-      background: transparent;
-      color: var(--btn-ghost-text);
-      transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease, border-color 0.18s ease;
-      will-change: transform;
-    }
-    .btn.primary{
-      background: var(--btn-solid-bg);
-      color: var(--btn-solid-text);
-      border-color: transparent;
-    }
-    .btn:hover{
-      transform: translateY(-2px) scale(1.03);
-      box-shadow: var(--shadow);
-    }
-    .btn:focus-visible{
-      outline: none;
-      box-shadow: 0 0 0 4px var(--ring), var(--shadow);
-    }
+        .page-title {
+            font-size: 2.8rem;
+            font-weight: 950;
+            line-height: 1.1;
+            margin: 0 0 15px 0;
+            letter-spacing: -1.5px;
+        }
 
-    /* Sections */
-    section{
-      padding: 58px 0;
-      border-top: 1px solid var(--border);
-    }
-    .section-title{
-      font-size: 2rem;
-      letter-spacing: -1px;
-      margin: 0 0 10px 0;
-    }
-    .section-sub{
-      color: var(--muted);
-      margin: 0 0 26px 0;
-      font-weight: 650;
-    }
+        .page-subtitle {
+            color: var(--muted);
+            font-weight: 650;
+            font-size: 1.1rem;
+            max-width: 70ch;
+            margin-bottom: 30px;
+        }
 
-    .grid3{
-      display:grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 18px;
-    }
-    .card{
-      background: rgba(255,255,255,0.0);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 22px;
-      box-shadow: var(--shadow-soft);
-      background: var(--card);
-    }
-    .card h3{
-      margin: 0 0 8px 0;
-      letter-spacing: -0.4px;
-    }
-    .card p{
-      margin: 0;
-      color: var(--muted);
-      font-weight: 650;
-    }
+        .section {
+            background: var(--card);
+            padding: 26px;
+            border-radius: 16px;
+            margin-bottom: 24px;
+            border: 1px solid var(--border);
+        }
 
-    /* Commands Layout */
-    .commands{
-      display:grid;
-      grid-template-columns: 320px 1fr;
-      gap: 18px;
-      align-items: start;
-    }
+        .section h2 {
+            margin: 0 0 12px 0;
+            font-size: 1.6rem;
+            color: var(--text);
+        }
 
-    .cmd-nav{
-      position: sticky;
-      top: 78px;
-      align-self: start;
-      padding: 14px;
-      border-radius: 16px;
-      border: 1px solid var(--border);
-      background: var(--card);
-      box-shadow: var(--shadow-soft);
-    }
+        .section-subtitle {
+            color: var(--muted);
+            margin: 0 0 20px 0;
+            font-size: 0.95rem;
+            font-weight: 650;
+        }
 
-    .cmd-nav-title{
-      font-weight: 950;
-      letter-spacing: -0.3px;
-      margin: 0 0 10px 0;
-      font-size: 14px;
-      color: var(--muted);
-      text-transform: uppercase;
-    }
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
 
-    .cmd-nav button{
-      width: 100%;
-      text-align: left;
-      padding: 12px 12px;
-      margin-bottom: 10px;
-      border-radius: 14px;
-      border: 1px solid transparent;
-      background: transparent;
-      color: var(--muted);
-      font-weight: 950;
-      cursor: pointer;
+        .feature-card {
+            background: #f8f9fa;
+            padding: 22px;
+            border-radius: 14px;
+            border: 1px solid var(--border);
+            transition: 0.2s ease;
+        }
 
-      transition: transform 0.16s ease, background 0.16s ease, border-color 0.16s ease, color 0.16s ease, box-shadow 0.16s ease;
-      transform-origin: left center;
-      will-change: transform;
-    }
+        .feature-card:hover {
+            border-color: var(--blue);
+            box-shadow: var(--shadow);
+            transform: translateY(-2px);
+        }
 
-    /* Lively hover (bigger + subtle glow) */
-    .cmd-nav button:hover{
-      transform: translateY(-1px) scale(1.05);
-      background: var(--btn-ghost-bg);
-      color: var(--text);
-      box-shadow: 0 10px 22px rgba(0,0,0,0.08);
-    }
+        .feature-card h3 {
+            margin: 0 0 8px 0;
+            font-size: 1.1rem;
+            color: var(--text);
+        }
 
-    .cmd-nav button.active{
-      background: var(--btn-ghost-bg);
-      border-color: var(--btn-ghost-border);
-      color: var(--text);
-      transform: scale(1.03);
-    }
+        .feature-card p {
+            margin: 0;
+            color: var(--muted);
+            font-size: 0.95rem;
+        }
 
-    .cmd-panel{
-      background: var(--card2);
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      padding: 26px;
-      min-height: 420px;
-      box-shadow: var(--shadow-soft);
-    }
+        /* Command Explorer */
+        .commands-container {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 18px;
+            align-items: start;
+        }
 
-    .cmd-panel h3{
-      margin: 0;
-      letter-spacing: -0.5px;
-    }
-    .cmd-meta{
-      margin-top: 10px;
-      color: var(--muted);
-      font-weight: 650;
-      font-size: 14px;
-    }
+        .cmd-nav {
+            position: sticky;
+            top: 80px;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 14px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
 
-    .cmd-list{
-      list-style: none;
-      padding: 0;
-      margin: 16px 0 0 0;
-      display:flex;
-      flex-direction: column;
-      gap: 10px;
-    }
+        .cmd-nav-title {
+            font-weight: 900;
+            font-size: 12px;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin: 0 0 10px 0;
+            letter-spacing: 0.3px;
+        }
 
-    .cmd-item{
-      padding: 12px 12px;
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      font-weight: 750;
-      display:flex;
-      align-items:center;
-      justify-content: space-between;
-      gap: 12px;
-      transition: transform 0.16s ease, box-shadow 0.16s ease, background 0.16s ease;
-    }
+        .cmd-nav button {
+            width: 100%;
+            text-align: left;
+            padding: 12px 12px;
+            margin-bottom: 8px;
+            border-radius: 12px;
+            border: 1px solid transparent;
+            background: transparent;
+            color: var(--muted);
+            font-weight: 800;
+            cursor: pointer;
+            font-size: 14px;
+            transition: 0.15s ease;
+        }
 
-    .cmd-item:hover{
-      transform: translateY(-1px);
-      box-shadow: var(--shadow-soft);
-      background: rgba(255,255,255,0.02);
-    }
+        .cmd-nav button:hover {
+            background: #f8f9fa;
+            color: var(--text);
+            transform: translateY(-1px);
+        }
 
-    .cmd-code{
-      font-family: var(--mono);
-      font-weight: 900;
-      font-size: 13px;
-      padding: 5px 8px;
-      border-radius: 10px;
-      border: 1px solid var(--border);
-      background: rgba(0,0,0,0.06);
-      color: var(--text);
-      white-space: nowrap;
-    }
-    @media (prefers-color-scheme: dark){
-      .cmd-code{
-        background: rgba(255,255,255,0.07);
-      }
-    }
+        .cmd-nav button.active {
+            background: #f0f0f0;
+            border-color: var(--blue);
+            color: var(--blue);
+            font-weight: 900;
+        }
 
-    .cmd-desc{
-      color: var(--muted);
-      font-weight: 650;
-      font-size: 14px;
-      flex: 1;
-      text-align: right;
-    }
+        .cmd-panel {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 22px;
+            min-height: 420px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
 
-    pre{
-      background: #111;
-      color: #eee;
-      padding: 18px 18px;
-      border-radius: 16px;
-      overflow-x:auto;
-      font-family: var(--mono);
-      font-size: 14px;
-      border: 1px solid rgba(255,255,255,0.08);
-      box-shadow: var(--shadow-soft);
-    }
+        .cmd-panel h3 {
+            margin: 0 0 8px 0;
+            font-size: 1.3rem;
+            color: var(--text);
+        }
 
-    footer{
-      padding: 42px 0;
-      text-align:center;
-      color: var(--muted);
-      border-top: 1px solid var(--border);
-    }
-    footer a{ color: inherit; }
+        .cmd-meta {
+            color: var(--muted);
+            font-size: 0.9rem;
+            font-weight: 650;
+            margin: 0 0 16px 0;
+        }
 
-    @media (max-width: 980px){
-      .grid3{ grid-template-columns: 1fr; }
-      .commands{ grid-template-columns: 1fr; }
-      .cmd-nav{
-        position: relative;
-        top: auto;
-      }
-      .cmd-nav button{
-        text-align: center;
-      }
-      .cmd-item{
-        flex-direction: column;
-        align-items: flex-start;
-      }
-      .cmd-desc{
-        text-align: left;
-      }
-    }
+        .cmd-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
 
-    @media (prefers-reduced-motion: reduce){
-      *{ transition: none !important; scroll-behavior: auto !important; }
-      .cmd-nav button:hover,
-      .btn:hover{ transform: none !important; }
-    }
-  </style>
+        .cmd-item {
+            background: #f8f9fa;
+            padding: 14px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            transition: 0.2s ease;
+        }
+
+        .cmd-item:hover {
+            background: #f0f0f0;
+            border-color: var(--blue);
+            transform: translateY(-1px);
+        }
+
+        .cmd-code {
+            font-family: 'Courier New', monospace;
+            font-weight: 800;
+            font-size: 13px;
+            padding: 6px 10px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            background: #ffffff;
+            color: var(--blue);
+            white-space: nowrap;
+        }
+
+        .cmd-desc {
+            color: var(--muted);
+            font-weight: 650;
+            font-size: 0.9rem;
+            flex: 1;
+            text-align: right;
+        }
+
+        .btn-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 12px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 10px 16px;
+            border-radius: 12px;
+            font-weight: 900;
+            text-decoration: none;
+            font-size: 13px;
+            transition: 0.2s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background: var(--blue);
+            color: white;
+        }
+        .btn-primary:hover { transform: translateY(-1px); opacity: 0.9; }
+
+        .btn-ghost {
+            background: transparent;
+            color: var(--blue);
+            border: 2px solid #dbe7ff;
+        }
+        .btn-ghost:hover { background: #f2f7ff; transform: translateY(-1px); }
+
+        .badge {
+            display: inline-block;
+            background: #f0f0f0;
+            color: var(--text);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            border: 1px solid var(--border);
+        }
+
+        .badges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 16px 0;
+        }
+
+        code {
+            background: #f8f9fa;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+        }
+
+        pre {
+            background: #1a1a1a;
+            color: #e0e0e0;
+            padding: 18px;
+            border-radius: 14px;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            border: 1px solid var(--border);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .logo-footer {
+            text-align: center;
+            padding: 55px 0 18px 0;
+            font-size: 5rem;
+            font-weight: 950;
+            color: #e9ecef;
+            letter-spacing: -3px;
+        }
+
+        .site-footer {
+            background: #ffffff;
+            padding: 38px 20px;
+            border-top: 1px solid #e9ecef;
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 900px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 18px;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 18px;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .footer-link {
+            color: #666;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 14px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .footer-email {
+            background: #f1f3f5;
+            padding: 8px 14px;
+            border-radius: 10px;
+            color: #444;
+            font-size: 14px;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 650;
+        }
+
+        .muted { color: var(--muted); }
+
+        .cta-box {
+            background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 16px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 123, 255, 0.2);
+        }
+
+        .cta-box h2 {
+            margin: 0 0 8px 0;
+            color: white;
+        }
+
+        .cta-box p {
+            margin: 0 0 16px 0;
+            opacity: 0.95;
+        }
+
+        @media (max-width: 1024px) {
+            .grid { grid-template-columns: 1fr 1fr; }
+            .commands-container { grid-template-columns: 1fr; }
+            .cmd-nav { position: relative; top: auto; }
+        }
+
+        @media (max-width: 768px) {
+            .top-nav-bar { padding: 14px 18px; }
+            .social-icons { display: none; }
+            .grid { grid-template-columns: 1fr; }
+            .page-title { font-size: 2.2rem; }
+            .cmd-item { flex-direction: column; align-items: flex-start; }
+            .cmd-desc { text-align: left; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            * { transition: none !important; scroll-behavior: auto !important; }
+        }
+    </style>
 </head>
 
 <body>
-  <div class="topbar">
-    <div class="wrap">
-      <div class="topbar-inner">
-        <a class="brand" href="index.html">Eltrix</a>
-        <nav class="nav" aria-label="Page navigation">
-          <a href="#features">Features</a>
-          <a href="#commands">Commands</a>
-          <a href="#quickstart">Quick Start</a>
-          <a class="cta" href="https://github.com/Eltrix-Dot/Ticketer" target="_blank" rel="noopener">GitHub Repo →</a>
+    <header class="top-nav-bar">
+        <a href="index.html" class="site-title">ELTRIX ©</a>
+
+        <nav class="nav-right" aria-label="Primary">
+            <a href="index.html" class="nav-btn nav-back">← BACK</a>
+            <a href="https://github.com/Eltrix-Dot/Ticketer" class="nav-btn nav-github" target="_blank" rel="noopener noreferrer">GitHub →</a>
+
+            <div class="social-icons" aria-label="Social links">
+                <a class="social-icon" href="https://discord.gg/xkygDEcZxm" target="_blank" rel="noopener noreferrer" aria-label="Discord">
+                    <svg viewBox="0 0 245 240" aria-hidden="true">
+                        <path d="M104.4 104.6c-5.7 0-10.2 5-10.2 11.1s4.6 11.1 10.2 11.1c5.7 0 10.3-5 10.2-11.1 0-6.1-4.6-11.1-10.2-11.1zm36.2 0c-5.7 0-10.2 5-10.2 11.1s4.6 11.1 10.2 11.1c5.7 0 10.3-5 10.2-11.1 0-6.1-4.6-11.1-10.2-11.1z"/>
+                        <path d="M189.5 20h-134C24.9 20 20 24.9 20 31.1v140.4c0 6.2 4.9 11.1 11.1 11.1h113.6l-5.3-18.4 12.8 11.9 12.1 11.2 21.5 19V31.1c0-6.2-4.9-11.1-11.1-11.1z"/>
+                    </svg>
+                </a>
+
+                <a class="social-icon" href="https://github.com/Eltrix-Dot" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+                    <svg viewBox="0 0 16 16" aria-hidden="true">
+                        <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.63 1.23.9.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"/>
+                    </svg>
+                </a>
+            </div>
+
+            <button class="menu-toggle" id="menuToggle" aria-label="Menu" aria-expanded="false" aria-controls="dropdownMenu">
+                <span></span><span></span><span></span>
+            </button>
+
+            <div class="mobile-menu" id="dropdownMenu" role="menu" aria-label="Quick links">
+                <a href="#features" class="menu-item" role="menuitem">✨ Features</a>
+                <a href="#commands" class="menu-item" role="menuitem">⚙️ Commands</a>
+                <a href="#quickstart" class="menu-item" role="menuitem">🚀 Quick Start</a>
+                <div class="menu-divider"></div>
+                <a href="https://discord.gg/xkygDEcZxm" target="_blank" rel="noopener noreferrer" class="menu-item" role="menuitem">💬 Support Server</a>
+                <a href="https://github.com/Eltrix-Dot/Ticketer" target="_blank" rel="noopener noreferrer" class="menu-item" role="menuitem">🔗 GitHub Repo</a>
+            </div>
         </nav>
-      </div>
-    </div>
-  </div>
-
-  <div class="wrap">
-    <header class="hero">
-      <div class="kicker">Open-source • Self-hosted • No paywalls</div>
-      <h1 class="title">Clean support tickets,<br/>done right.</h1>
-      <p class="subtitle">
-        <strong>Ticketer</strong> is a minimal, production-ready Discord ticket bot focused on
-        privacy, control, and speed — built for server owners that want everything self-hosted.
-      </p>
-
-      <div class="badges" aria-label="Project stats">
-        <span class="badge">Python 3.11+</span>
-        <span class="badge">Async SQLite Database</span>
-        <span class="badge">Transcripts (HTML)</span>
-        <span class="badge">Slash Commands</span>
-        <span class="badge">AGPL-3.0</span>
-        <span class="badge">Self-hosted</span>
-      </div>
-
-      <div class="hero-actions">
-        <a class="btn primary" href="https://github.com/Eltrix-Dot/Ticketer" target="_blank" rel="noopener">View on GitHub</a>
-        <a class="btn" href="#commands">Explore Commands</a>
-        <a class="btn" href="#quickstart">Quick Start</a>
-      </div>
     </header>
 
-    <section id="features">
-      <h2 class="section-title">Core Features</h2>
-      <p class="section-sub">Minimal UI. Strong workflow. Everything you actually need.</p>
+    <main class="main-content">
+        <h1 class="page-title">Ticketer</h1>
+        <p class="page-subtitle">A minimal, production-ready Discord ticket bot focused on privacy, control, and speed — built for server owners that want everything self-hosted.</p>
 
-      <div class="grid3">
-        <div class="card">
-          <h3>No paywalls</h3>
-          <p>Every feature is available. No “premium” tiers for basic support tooling.</p>
+        <div class="badges">
+            <span class="badge">Python 3.11+</span>
+            <span class="badge">SQLite Database</span>
+            <span class="badge">HTML Transcripts</span>
+            <span class="badge">Slash Commands</span>
+            <span class="badge">AGPL-3.0</span>
+            <span class="badge">Self-hosted</span>
         </div>
 
-        <div class="card">
-          <h3>Async SQLite backend</h3>
-          <p>Fast, durable storage with async-safe operations — optimized for Discord bot runtime.</p>
+        <div class="btn-row">
+            <a class="btn btn-primary" href="https://github.com/Eltrix-Dot/Ticketer" target="_blank" rel="noopener">View on GitHub →</a>
+            <a class="btn btn-ghost" href="#commands">Explore Commands</a>
+            <a class="btn btn-ghost" href="#quickstart">Quick Start</a>
         </div>
 
-        <div class="card">
-          <h3>Transcripts & logging</h3>
-          <p>Generate HTML transcripts and route logs/transcripts to configured channels.</p>
-        </div>
-      </div>
-    </section>
+        <!-- Features Section -->
+        <section class="section" id="features">
+            <h2>✨ Core Features</h2>
+            <p class="section-subtitle">Minimal UI. Strong workflow. Everything you actually need.</p>
 
-    <!-- Commands ABOVE Quick Start (as requested) -->
-    <section id="commands">
-      <h2 class="section-title">Command Explorer</h2>
-      <p class="section-sub">Hover, click, and browse what Ticketer can do.</p>
+            <div class="grid">
+                <div class="feature-card">
+                    <h3>No Paywalls</h3>
+                    <p>Every feature is available. No "premium" tiers for basic support tooling.</p>
+                </div>
 
-      <div class="commands">
-        <div class="cmd-nav" aria-label="Command categories">
-          <div class="cmd-nav-title">Categories</div>
-          <button class="active" data-panel="general" type="button">General</button>
-          <button data-panel="setup_admin" type="button">Setup / Admin</button>
-          <button data-panel="tickets_staff" type="button">Tickets / Staff</button>
-          <button data-panel="safety" type="button">Safety / Moderation</button>
-          <button data-panel="workflow" type="button">Workflow</button>
-        </div>
+                <div class="feature-card">
+                    <h3>Async SQLite Backend</h3>
+                    <p>Fast, durable storage with async-safe operations optimized for Discord bots.</p>
+                </div>
 
-        <div class="cmd-panel" id="panel" role="region" aria-live="polite"></div>
-      </div>
-    </section>
+                <div class="feature-card">
+                    <h3>Transcripts & Logging</h3>
+                    <p>Generate HTML transcripts and route logs to configured channels automatically.</p>
+                </div>
+            </div>
+        </section>
 
-    <section id="quickstart">
-      <h2 class="section-title">Quick Start</h2>
-      <p class="section-sub">Get it running fast (venv + env file recommended).</p>
+        <!-- Commands Section -->
+        <section class="section" id="commands">
+            <h2>⚙️ Command Explorer</h2>
+            <p class="section-subtitle">Hover, click, and browse what Ticketer can do.</p>
 
-      <pre><code># 1) Clone
+            <div class="commands-container">
+                <div class="cmd-nav" aria-label="Command categories">
+                    <div class="cmd-nav-title">Categories</div>
+                    <button class="active" data-panel="general" type="button">General</button>
+                    <button data-panel="setup_admin" type="button">Setup / Admin</button>
+                    <button data-panel="tickets_staff" type="button">Tickets / Staff</button>
+                    <button data-panel="safety" type="button">Safety / Mod</button>
+                    <button data-panel="workflow" type="button">Workflow</button>
+                </div>
+
+                <div class="cmd-panel" id="panel" role="region" aria-live="polite"></div>
+            </div>
+        </section>
+
+        <!-- Quick Start Section -->
+        <section class="section" id="quickstart">
+            <h2>🚀 Quick Start</h2>
+            <p class="section-subtitle">Get it running fast. Virtual environment + env file recommended.</p>
+
+            <pre><code># 1) Clone
 git clone https://github.com/Eltrix-Dot/Ticketer.git
 cd Ticketer
 
-# 2) (Recommended) Create venv
+# 2) Create virtual environment (recommended)
 python -m venv .venv
 
 # 3) Activate venv
 # Windows PowerShell:
 .\.venv\Scripts\Activate.ps1
 # macOS/Linux:
-# source .venv/bin/activate
+source .venv/bin/activate
 
 # 4) Install dependencies
 pip install -r requirements.txt
 
-# 5) Configure env
-copy .env.example .env   # Windows
-# cp .env.example .env   # macOS/Linux
+# 5) Configure environment
+copy .env.example .env      # Windows
+# cp .env.example .env      # macOS/Linux
 
-# 6) Run
+# 6) Run the bot
 python src/run.py
 
-# 7) In Discord run:
+# 7) In Discord, run:
 # /setup</code></pre>
-    </section>
+        </section>
 
-    <section id="support">
-      <div class="card" style="text-align:center;">
-        <h2 style="margin:0 0 8px 0;">Need help?</h2>
-        <p style="margin:0; color:var(--muted); font-weight:650;">
-          Join the official support server for setup help, bug reports, and updates.
-        </p>
-        <div class="hero-actions" style="margin-top:18px;">
-          <a class="btn primary" href="https://discord.gg/xkygDEcZxm" target="_blank" rel="noopener">Join Support Server</a>
-          <a class="btn" href="index.html">Back to Home</a>
+        <!-- Support Section -->
+        <section class="section cta-box">
+            <h2>Need Help?</h2>
+            <p>Join the official support server for setup help, bug reports, and updates.</p>
+            <div class="btn-row" style="justify-content: center;">
+                <a class="btn btn-primary" href="https://discord.gg/xkygDEcZxm" target="_blank" rel="noopener" style="background: white; color: var(--blue); border: 2px solid white;">Join Support Server →</a>
+                <a class="btn btn-ghost" href="index.html" style="border-color: rgba(255,255,255,0.5); color: white;">Back to Home</a>
+            </div>
+        </section>
+    </main>
+
+    <div class="logo-footer">TICKETER</div>
+
+    <footer class="site-footer">
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="index.html" class="footer-link">Home</a>
+                <a href="https://discord.gg/xkygDEcZxm" class="footer-link" target="_blank" rel="noopener noreferrer">
+                    💬 Discord
+                </a>
+                <a href="https://github.com/Eltrix-Dot/Ticketer" class="footer-link" target="_blank" rel="noopener noreferrer">
+                    <svg height="16" viewBox="0 0 16 16" width="16" style="fill: currentColor;" aria-hidden="true">
+                        <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.63 1.23.9.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"/>
+                    </svg>
+                    GitHub
+                </a>
+            </div>
+
+            <a href="mailto:Eltrix.public@protonmail.com" class="footer-email">
+                ✉️ Contact: Eltrix.public@protonmail.com
+            </a>
+
+            <div class="muted" style="font-weight:700;">
+                © 2026 Eltrix Group. Licensed under AGPL-3.0. Built for a safer internet.
+            </div>
         </div>
-      </div>
-    </section>
-
-    <footer>
-      © 2026 Eltrix Group • Licensed under AGPL-3.0 • <a href="index.html">Home</a>
     </footer>
-  </div>
 
-  <script>
-    const PANELS = {
-      general: {
-        title: "General",
-        meta: "Basic info + diagnostics.",
-        items: [
-          { cmd: "/ping", desc: "Shows bot latency." },
-          { cmd: "/about", desc: "Shows metadata about the bot." },
-          { cmd: "/uptime", desc: "Shows bot uptime." },
-          { cmd: "/serverinfo", desc: "Shows server statistics." },
-          { cmd: "/userinfo", desc: "Info about a member (or yourself)." },
-          { cmd: "/commands", desc: "Quick command summary in Discord." }
-        ]
-      },
-      setup_admin: {
-        title: "Setup / Admin",
-        meta: "First-time setup + configuration + diagnostics.",
-        items: [
-          { cmd: "/setup", desc: "Interactive setup wizard (first-time configuration)." },
-          { cmd: "/setup_reset", desc: "Reset guild config so setup can be run again." },
-          { cmd: "/admin check", desc: "Pre-flight checks (permissions/channels)." },
-          { cmd: "/config transcript <channel>", desc: "Set transcript destination channel." },
-          { cmd: "/config logs <channel>", desc: "Set log channel for ticket events." },
-          { cmd: "/department_set <label> <category> <role>", desc: "Create/update department routes used by /move." },
-          { cmd: "/department_remove <label>", desc: "Remove a department route." },
-          { cmd: "/department_list", desc: "List configured department routes." }
-        ]
-      },
-      tickets_staff: {
-        title: "Tickets / Staff",
-        meta: "Ticket operations for staff.",
-        items: [
-          { cmd: "/ticketsetup", desc: "Post the ticket panel in a channel." },
-          { cmd: "/ticketdelete", desc: "Delete a closed ticket channel." },
-          { cmd: "/memberadd <member>", desc: "Add a user to the ticket channel." },
-          { cmd: "/memberremove <member>", desc: "Remove a user from the ticket channel." },
-          { cmd: "/ticketrename <new_name>", desc: "Rename an open ticket channel." },
-          { cmd: "/my_tickets", desc: "View your open & recent tickets." },
-          { cmd: "/ticket_search <query>", desc: "Search tickets by name/topic." },
-          { cmd: "/ticket_stats", desc: "View ticket metrics (staff-only)." }
-        ]
-      },
-      safety: {
-        title: "Safety / Moderation",
-        meta: "Control spam and protect staff workflows.",
-        items: [
-          { cmd: "/blacklist <user>", desc: "Block a user from opening tickets." },
-          { cmd: "/unblacklist <user>", desc: "Remove a user from blacklist." },
-          { cmd: "/blacklist_list", desc: "List currently blacklisted users." }
-        ]
-      },
-      workflow: {
-        title: "Workflow",
-        meta: "Utilities used while handling tickets.",
-        items: [
-          { cmd: "/transcript", desc: "Generate transcript for current ticket channel." },
-          { cmd: "/move", desc: "Move ticket to a department route + sync perms." },
-          { cmd: "/anonymous <message>", desc: "Send a staff reply anonymously via bot identity." }
-        ]
-      }
-    };
+    <script>
+        const menuToggle = document.getElementById("menuToggle");
+        const dropdownMenu = document.getElementById("dropdownMenu");
 
-    const panelEl = document.getElementById("panel");
-    const navButtons = document.querySelectorAll(".cmd-nav button");
+        function openMenu(){
+            dropdownMenu.classList.add("active");
+            menuToggle.setAttribute("aria-expanded", "true");
+        }
 
-    function escapeHtml(str){
-      return String(str)
-        .replaceAll("&","&amp;")
-        .replaceAll("<","&lt;")
-        .replaceAll(">","&gt;")
-        .replaceAll('"',"&quot;")
-        .replaceAll("'","&#039;");
-    }
+        function closeMenu(){
+            dropdownMenu.classList.remove("active");
+            menuToggle.setAttribute("aria-expanded", "false");
+        }
 
-    function renderPanel(key) {
-      const data = PANELS[key];
-      panelEl.innerHTML = `
-        <h3>${escapeHtml(data.title)}</h3>
-        <div class="cmd-meta">${escapeHtml(data.meta)}</div>
+        function isMenuOpen(){
+            return dropdownMenu.classList.contains("active");
+        }
 
-        <ul class="cmd-list">
-          ${data.items.map(item => `
-            <li class="cmd-item">
-              <span class="cmd-code">${escapeHtml(item.cmd)}</span>
-              <span class="cmd-desc">${escapeHtml(item.desc)}</span>
-            </li>
-          `).join("")}
-        </ul>
-      `;
-    }
+        menuToggle.addEventListener("click", (e) => {
+            e.stopPropagation();
+            isMenuOpen() ? closeMenu() : openMenu();
+        });
 
-    navButtons.forEach(btn => {
-      btn.addEventListener("click", () => {
-        navButtons.forEach(b => b.classList.remove("active"));
-        btn.classList.add("active");
-        renderPanel(btn.dataset.panel);
-      });
-    });
+        window.addEventListener("click", (e) => {
+            if (!dropdownMenu.contains(e.target) && !menuToggle.contains(e.target)) {
+                closeMenu();
+            }
+        });
 
-    renderPanel("general");
-  </script>
+        window.addEventListener("keydown", (e) => {
+            if (e.key === "Escape") closeMenu();
+        });
+
+        /* Command Panel Data & Rendering */
+        const PANELS = {
+            general: {
+                title: "General",
+                meta: "Basic info & diagnostics.",
+                items: [
+                    { cmd: "/ping", desc: "Shows bot latency." },
+                    { cmd: "/about", desc: "Shows metadata about the bot." },
+                    { cmd: "/uptime", desc: "Shows bot uptime." },
+                    { cmd: "/serverinfo", desc: "Shows server statistics." },
+                    { cmd: "/userinfo", desc: "Info about a member (or yourself)." },
+                    { cmd: "/commands", desc: "Quick command summary in Discord." }
+                ]
+            },
+            setup_admin: {
+                title: "Setup / Admin",
+                meta: "First-time setup, configuration, and diagnostics.",
+                items: [
+                    { cmd: "/setup", desc: "Interactive setup wizard (first-time configuration)." },
+                    { cmd: "/setup_reset", desc: "Reset guild config so setup can be run again." },
+                    { cmd: "/admin check", desc: "Pre-flight checks (permissions/channels)." },
+                    { cmd: "/config transcript <channel>", desc: "Set transcript destination channel." },
+                    { cmd: "/config logs <channel>", desc: "Set log channel for ticket events." },
+                    { cmd: "/department_set <label> <category> <role>", desc: "Create/update department routes." },
+                    { cmd: "/department_remove <label>", desc: "Remove a department route." },
+                    { cmd: "/department_list", desc: "List configured department routes." }
+                ]
+            },
+            tickets_staff: {
+                title: "Tickets / Staff",
+                meta: "Ticket operations for support staff.",
+                items: [
+                    { cmd: "/ticketsetup", desc: "Post the ticket panel in a channel." },
+                    { cmd: "/ticketdelete", desc: "Delete a closed ticket channel." },
+                    { cmd: "/memberadd <member>", desc: "Add a user to the ticket channel." },
+                    { cmd: "/memberremove <member>", desc: "Remove a user from the ticket channel." },
+                    { cmd: "/ticketrename <new_name>", desc: "Rename an open ticket channel." },
+                    { cmd: "/my_tickets", desc: "View your open & recent tickets." },
+                    { cmd: "/ticket_search <query>", desc: "Search tickets by name/topic." },
+                    { cmd: "/ticket_stats", desc: "View ticket metrics (staff-only)." }
+                ]
+            },
+            safety: {
+                title: "Safety / Moderation",
+                meta: "Control spam and protect staff workflows.",
+                items: [
+                    { cmd: "/blacklist <user>", desc: "Block a user from opening tickets." },
+                    { cmd: "/unblacklist <user>", desc: "Remove a user from blacklist." },
+                    { cmd: "/blacklist_list", desc: "List currently blacklisted users." }
+                ]
+            },
+            workflow: {
+                title: "Workflow",
+                meta: "Utilities used while handling tickets.",
+                items: [
+                    { cmd: "/transcript", desc: "Generate transcript for current ticket channel." },
+                    { cmd: "/move", desc: "Move ticket to a department route & sync perms." },
+                    { cmd: "/anonymous <message>", desc: "Send a staff reply anonymously via bot identity." }
+                ]
+            }
+        };
+
+        const panelEl = document.getElementById("panel");
+        const navButtons = document.querySelectorAll(".cmd-nav button");
+
+        function escapeHtml(str){
+            return String(str)
+                .replaceAll("&","&amp;")
+                .replaceAll("<","&lt;")
+                .replaceAll(">","&gt;")
+                .replaceAll('"',"&quot;")
+                .replaceAll("'","&#039;");
+        }
+
+        function renderPanel(key) {
+            const data = PANELS[key];
+            panelEl.innerHTML = `
+                <h3>${escapeHtml(data.title)}</h3>
+                <div class="cmd-meta">${escapeHtml(data.meta)}</div>
+
+                <ul class="cmd-list">
+                    ${data.items.map(item => `
+                        <li class="cmd-item">
+                            <span class="cmd-code">${escapeHtml(item.cmd)}</span>
+                            <span class="cmd-desc">${escapeHtml(item.desc)}</span>
+                        </li>
+                    `).join("")}
+                </ul>
+            `;
+        }
+
+        navButtons.forEach(btn => {
+            btn.addEventListener("click", () => {
+                navButtons.forEach(b => b.classList.remove("active"));
+                btn.classList.add("active");
+                renderPanel(btn.dataset.panel);
+            });
+        });
+
+        renderPanel("general");
+    </script>
 </body>
 </html>
