@@ -7,8 +7,8 @@
 <style>
     body {
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
-        background-color: #f8f9fa;
-        color: #1a1a1a;
+        background-color: #F8FAFC;
+        color: #0F172A;
         margin: 0;
         line-height: 1.6;
     }
@@ -27,7 +27,7 @@
     }
 
     .site-title {
-        color: #1a1a1a;
+        color: #0F172A;
         font-size: 24px;
         font-weight: 800;
         text-decoration: none;
@@ -35,7 +35,7 @@
 
     .back-btn {
         text-decoration: none;
-        color: #007bff;
+        color: #0095FF;
         font-weight: 700;
     }
 
@@ -56,7 +56,7 @@
     .last-updated { color: #666; font-size: 0.9rem; margin-top: 10px; }
 
     section { margin-bottom: 40px; }
-    h2 { font-size: 1.4rem; font-weight: 800; color: #007bff; margin-bottom: 15px; }
+    h2 { font-size: 1.4rem; font-weight: 800; color: #0095FF; margin-bottom: 15px; }
     p { color: #444; margin-bottom: 15px; }
 
     .highlight-box {
@@ -73,6 +73,107 @@
         color: #ced4da;
         font-weight: 800;
         font-size: 2rem;
+    }
+</style>
+<style>
+
+    /* Eltrix unified Sky Blue theme */
+    :root {
+        --sky-blue: #0095FF;
+        --mid-blue: #56B8FF;
+        --cloud-white: #F8FAFC;
+        --pure-white: #FFFFFF;
+        --dark-slate: #0F172A;
+        --soft-border: rgba(15, 23, 42, 0.06);
+        --soft-shadow: 0 10px 30px -5px rgba(15, 23, 42, 0.05);
+    }
+
+    html { background: var(--cloud-white) !important; }
+
+    body {
+        background: linear-gradient(180deg, var(--sky-blue) 0%, var(--mid-blue) 34%, var(--cloud-white) 100%) top center / 100% 560px no-repeat, var(--cloud-white) !important;
+        color: var(--dark-slate) !important;
+    }
+
+    h1, h2, h3, h4, h5, h6, p, li, label, .muted, .card-desc, .section-subtitle {
+        color: var(--dark-slate);
+    }
+
+    .hero-section, .hero {
+        color: var(--pure-white);
+    }
+
+    .hero-section h1, .hero-section h2, .hero-section p,
+    .hero h1, .hero h2, .hero p,
+    .main-content > .big-title, .main-content > .page-title,
+    .header h1, .header-box h1 {
+        color: var(--pure-white) !important;
+    }
+
+    .top-nav-bar, .navbar {
+        background: transparent !important;
+        color: var(--pure-white) !important;
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        transition: background 0.25s ease, color 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+    }
+
+    .top-nav-bar a, .top-nav-bar button, .top-nav-bar .site-title,
+    .navbar a, .navbar button, .navbar .brand,
+    .top-nav-bar .social-icon, .navbar .nav-links a {
+        color: var(--pure-white) !important;
+    }
+
+    .top-nav-bar.is-scrolled, .navbar.is-scrolled {
+        background: rgba(248, 250, 252, 0.85) !important;
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border-bottom: 1px solid rgba(15, 23, 42, 0.08);
+        box-shadow: 0 4px 18px rgba(15, 23, 42, 0.04);
+    }
+
+    .top-nav-bar.is-scrolled a, .top-nav-bar.is-scrolled button,
+    .top-nav-bar.is-scrolled .site-title, .top-nav-bar.is-scrolled .social-icon,
+    .navbar.is-scrolled a, .navbar.is-scrolled button,
+    .navbar.is-scrolled .brand, .navbar.is-scrolled .nav-links a {
+        color: var(--dark-slate) !important;
+    }
+
+    .section, .card, .feature-card, .tool-card, .risk-card, .app-card,
+    .info-section, .ecopulse-card, .breach-card, .vault-card {
+        background: var(--pure-white) !important;
+        border: 1px solid var(--soft-border) !important;
+        border-radius: 16px;
+        box-shadow: var(--soft-shadow) !important;
+        transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+    }
+
+    .section:hover, .card:hover, .feature-card:hover, .tool-card:hover,
+    .risk-card:hover, .app-card:hover, .info-section:hover,
+    .ecopulse-card:hover, .breach-card:hover, .vault-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 14px 34px -8px rgba(15, 23, 42, 0.10) !important;
+    }
+
+    .btn-primary, .btn-check, .btn-panic, .btn-alert {
+        background: var(--sky-blue) !important;
+        border-color: var(--sky-blue) !important;
+        color: var(--pure-white) !important;
+    }
+
+    .site-footer, footer {
+        background: var(--cloud-white) !important;
+        color: var(--dark-slate) !important;
+        border-color: var(--soft-border) !important;
+    }
+
+    .site-footer *, footer * { color: var(--dark-slate); }
+
+    @media (prefers-reduced-motion: reduce) {
+        .section, .card, .feature-card, .tool-card, .risk-card, .app-card,
+        .info-section, .ecopulse-card, .breach-card, .vault-card,
+        .top-nav-bar, .navbar { transition: none !important; }
     }
 </style>
 </head>
@@ -119,5 +220,17 @@
 
 <footer>ELTRIX</footer>
 
+
+<script>
+    (() => {
+        const navigation = document.querySelectorAll('.top-nav-bar, .navbar');
+        if (!navigation.length) return;
+        const updateNavigation = () => {
+            navigation.forEach((element) => element.classList.toggle('is-scrolled', window.scrollY > 8));
+        };
+        window.addEventListener('scroll', updateNavigation, { passive: true });
+        updateNavigation();
+    })();
+</script>
 </body>
 </html>
