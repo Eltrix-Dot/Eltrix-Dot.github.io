@@ -110,9 +110,9 @@
 <style>
     /* Eltrix unified Sky Blue theme */
     :root {
-        --sky-blue: #0095FF;
-        --mid-blue: #56B8FF;
-        --cloud-white: #F8FAFC;
+        --sky-blue: #0E94FF;
+        --mid-blue: #4BB0FF;
+        --cloud-white: #FDFDFE;
         --pure-white: #FFFFFF;
         --dark-slate: #0F172A;
         --soft-border: rgba(15, 23, 42, 0.06);
@@ -121,78 +121,82 @@
 
     html,
     body {
-        background-color: var(--cloud-white) !important;
-        background-image: none !important;
-        color: var(--dark-slate) !important;
+        background-color: #FDFDFE !important;
+        background-image: linear-gradient(180deg, #0E94FF 0%, #4BB0FF 45%, #FDFDFE 100%) !important;
+        background-repeat: no-repeat !important;
+        background-size: 100% 520px !important;
+        color: #0F172A !important;
     }
 
     .hero-section,
     .hero {
-        background: linear-gradient(180deg, #0095FF 0%, #56B8FF 55%, #F8FAFC 100%) !important;
+        background: linear-gradient(180deg, #0E94FF 0%, #4BB0FF 45%, #FDFDFE 100%) !important;
         background-repeat: no-repeat !important;
-        color: var(--pure-white);
+        color: #FFFFFF;
     }
 
     h1, h2, h3, h4, h5, h6, p, li, label, .muted, .card-desc, .section-subtitle {
-        color: var(--dark-slate);
+        color: #0F172A;
     }
 
     .hero-section h1, .hero-section h2, .hero-section p,
     .hero h1, .hero h2, .hero p,
-    .main-content > .big-title, .main-content > .page-title,
-    .header h1, .header-box h1 {
-        color: var(--pure-white) !important;
+    .main-content > .big-title, .main-content > .page-title {
+        color: #FFFFFF !important;
     }
 
     .top-nav-bar,
     .navbar {
-        background: rgba(255, 255, 255, 0.85) !important;
-        backdrop-filter: blur(12px);
-        -webkit-backdrop-filter: blur(12px);
-        border-bottom: 1px solid rgba(15, 23, 42, 0.06) !important;
-        box-shadow: 0 4px 18px rgba(15, 23, 42, 0.04) !important;
-        color: var(--dark-slate) !important;
+        background: transparent !important;
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
+        border-bottom: 1px solid transparent !important;
+        box-shadow: none !important;
+        color: #0F172A !important;
         position: sticky;
         top: 0;
         z-index: 1000;
-        transition: background 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+        transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease;
     }
 
     .top-nav-bar a, .top-nav-bar button, .top-nav-bar .site-title,
     .navbar a, .navbar button, .navbar .brand,
     .top-nav-bar .social-icon, .navbar .nav-links a,
     .nav-btn, .nav-links a {
-        color: var(--dark-slate) !important;
+        color: #0F172A !important;
+        text-shadow: none !important;
     }
 
     .top-nav-bar.is-scrolled,
     .navbar.is-scrolled {
-        background: rgba(255, 255, 255, 0.85) !important;
-        backdrop-filter: blur(12px);
-        -webkit-backdrop-filter: blur(12px);
-        border-bottom-color: rgba(15, 23, 42, 0.06) !important;
+        background: transparent !important;
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
+        border-bottom-color: transparent !important;
+        box-shadow: none !important;
     }
 
     .top-nav-bar .social-icon,
     .top-nav-bar .menu-toggle,
     .navbar .social-icon,
     .navbar .menu-toggle {
-        background: rgba(15, 23, 42, 0.06) !important;
-        color: var(--dark-slate) !important;
+        background: rgba(255, 255, 255, 0.72) !important;
+        color: #0F172A !important;
+        border: 1px solid rgba(15, 23, 42, 0.10) !important;
     }
 
     .top-nav-bar .menu-toggle span,
     .navbar .menu-toggle span {
-        background-color: var(--dark-slate) !important;
+        background-color: #0F172A !important;
     }
 
     .mobile-menu,
     .dropdown-menu,
     .nav-menu,
     .menu-panel {
-        background: var(--pure-white) !important;
-        color: var(--dark-slate) !important;
-        border: 1px solid var(--soft-border) !important;
+        background: #FFFFFF !important;
+        color: #0F172A !important;
+        border: 1px solid rgba(15, 23, 42, 0.08) !important;
         box-shadow: 0 12px 30px rgba(15, 23, 42, 0.12) !important;
     }
 
@@ -221,11 +225,11 @@
 
     .section, .card, .feature-card, .tool-card, .risk-card, .app-card,
     .info-section, .ecopulse-card, .breach-card, .vault-card {
-        background: var(--pure-white) !important;
-        border: 1px solid var(--soft-border) !important;
+        background: #FFFFFF !important;
+        border: 1px solid rgba(15, 23, 42, 0.06) !important;
         border-radius: 16px;
-        box-shadow: var(--soft-shadow) !important;
-        transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+        box-shadow: 0 10px 30px -5px rgba(15, 23, 42, 0.05) !important;
+        transition: transform 0.25s ease, box-shadow 0.25s ease;
     }
 
     .section:hover, .card:hover, .feature-card:hover, .tool-card:hover,
@@ -236,24 +240,18 @@
     }
 
     .btn-primary, .btn-check, .btn-panic, .btn-alert {
-        background: var(--sky-blue) !important;
-        border-color: var(--sky-blue) !important;
-        color: var(--pure-white) !important;
+        background: #0E94FF !important;
+        border-color: #0E94FF !important;
+        color: #FFFFFF !important;
     }
 
     .site-footer, footer {
-        background: var(--cloud-white) !important;
-        color: var(--dark-slate) !important;
-        border-color: var(--soft-border) !important;
+        background: #FDFDFE !important;
+        color: #0F172A !important;
+        border-color: rgba(15, 23, 42, 0.06) !important;
     }
 
-    .site-footer *, footer * { color: var(--dark-slate); }
-
-    @media (prefers-reduced-motion: reduce) {
-        .section, .card, .feature-card, .tool-card, .risk-card, .app-card,
-        .info-section, .ecopulse-card, .breach-card, .vault-card,
-        .top-nav-bar, .navbar { transition: none !important; }
-    }
+    .site-footer *, footer * { color: #0F172A; }
 </style>
 </head>
 <body>
