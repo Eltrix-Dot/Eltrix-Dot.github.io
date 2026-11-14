@@ -68,17 +68,16 @@
             color: var(--text);
             margin: 0;
             line-height: 1.6;
-            position: relative;
         }
 
-        body::before {
-            content: "";
-            position: absolute;
-            inset: 0 0 auto;
-            height: 430px;
+        .hero-section {
             background: linear-gradient(180deg, #0095FF 0%, #56B8FF 55%, #F8FAFC 100%);
-            pointer-events: none;
-            z-index: 0;
+        }
+
+        .hero-copy {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 70px 20px 30px;
         }
 
         /* Top Navigation */
@@ -96,10 +95,10 @@
         }
 
         .top-nav-bar.is-scrolled {
-            background: rgba(255, 255, 255, 0.75);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border-bottom: 1px solid rgba(15, 23, 42, 0.06);
+            background: rgba(248, 250, 252, 0.85);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(15, 23, 42, 0.08);
             box-shadow: 0 4px 18px rgba(15, 23, 42, 0.04);
         }
 
@@ -256,11 +255,9 @@
         }
 
         .main-content {
-            padding: 70px 20px;
+            padding: 0 20px 70px;
             max-width: 900px;
             margin: 0 auto;
-            position: relative;
-            z-index: 1;
         }
 
         .big-title {
@@ -280,14 +277,12 @@
         }
 
         .section {
-            background: rgba(255, 255, 255, 0.92);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
+            background: #FFFFFF;
             padding: 26px;
             border-radius: 16px;
             margin-bottom: 18px;
-            border: 1px solid rgba(15, 23, 42, 0.08) !important;
-            box-shadow: 0 12px 32px -8px rgba(15, 23, 42, 0.08);
+            border: 1px solid rgba(15, 23, 42, 0.06) !important;
+            box-shadow: 0 10px 30px -5px rgba(15, 23, 42, 0.05);
             transition: all 0.25s ease;
         }
 
@@ -441,6 +436,7 @@
         <p>Official homepage of Eltrix-Dot. Discover open-source Discord utilities like Ticketer, Eltrix bot, and pixel-style games like Swimpely. Built for privacy and transparency.</p>
     </header>
 
+    <div class="hero-section">
     <header class="top-nav-bar">
         <a href="index.html" class="site-title">ELTRIX ©</a>
 
@@ -483,12 +479,16 @@
         </nav>
     </header>
 
-    <main class="main-content">
+        <div class="hero-copy">
         <h1 class="big-title">ELTRIX-DOT: DISCORD BOTS & AUTOMATION</h1>
         <div class="subtitle">
             Projects focused on Discord utilities, community tooling, and automation — built with privacy and transparency at the core.
         </div>
 
+        </div>
+    </div>
+
+    <main class="main-content">
         <div class="grid">
             <section class="section" style="border: 2px solid var(--discord);">
                 <div class="pill" style="color: var(--discord);">Featured Discord Bot</div>
