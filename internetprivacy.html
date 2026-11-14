@@ -496,8 +496,8 @@
             * { transition: none !important; scroll-behavior: auto !important; }
         }
     </style>
-<style>
 
+<style>
     /* Eltrix unified Sky Blue theme */
     :root {
         --sky-blue: #0095FF;
@@ -509,19 +509,22 @@
         --soft-shadow: 0 10px 30px -5px rgba(15, 23, 42, 0.05);
     }
 
-    html { background: var(--cloud-white) !important; }
-
+    html,
     body {
-        background: linear-gradient(180deg, var(--sky-blue) 0%, var(--mid-blue) 55%, var(--cloud-white) 100%) top center / 100% 560px no-repeat, var(--cloud-white) !important;
+        background-color: var(--cloud-white) !important;
+        background-image: none !important;
         color: var(--dark-slate) !important;
+    }
+
+    .hero-section,
+    .hero {
+        background: linear-gradient(180deg, #0095FF 0%, #56B8FF 55%, #F8FAFC 100%) !important;
+        background-repeat: no-repeat !important;
+        color: var(--pure-white);
     }
 
     h1, h2, h3, h4, h5, h6, p, li, label, .muted, .card-desc, .section-subtitle {
         color: var(--dark-slate);
-    }
-
-    .hero-section, .hero {
-        color: var(--pure-white);
     }
 
     .hero-section h1, .hero-section h2, .hero-section p,
@@ -531,34 +534,79 @@
         color: var(--pure-white) !important;
     }
 
-    .top-nav-bar, .navbar {
-        background: transparent !important;
-        color: var(--pure-white) !important;
+    .top-nav-bar,
+    .navbar {
+        background: rgba(255, 255, 255, 0.85) !important;
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border-bottom: 1px solid rgba(15, 23, 42, 0.06) !important;
+        box-shadow: 0 4px 18px rgba(15, 23, 42, 0.04) !important;
+        color: var(--dark-slate) !important;
         position: sticky;
         top: 0;
         z-index: 1000;
-        transition: background 0.25s ease, color 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+        transition: background 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
     }
 
     .top-nav-bar a, .top-nav-bar button, .top-nav-bar .site-title,
     .navbar a, .navbar button, .navbar .brand,
-    .top-nav-bar .social-icon, .navbar .nav-links a {
-        color: var(--pure-white) !important;
-    }
-
-    .top-nav-bar.is-scrolled, .navbar.is-scrolled {
-        background: rgba(248, 250, 252, 0.85) !important;
-        backdrop-filter: blur(10px);
-        -webkit-backdrop-filter: blur(10px);
-        border-bottom: 1px solid rgba(15, 23, 42, 0.08);
-        box-shadow: 0 4px 18px rgba(15, 23, 42, 0.04);
-    }
-
-    .top-nav-bar.is-scrolled a, .top-nav-bar.is-scrolled button,
-    .top-nav-bar.is-scrolled .site-title, .top-nav-bar.is-scrolled .social-icon,
-    .navbar.is-scrolled a, .navbar.is-scrolled button,
-    .navbar.is-scrolled .brand, .navbar.is-scrolled .nav-links a {
+    .top-nav-bar .social-icon, .navbar .nav-links a,
+    .nav-btn, .nav-links a {
         color: var(--dark-slate) !important;
+    }
+
+    .top-nav-bar.is-scrolled,
+    .navbar.is-scrolled {
+        background: rgba(255, 255, 255, 0.85) !important;
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border-bottom-color: rgba(15, 23, 42, 0.06) !important;
+    }
+
+    .top-nav-bar .social-icon,
+    .top-nav-bar .menu-toggle,
+    .navbar .social-icon,
+    .navbar .menu-toggle {
+        background: rgba(15, 23, 42, 0.06) !important;
+        color: var(--dark-slate) !important;
+    }
+
+    .top-nav-bar .menu-toggle span,
+    .navbar .menu-toggle span {
+        background-color: var(--dark-slate) !important;
+    }
+
+    .mobile-menu,
+    .dropdown-menu,
+    .nav-menu,
+    .menu-panel {
+        background: var(--pure-white) !important;
+        color: var(--dark-slate) !important;
+        border: 1px solid var(--soft-border) !important;
+        box-shadow: 0 12px 30px rgba(15, 23, 42, 0.12) !important;
+    }
+
+    .mobile-menu a,
+    .mobile-menu .menu-item,
+    .dropdown-menu a,
+    .dropdown-menu .menu-item,
+    .nav-menu a,
+    .nav-menu .menu-item,
+    .menu-panel a,
+    .menu-panel .menu-item {
+        color: #0F172A !important;
+    }
+
+    .mobile-menu a:hover,
+    .mobile-menu .menu-item:hover,
+    .dropdown-menu a:hover,
+    .dropdown-menu .menu-item:hover,
+    .nav-menu a:hover,
+    .nav-menu .menu-item:hover,
+    .menu-panel a:hover,
+    .menu-panel .menu-item:hover {
+        background: #F1F5F9 !important;
+        color: #0F172A !important;
     }
 
     .section, .card, .feature-card, .tool-card, .risk-card, .app-card,
